@@ -92,6 +92,7 @@ class Settings extends React.Component {
             apiToken,
             autoRequests, autoRequestsToggled,
             signalQualityInterval,
+            autoDeviceFilter, autoDeviceFilterToggled,
         } = this.props;
         return (
             <Accordion className="settings" defaultActiveKey="1">
@@ -140,6 +141,13 @@ class Settings extends React.Component {
                             </FormGroup>
                         </OverlayTrigger>
                     </form>
+                    <hr />
+                    <Checkbox
+                        onChange={e => autoDeviceFilterToggled(e.target.checked)}
+                        checked={autoDeviceFilter}
+                    >
+                        Auto device/port filter
+                    </Checkbox>
                 </Panel>
             </Accordion>
         );
@@ -155,6 +163,8 @@ Settings.propTypes = {
     autoRequestsToggled: PropTypes.func.isRequired,
     signalQualityInterval: PropTypes.number.isRequired,
     signalQualityIntervalChanged: PropTypes.func.isRequired,
+    autoDeviceFilter: PropTypes.bool.isRequired,
+    autoDeviceFilterToggled: PropTypes.func.isRequired,
 };
 
 export default Settings;
