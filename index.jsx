@@ -142,7 +142,7 @@ export default {
         if (!action) {
             return;
         }
-        // const { autoDeviceFilter } = store.getState().app.ui;
+
         if (action.type === 'DEVICE_SELECTED') {
             const { device } = action;
             const serialports = Object.keys(device)
