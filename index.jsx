@@ -79,10 +79,11 @@ function pickSerialPort(serialports) {
  * to 3 devices with 1 serialport each, so the user will be able to select any of the ports.
  *
  * @param {Array<device>} devices array of device-lister device objects
+ * @param {bool} autoDeviceFilter indicates if functionality is desired or not toggled by the UI
  * @return {Array<device>} fixed array
  */
-function fixDevices(devices) {
-    if (platform !== 'dar') {
+function fixDevices(devices, autoDeviceFilter) {
+    if (platform !== 'dar' && autoDeviceFilter) {
         return devices;
     }
     const fixedDevices = [];
@@ -117,11 +118,17 @@ export default {
     },
     decorateMainView: () => () => <MainView />,
     decorateNavMenu: () => () => <NavMenu />,
+    mapDeviceSelectorState: (state, props) => ({
+        autoDeviceFilter: state.app.ui.autoDeviceFilter,
+        ...props,
+    }),
     decorateDeviceSelector: DeviceSelector => (
         props => {
-            const { devices, ...rest } = props;
-            const filteredDevices = devices.filter(d => supportedBoards.includes(d.boardVersion));
-            const fixedDevices = fixDevices(filteredDevices);
+            const { devices, autoDeviceFilter, ...rest } = props;
+            const filteredDevices = autoDeviceFilter
+                ? devices.filter(d => supportedBoards.includes(d.boardVersion))
+                : devices;
+            const fixedDevices = fixDevices(filteredDevices, autoDeviceFilter);
             return <DeviceSelector {...rest} devices={fixedDevices} />;
         }
     ),
