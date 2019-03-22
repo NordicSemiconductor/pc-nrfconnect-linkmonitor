@@ -89,23 +89,24 @@ function fixDevices(devices, autoDeviceFilter) {
     const fixedDevices = [];
     devices.forEach(device => {
         const { serialNumber } = device;
-        if (device.serialport && device['serialport.1'] && device['serialport.2']) {
-            const temp = [{ ...device }, { ...device }, { ...device }];
-            temp[1].serialport = temp[1]['serialport.1'];
-            temp[2].serialport = temp[2]['serialport.2'];
-            delete temp[0]['serialport.1'];
-            delete temp[0]['serialport.2'];
-            delete temp[1]['serialport.1'];
-            delete temp[1]['serialport.2'];
-            delete temp[2]['serialport.1'];
-            delete temp[2]['serialport.2'];
+        const temp = [{ ...device }];
+        let i = 1;
+        while (device[`serialport.${i}`]) {
+            temp[i] = {
+                ...temp[0],
+                serialport: { ...temp[0][`serialport.${i}`] },
+                serialNumber: `${serialNumber}#${i}`,
+            };
             temp[0].serialNumber = `${serialNumber}#0`;
-            temp[1].serialNumber = `${serialNumber}#1`;
-            temp[2].serialNumber = `${serialNumber}#2`;
-            fixedDevices.push(...temp);
-        } else {
-            fixedDevices.push(device);
+            delete temp[0][`serialport.${i}`];
+            let k = 1;
+            while (temp[i][`serialport.${k}`]) {
+                delete temp[i][`serialport.${k}`];
+                k += 1;
+            }
+            i += 1;
         }
+        fixedDevices.push(...temp);
     });
     return fixedDevices;
 }
