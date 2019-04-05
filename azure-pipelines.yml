@@ -1,12 +1,27 @@
-pool:
-  vmImage: 'Ubuntu-16.04'
+jobs:
+- job: Build
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: 8.15.1
+  - script: |
+      npm i
+      npm run build
+      npm test
 
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: 8.15.1
-
-- script: |
-    npm i
-    npm run build
-    npm test
+- job: Notify
+  dependsOn: [
+      Build,
+  ]
+  pool: server
+  steps:
+  - task: InvokeRESTAPI@1
+    inputs:
+      connectionType: 'connectedServiceName'
+      serviceConnection: 'waylandJenkins'
+      method: 'POST'
+      urlSuffix: 'view/pc-nrfconnect-linkmonitor/job/pc-nrfconnect-linkmonitor/buildWithParameters?BRANCH=$(Build.SourceBranch)&VSTS_URL=$(system.CollectionUri)&TOKEN=$(system.AccessToken)&PROJECT_ID=$(system.teamProjectId)&HUB_NAME=$(system.hostType)&PLAN_ID=$(system.planId)&TASK_ID=$(system.taskInstanceId)&JOB_ID=$(system.jobId)'
+      waitForCompletion: 'true'
+    condition: ne(variables['Build.Reason'], 'PullRequest')
