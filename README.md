@@ -1,5 +1,8 @@
 # LTE Link Monitor
 
+[![Build Status](https://dev.azure.com/NordicSemiconductor/Wayland/_apis/build/status/NordicSemiconductor.pc-nrfconnect-linkmonitor?branchName=master)](https://dev.azure.com/NordicSemiconductor/Wayland/_build/latest?definitionId=6&branchName=master)
+[![License](https://img.shields.io/badge/license-Modified%20BSD%20License-blue.svg)](LICENSE)
+
 The LTE Link Monitor is a modem client application that monitors the modem/link status and activity via AT commands. It is implemented as an app for the [nRF Connect](http://infocenter.nordicsemi.com/topic/com.nordic.infocenter.tools/dita/tools/nRF_Connect/nRF_Connect_framework_intro.html) desktop application. Currently the nRF9160 Development Kit (PCA10090) is the only supported device.
 
 # Installation
