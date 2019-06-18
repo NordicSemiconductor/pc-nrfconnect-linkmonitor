@@ -48,8 +48,10 @@ const overlayProps = { animation: false, trigger: ['hover'], placement: 'top' };
 const popoverTerminalInfo = (
     <Popover id="tip terminal-info">
         <p>For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}</p>
-        <p>You can select any text in this command line or in the terminal view
-            and <b>drag and drop</b> the selection to the macro buttons below.</p>
+        <p>
+            You can select any text in this command line or in the terminal view
+            and <b>drag and drop</b> the selection to the macro buttons below.
+        </p>
     </Popover>
 );
 
@@ -67,8 +69,10 @@ class TerminalView extends React.Component {
         this.onSavedCommandClick = this.onSavedCommandClick.bind(this);
         this.throttleUpdates = false;
     }
+
     componentDidUpdate() {
-        if (this.props.autoScroll) {
+        const { autoScroll } = this.props;
+        if (autoScroll) {
             if (this.throttleUpdates) {
                 return;
             }
@@ -79,22 +83,29 @@ class TerminalView extends React.Component {
             });
         }
     }
-    onCommandLineSubmit(event) {
-        event.preventDefault();
-        if (this.inputNode.value) {
-            this.props.write(this.inputNode.value);
+
+    onCommandLineSubmit({ preventDefault }) {
+        preventDefault();
+        const { value } = this.inputNode;
+        const { write } = this.props;
+        if (value) {
+            write(value);
         }
     }
+
     onSavedCommandClick(index) {
-        this.props.write(this.props.commands[index]);
+        const { write, commands } = this.props;
+        write(commands[index]);
     }
-    onSaveCommand(event, index) {
-        event.preventDefault();
-        const text = event.dataTransfer.getData('Text');
+
+    onSaveCommand({ preventDefault, dataTransfer }, index) {
+        preventDefault();
+        const text = dataTransfer.getData('Text');
         const { commands, updateCommands } = this.props;
         commands[index] = text;
         updateCommands(...commands);
     }
+
     render() {
         const { hidden, commands } = this.props;
         return (

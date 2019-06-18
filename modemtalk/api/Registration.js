@@ -61,8 +61,9 @@ function convertResponse(resp) {
     const r = expect.exec(resp);
     if (r) {
         const [, d, n0, stat0, tac0, ci0, act0, causeType0, rejectCause0] = r;
-        const [n, stat, AcT, causeType, rejectCause] =
-            arrayParseInt([n0, stat0, act0, causeType0, rejectCause0], 10);
+        const [n, stat, AcT, causeType, rejectCause] = arrayParseInt(
+            [n0, stat0, act0, causeType0, rejectCause0], 10,
+        );
         const tac = parseInt(tac0, 16);
         const ci = parseInt(ci0, 16);
         const domain = { E: 'eps', G: 'gprs' }[d];

@@ -45,27 +45,29 @@ import RssiBars from '../containers/RssiBars';
 function conciseArray(arr) {
     return arr.reduce((acc, cur, idx) => (
         idx === 0
-        ? `${cur}`
-        : `${acc}${(cur === arr[idx - 1] + 1) ? '-' : ','}${cur}`
+            ? `${cur}`
+            : `${acc}${(cur === arr[idx - 1] + 1) ? '-' : ','}${cur}`
     ), '').replace(/-[0-9-]+-/g, '-');
 }
 
-const Functionality = props => (
+const Functionality = ({
+    functionality, uicc, pinCode, modeOfOperation, supportedBands, currentBand,
+}) => (
     <table>
         <tbody>
             <tr><th>Signal strength</th><td><RssiBars size={24} /></td></tr>
-            <tr><th>Functionality</th><td>{ props.functionality || 'N/A' }</td></tr>
-            <tr><th>UICC</th><td>{ props.uicc || 'N/A' }</td></tr>
-            <tr><th>Pin</th><td>{ props.pinCode.pinState || 'N/A' }</td></tr>
-            <tr><th>Pin retries</th><td>{ props.pinCode.retries === null ? 'N/A' : props.pinCode.retries }</td></tr>
-            <tr><th>Mode</th><td>{ props.modeOfOperation || 'N/A' }</td></tr>
+            <tr><th>Functionality</th><td>{ functionality || 'N/A' }</td></tr>
+            <tr><th>UICC</th><td>{ uicc || 'N/A' }</td></tr>
+            <tr><th>Pin</th><td>{ pinCode.pinState || 'N/A' }</td></tr>
+            <tr><th>Pin retries</th><td>{ pinCode.retries === null ? 'N/A' : pinCode.retries }</td></tr>
+            <tr><th>Mode</th><td>{ modeOfOperation || 'N/A' }</td></tr>
             <tr>
                 <th>Bands</th>
-                <td>{ props.supportedBands === null ? 'N/A' : conciseArray(props.supportedBands) }</td>
+                <td>{ supportedBands === null ? 'N/A' : conciseArray(supportedBands) }</td>
             </tr>
             <tr>
                 <th>Current Band</th>
-                <td>{ props.currentBand === null ? 'N/A' : props.currentBand }</td>
+                <td>{ currentBand === null ? 'N/A' : currentBand }</td>
             </tr>
         </tbody>
     </table>

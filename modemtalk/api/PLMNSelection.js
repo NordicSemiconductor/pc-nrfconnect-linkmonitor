@@ -77,7 +77,7 @@ function convertResponse(resp) {
             const a = rx.exec(resp);
             if (a === null) break;
             const [,, stat,,, mccmnc] = a;
-            const operator = (filter({ mccmnc })[0] || {}).operator;
+            const { operator } = (filter({ mccmnc })[0] || {});
             operators.push(operator);
             result[mccmnc] = {
                 operator,
@@ -96,10 +96,10 @@ function convertResponse(resp) {
         let mccmnc;
         let operator;
         if (format === 2) {
-            mccmnc = match[5];
-            operator = (filter({ mccmnc })[0] || {}).operator;
+            ([,,,,, mccmnc] = match);
+            ({ operator } = (filter({ mccmnc })[0] || {}));
         } else {
-            operator = match[5];
+            ([,,,,, operator] = match);
         }
         const opmsg = operator ? `${operator} ` : '';
         return {

@@ -39,36 +39,45 @@ import PropTypes from 'prop-types';
 import { shell } from 'electron';
 import {
     Accordion, Checkbox, ControlLabel, Panel, FormGroup, InputGroup,
-    FormControl, Popover, OverlayTrigger, Glyphicon,
+    FormControl, Popover, OverlayTrigger,
 } from 'react-bootstrap';
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
 const popoverAutoRequests = (
     <Popover id="tip-location-api" className="tip location-api">
-        <p>The application automatically sends AT commands when connecting to the
-        device to query the state of the modem and to subscribe to notifications.</p>
+        <p>
+            The application automatically sends AT commands when connecting to the
+            device to query the state of the modem and to subscribe to notifications.
+        </p>
     </Popover>
 );
 
 const popoverToken = (
     <Popover id="tip-location-api" className="tip location-api">
-        <p>The Geolocation API helps developers locate IoT, M2M and other
-        connected devices anywhere in the world without GPS.</p>
+        <p>
+            The Geolocation API helps developers locate IoT, M2M and other
+            connected devices anywhere in the world without GPS.
+        </p>
         <p>In order to use the service an access token is required.</p>
-        <p>The initial token provided here belongs to a free limited
-        account, therefore you are encouraged to change it.</p>
+        <p>
+            The initial token provided here belongs to a free limited
+            account, therefore you are encouraged to change it.
+        </p>
     </Popover>
 );
 
 const overlayProps = { trigger: ['hover'], placement: 'left', animation: false };
 
 const locationApiLink = (
-    <a
+    <a // eslint-disable-line jsx-a11y/anchor-is-valid
         role="link"
         tabIndex={0}
         onClick={() => shell.openItem('https://locationapi.org/trial')}
-    >LocationAPI<Glyphicon glyph="link" /></a>
+        onKeyPress={() => {}}
+    >
+        LocationAPI<span className="mdi mdi-link" />
+    </a>
 );
 
 class Settings extends React.Component {
@@ -77,15 +86,21 @@ class Settings extends React.Component {
         this.onCommandLineSubmit = this.onCommandLineSubmit.bind(this);
         this.onSliderValueChange = this.onSliderValueChange.bind(this);
     }
-    onCommandLineSubmit(event) {
-        event.preventDefault();
-        if (this.inputNode.value) {
-            this.props.apiTokenUpdate(this.inputNode.value);
+
+    onCommandLineSubmit({ preventDefault }) {
+        preventDefault();
+        const { apiTokenUpdate } = this.props;
+        const { value } = this.inputNode;
+        if (value) {
+            apiTokenUpdate(value);
         }
     }
+
     onSliderValueChange(value) {
-        this.props.signalQualityIntervalChanged(value);
+        const { signalQualityIntervalChanged } = this.props;
+        signalQualityIntervalChanged(value);
     }
+
     render() {
         const {
             autoScroll, autoScrollToggled,

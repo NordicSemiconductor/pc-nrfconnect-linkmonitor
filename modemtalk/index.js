@@ -166,7 +166,9 @@ class ModemPort extends SerialPort {
     writeCommand(command, options) {
         setTimeout(this.resolveNext.bind(this), this.delayBetweenCommands);
         return new Promise((resolve, reject) => {
-            this.requestQueue.unshift({ command, options, resolve, reject });
+            this.requestQueue.unshift({
+                command, options, resolve, reject,
+            });
         });
     }
 
@@ -174,7 +176,9 @@ class ModemPort extends SerialPort {
         if (!this.requestQueue.length) return;
         if (this.busy) return;
         this.busy = true;
-        const { command, options, resolve, reject } = this.requestQueue.pop();
+        const {
+            command, options, resolve, reject,
+        } = this.requestQueue.pop();
         this.resolveCommand(command, options)
             .then(result => {
                 this.busy = false;

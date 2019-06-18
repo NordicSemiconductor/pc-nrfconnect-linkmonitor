@@ -111,6 +111,7 @@ class Chart extends React.Component {
             windowDuration,
             isLive,
             chartWindowReset,
+            hidden,
         } = this.props;
 
         const end = windowEnd || timestamp;
@@ -248,7 +249,7 @@ class Chart extends React.Component {
             },
         };
 
-        const className = `chart signal-quality ${this.props.hidden ? 'hidden' : ''}`;
+        const className = `chart signal-quality ${hidden ? 'hidden' : ''}`;
         return (
             <div className={className}>
                 <div className="chart-top">
