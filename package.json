@@ -20,14 +20,14 @@
     "LICENSE"
   ],
   "scripts": {
-    "dev": "webpack --watch",
+    "dev": "nrfconnect-scripts build-watch",
     "webpack": "nrfconnect-scripts build-dev",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "nrfconnect-scripts build-prod",
     "nordic-publish": "nrfconnect-scripts nordic-publish",
-    "lint": "eslint components reducers",
-    "test": "jest --testResultsProcessor jest-bamboo-formatter",
-    "test-watch": "jest --watch",
-    "clean": "npm install rimraf && npm run clean-dist && npm run clean-modules",
+    "lint": "nrfconnect-scripts lint lib modemtalk index.jsx mocks test",
+    "test": "nrfconnect-scripts test",
+    "test-watch": "nrfconnect-scripts test --watch",
+    "clean": "npm run clean-dist && npm run clean-modules",
     "clean-dist": "rimraf dist",
     "clean-modules": "rimraf \"node_modules/!(rimraf|.bin)\""
   },
