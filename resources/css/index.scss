@@ -198,17 +198,17 @@ table {
     justify-content: center;
 }
 
-@level-0: #BB0000;
-@level-1: #FFCD00;
-@level-2: #6BAD37;
-@level-3: #44AA44;
-@disabled: #888888;
+$level-0: #BB0000;
+$level-1: #FFCD00;
+$level-2: #6BAD37;
+$level-3: #44AA44;
+$disabled: #888888;
 
-@keyframes level-1 { 0% { background-color: @level-0; } 100% { background-color: @level-1; } }
-@keyframes level-2 { 0% { background-color: @level-1; } 100% { background-color: @level-2; } }
+@keyframes level-1 { 0% { background-color: $level-0; } 100% { background-color: $level-1; } }
+@keyframes level-2 { 0% { background-color: $level-1; } 100% { background-color: $level-2; } }
 
-.indicator.on       { background-color: @level-3; }
-.indicator.off      { background-color: @level-0; }
+.indicator.on       { background-color: $level-3; }
+.indicator.off      { background-color: $level-0; }
 .indicator.level-1  { animation: level-1 1s ease infinite alternate; }
 .indicator.level-2  { animation: level-2 1s ease infinite alternate; }
 .indicator {
@@ -217,7 +217,7 @@ table {
     color: white;
     padding: 0 6px;
     margin-right: 4px;
-    background-color: @disabled;
+    background-color: $disabled;
     transition: background-color 0.4s ease;
 }
 
@@ -230,12 +230,12 @@ table {
         display: inline-block;
         width: 2em;
         margin-left: -2em;
-        color: @disabled;
+        color: $disabled;
     }
-    li.off::before     { color: @level-0; }
-    li.level-1::before { color: @level-1; }
-    li.level-2::before { color: @level-2; }
-    li.on::before      { color: @level-3; }
+    li.off::before     { color: $level-0; }
+    li.level-1::before { color: $level-1; }
+    li.level-2::before { color: $level-2; }
+    li.on::before      { color: $level-3; }
 }
 
 .popover {
