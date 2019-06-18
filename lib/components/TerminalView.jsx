@@ -100,7 +100,7 @@ class TerminalView extends React.Component {
         return (
             <div className={`terminal-view ${hidden ? 'hidden' : ''}`}>
                 <div className="terminal mono">
-                    {TerminalView.contentBuffer}
+                    {TerminalView.contentBuffer.slice()}
                     <div
                         style={scrollerStyle}
                         ref={el => { this.scroller = el; }}
