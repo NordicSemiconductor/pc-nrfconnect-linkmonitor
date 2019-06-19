@@ -36,8 +36,7 @@
 
 import { arrayParseInt, EventCategory } from '../utils';
 
-/* eslint import/no-webpack-loader-syntax: 0 */
-const { filter } = require('shebang-loader!mcc-mnc-list');
+const { filter } = require('mcc-mnc-list');
 
 const PLMNStat = {
     0: 'unknown',
