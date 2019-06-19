@@ -37,7 +37,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Line } from 'react-chartjs-2';
-import { Button, ButtonGroup } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { timeseries } from '../actions/chartActions';
 import { EventCategory } from '../../modemtalk/utils';
@@ -111,6 +112,7 @@ class Chart extends React.Component {
             windowDuration,
             isLive,
             chartWindowReset,
+            hidden,
         } = this.props;
 
         const end = windowEnd || timestamp;
@@ -248,7 +250,7 @@ class Chart extends React.Component {
             },
         };
 
-        const className = `chart signal-quality ${this.props.hidden ? 'hidden' : ''}`;
+        const className = `chart signal-quality ${hidden ? 'hidden' : ''}`;
         return (
             <div className={className}>
                 <div className="chart-top">
@@ -266,8 +268,8 @@ class Chart extends React.Component {
                         <Button
                             className="core-btn"
                             disabled={isLive}
-                            bsStyle={isLive ? 'default' : 'primary'}
-                            bsSize="small"
+                            variant={isLive ? 'default' : 'primary'}
+                            size="small"
                             onClick={chartWindowReset}
                         >
                             Live Scroll

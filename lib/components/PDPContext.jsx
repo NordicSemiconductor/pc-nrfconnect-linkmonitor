@@ -44,13 +44,13 @@ const PDPContext = props => (
         <tbody>
             {
                 Object.keys(props)
-                .filter(key => typeof props[key] !== 'function')
-                .map(key => (
-                    <tr key={key} title={`type: ${props[key].pdpType}`}>
-                        <th>{ key }</th>
-                        <td>{ `${props[key].apn}` }<br />{`${props[key].pdpAddr}` }</td>
-                    </tr>
-                ))
+                    .filter(key => typeof props[key] !== 'function')
+                    .map(key => (
+                        <tr key={key} title={`type: ${props[key].pdpType}`}>
+                            <th>{ key }</th>
+                            <td>{ `${props[key].apn}` }<br />{`${props[key].pdpAddr}` }</td>
+                        </tr>
+                    ))
             }
         </tbody>
     </table>

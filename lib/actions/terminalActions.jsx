@@ -35,10 +35,12 @@
  */
 
 import React from 'react';
-import { contentBuffer } from '../components/TerminalView';
+import TerminalView from '../components/TerminalView';
 import { UPDATE_TERMINAL, UPDATE_SAVED_COMMANDS } from './actionIds';
 import { ResponseConverters } from '../../modemtalk';
 import persistentStore from './persistentStore';
+
+const { contentBuffer } = TerminalView;
 
 const C0controls = [
     'NUL', 'SOH', 'STX', 'ETX', 'EOT', 'ENQ', 'ACK', 'BEL',
@@ -48,6 +50,7 @@ const C0controls = [
 ];
 C0controls[0x7F] = 'DEL';
 
+// eslint-disable-next-line no-control-regex
 const ctrlChars = /(.*?)([\u0000-\u001F\u007F]+)/;
 const TERMINAL_CONTENT_MAX_LINES = 4000;
 

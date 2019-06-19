@@ -36,20 +36,23 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    FormGroup, FormControl, Button, InputGroup,
-    Glyphicon, OverlayTrigger, Popover,
-} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 const array10 = Array.from(Array(10).keys());
 const scrollerStyle = { float: 'left', clear: 'both' };
 
-const overlayProps = { animation: false, trigger: ['hover'], placement: 'top' };
+const overlayProps = { transition: false, trigger: ['hover'], placement: 'top' };
 const popoverTerminalInfo = (
     <Popover id="tip terminal-info">
         <p>For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}</p>
-        <p>You can select any text in this command line or in the terminal view
-            and <b>drag and drop</b> the selection to the macro buttons below.</p>
+        <p>
+            You can select any text in this command line or in the terminal view
+            and <b>drag and drop</b> the selection to the macro buttons below.
+        </p>
     </Popover>
 );
 
@@ -67,8 +70,10 @@ class TerminalView extends React.Component {
         this.onSavedCommandClick = this.onSavedCommandClick.bind(this);
         this.throttleUpdates = false;
     }
+
     componentDidUpdate() {
-        if (this.props.autoScroll) {
+        const { autoScroll } = this.props;
+        if (autoScroll) {
             if (this.throttleUpdates) {
                 return;
             }
@@ -79,15 +84,21 @@ class TerminalView extends React.Component {
             });
         }
     }
+
     onCommandLineSubmit(event) {
         event.preventDefault();
-        if (this.inputNode.value) {
-            this.props.write(this.inputNode.value);
+        const { value } = this.inputNode;
+        const { write } = this.props;
+        if (value) {
+            write(value);
         }
     }
+
     onSavedCommandClick(index) {
-        this.props.write(this.props.commands[index]);
+        const { write, commands } = this.props;
+        write(commands[index]);
     }
+
     onSaveCommand(event, index) {
         event.preventDefault();
         const text = event.dataTransfer.getData('Text');
@@ -95,6 +106,7 @@ class TerminalView extends React.Component {
         commands[index] = text;
         updateCommands(...commands);
     }
+
     render() {
         const { hidden, commands } = this.props;
         return (
@@ -107,34 +119,37 @@ class TerminalView extends React.Component {
                     />
                 </div>
                 <form onSubmit={this.onCommandLineSubmit}>
-                    <FormGroup controlId="commandPrompt">
+                    <Form.Group controlId="commandPrompt">
                         <InputGroup>
-                            <InputGroup.Addon>
+                            <InputGroup.Prepend>
                                 <OverlayTrigger {...overlayProps} overlay={popoverTerminalInfo}>
-                                    <Glyphicon glyph="info-sign" className="terminal-info" />
+                                    <Button variant="light">
+                                        <span className="terminal-info mdi mdi-information-outline" />
+                                    </Button>
                                 </OverlayTrigger>
-                            </InputGroup.Addon>
-                            <FormControl
-                                inputRef={node => { this.inputNode = node; }}
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                ref={node => { this.inputNode = node; }}
                                 type="text"
                                 placeholder="Type AT command here..."
                             />
-                            <InputGroup.Button>
+                            <InputGroup.Append>
                                 <Button className="core-btn" type="submit">Send</Button>
-                            </InputGroup.Button>
+                            </InputGroup.Append>
                         </InputGroup>
-                    </FormGroup>
+                    </Form.Group>
                 </form>
                 <div className="saved-commands">
                     {array10.map(index => (
                         <Button
+                            variant="light"
                             className="core-btn"
                             key={index}
                             onClick={() => this.onSavedCommandClick(index)}
                             onDrop={event => this.onSaveCommand(event, index)}
                             onDragOver={cancel}
                             onDragEnter={cancel}
-                            bsSize="small"
+                            size="small"
                         >
                             {commands[index]}
                         </Button>

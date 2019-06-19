@@ -36,32 +36,38 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
-import { MAIN_VIEW_CHART, MAIN_VIEW_TERMINAL } from '../actions/uiActions';
+import Button from 'react-bootstrap/Button';
 
-const NavMenu = props => (
+const NavMenu = ({
+    enableOpen,
+    openLogfile,
+    setChartView,
+    setChartViewActive,
+    setTerminalView,
+    setTerminalViewActive,
+}) => (
     <div className="nav-menu-wrap">
         <Button
             className="core-btn"
-            bsStyle="primary"
-            disabled={!props.enableOpen}
-            onClick={props.openLogfile}
+            variant="primary"
+            disabled={!enableOpen}
+            onClick={openLogfile}
         >
             Open logfile
         </Button>
         <Button
             className="core-btn"
-            bsStyle="primary"
-            active={props.mainView === MAIN_VIEW_CHART}
-            onClick={props.setChartView}
+            variant="primary"
+            active={setChartViewActive}
+            onClick={setChartView}
         >
             Chart
         </Button>
         <Button
             className="core-btn"
-            bsStyle="primary"
-            active={props.mainView === MAIN_VIEW_TERMINAL}
-            onClick={props.setTerminalView}
+            variant="primary"
+            active={setTerminalViewActive}
+            onClick={setTerminalView}
         >
             Terminal
         </Button>
@@ -71,9 +77,10 @@ const NavMenu = props => (
 NavMenu.propTypes = {
     enableOpen: PropTypes.bool.isRequired,
     openLogfile: PropTypes.func.isRequired,
-    mainView: PropTypes.string.isRequired,
     setChartView: PropTypes.func.isRequired,
+    setChartViewActive: PropTypes.bool.isRequired,
     setTerminalView: PropTypes.func.isRequired,
+    setTerminalViewActive: PropTypes.bool.isRequired,
 };
 
 export default NavMenu;
