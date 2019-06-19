@@ -36,12 +36,14 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Popover, OverlayTrigger } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import CellMap from '../containers/CellMap';
 
-const popoverMap = (<Popover id="cell-map"><CellMap /></Popover>);
+const popoverMap = (<Popover id="cell-map" className="tip"><CellMap /></Popover>);
 
-const overlayProps = { trigger: ['click'], placement: 'left', animation: false };
+const overlayProps = { trigger: ['click'], placement: 'left', transition: false };
 
 const locationIcon = (
     <svg
@@ -91,8 +93,8 @@ const CurrentNetwork = ({
                     <OverlayTrigger {...overlayProps} overlay={popoverMap}>
                         <Button
                             className="core-btn"
-                            bsStyle="primary"
-                            bsSize="small"
+                            variant="primary"
+                            size="small"
                             style={{ paddingBottom: 8 }}
                             onClick={getCellLocation}
                         >

@@ -36,15 +36,16 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    FormGroup, FormControl, Button, InputGroup,
-    Glyphicon, OverlayTrigger, Popover,
-} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 const array10 = Array.from(Array(10).keys());
 const scrollerStyle = { float: 'left', clear: 'both' };
 
-const overlayProps = { animation: false, trigger: ['hover'], placement: 'top' };
+const overlayProps = { transition: false, trigger: ['hover'], placement: 'top' };
 const popoverTerminalInfo = (
     <Popover id="tip terminal-info">
         <p>For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}</p>
@@ -84,8 +85,8 @@ class TerminalView extends React.Component {
         }
     }
 
-    onCommandLineSubmit({ preventDefault }) {
-        preventDefault();
+    onCommandLineSubmit(event) {
+        event.preventDefault();
         const { value } = this.inputNode;
         const { write } = this.props;
         if (value) {
@@ -98,9 +99,9 @@ class TerminalView extends React.Component {
         write(commands[index]);
     }
 
-    onSaveCommand({ preventDefault, dataTransfer }, index) {
-        preventDefault();
-        const text = dataTransfer.getData('Text');
+    onSaveCommand(event, index) {
+        event.preventDefault();
+        const text = event.dataTransfer.getData('Text');
         const { commands, updateCommands } = this.props;
         commands[index] = text;
         updateCommands(...commands);
@@ -118,34 +119,37 @@ class TerminalView extends React.Component {
                     />
                 </div>
                 <form onSubmit={this.onCommandLineSubmit}>
-                    <FormGroup controlId="commandPrompt">
+                    <Form.Group controlId="commandPrompt">
                         <InputGroup>
-                            <InputGroup.Addon>
+                            <InputGroup.Prepend>
                                 <OverlayTrigger {...overlayProps} overlay={popoverTerminalInfo}>
-                                    <Glyphicon glyph="info-sign" className="terminal-info" />
+                                    <Button variant="light">
+                                        <span className="terminal-info mdi mdi-information-outline" />
+                                    </Button>
                                 </OverlayTrigger>
-                            </InputGroup.Addon>
-                            <FormControl
-                                inputRef={node => { this.inputNode = node; }}
+                            </InputGroup.Prepend>
+                            <Form.Control
+                                ref={node => { this.inputNode = node; }}
                                 type="text"
                                 placeholder="Type AT command here..."
                             />
-                            <InputGroup.Button>
+                            <InputGroup.Append>
                                 <Button className="core-btn" type="submit">Send</Button>
-                            </InputGroup.Button>
+                            </InputGroup.Append>
                         </InputGroup>
-                    </FormGroup>
+                    </Form.Group>
                 </form>
                 <div className="saved-commands">
                     {array10.map(index => (
                         <Button
+                            variant="light"
                             className="core-btn"
                             key={index}
                             onClick={() => this.onSavedCommandClick(index)}
                             onDrop={event => this.onSaveCommand(event, index)}
                             onDragOver={cancel}
                             onDragEnter={cancel}
-                            bsSize="small"
+                            size="small"
                         >
                             {commands[index]}
                         </Button>

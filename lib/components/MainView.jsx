@@ -39,17 +39,16 @@ import PropTypes from 'prop-types';
 import TerminalView from '../containers/TerminalView';
 import Chart from '../containers/Chart';
 
-import { MAIN_VIEW_CHART, MAIN_VIEW_TERMINAL } from '../actions/uiActions';
-
-const MainView = ({ mainView }) => (
+const MainView = ({ chartVisible, terminalVisible }) => (
     <div className="core-main-view">
-        <Chart hidden={mainView !== MAIN_VIEW_CHART} />
-        <TerminalView hidden={mainView !== MAIN_VIEW_TERMINAL} />
+        <Chart hidden={!chartVisible} />
+        <TerminalView hidden={!terminalVisible} />
     </div>
 );
 
 MainView.propTypes = {
-    mainView: PropTypes.string.isRequired,
+    chartVisible: PropTypes.bool.isRequired,
+    terminalVisible: PropTypes.bool.isRequired,
 };
 
 export default MainView;

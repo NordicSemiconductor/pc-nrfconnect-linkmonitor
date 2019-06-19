@@ -36,7 +36,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 
 const NavMenu = ({
     enableOpen,
@@ -49,7 +49,7 @@ const NavMenu = ({
     <div className="nav-menu-wrap">
         <Button
             className="core-btn"
-            bsStyle="primary"
+            variant="primary"
             disabled={!enableOpen}
             onClick={openLogfile}
         >
@@ -57,7 +57,7 @@ const NavMenu = ({
         </Button>
         <Button
             className="core-btn"
-            bsStyle="primary"
+            variant="primary"
             active={setChartViewActive}
             onClick={setChartView}
         >
@@ -65,7 +65,7 @@ const NavMenu = ({
         </Button>
         <Button
             className="core-btn"
-            bsStyle="primary"
+            variant="primary"
             active={setTerminalViewActive}
             onClick={setTerminalView}
         >

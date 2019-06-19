@@ -36,7 +36,8 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Popover, OverlayTrigger } from 'react-bootstrap';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 
 const popoverUart = (
     <Popover id="tip-uart" className="tip uart">
@@ -117,7 +118,7 @@ const popoverPDN = (
     </Popover>
 );
 
-const overlayProps = { trigger: ['hover'], placement: 'left', animation: false };
+const overlayProps = { trigger: ['hover'], placement: 'left', transition: false };
 
 const ConnectionStages = ({
     uart, modem, uicc, lte, pdn,

@@ -2,12 +2,18 @@
     min-width: 0;
 }
 
+.terminal-view.hidden,
+.chart.hidden {
+    display: none;
+}
+
 .core-side-panel {
     height: 100%;
     flex: 0 0 300px;
     display: flex;
     flex-direction: column;
     overflow-x: hidden;
+    position: relative;
     table {
         width: 100%;
         margin: 16px 0;
@@ -221,7 +227,7 @@ $disabled: #888888;
     transition: background-color 0.4s ease;
 }
 
-.popover-content ul {
+.popover-body ul {
     list-style: none;
     margin: 0;
     li::before {
@@ -242,8 +248,22 @@ $disabled: #888888;
     max-width: 450px;
 }
 
-.panel-group.settings {
+.tip.popover {
+    margin-left: -500px;
+}
+
+.bs-popover-left > .arrow::before {
+    border-left-color: rgba(0, 0, 0, 0.2);
+}
+.bs-popover-top > .arrow::before {
+    border-top-color: rgba(0, 0, 0, 0.2);
+}
+
+.accordion.settings {
     margin: -10px -15px;
+    .card-header {
+        padding: 0.25rem 0.75rem;
+    }
 }
 
 .slider-container {

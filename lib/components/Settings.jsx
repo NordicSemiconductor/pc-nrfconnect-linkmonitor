@@ -37,10 +37,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { shell } from 'electron';
-import {
-    Accordion, Checkbox, ControlLabel, Panel, FormGroup, InputGroup,
-    FormControl, Popover, OverlayTrigger,
-} from 'react-bootstrap';
+
+import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Form from 'react-bootstrap/Form';
+import Popover from 'react-bootstrap/Popover';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+
 import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
@@ -67,7 +71,7 @@ const popoverToken = (
     </Popover>
 );
 
-const overlayProps = { trigger: ['hover'], placement: 'left', animation: false };
+const overlayProps = { trigger: ['hover'], placement: 'left', transition: false };
 
 const locationApiLink = (
     <a // eslint-disable-line jsx-a11y/anchor-is-valid
@@ -87,8 +91,8 @@ class Settings extends React.Component {
         this.onSliderValueChange = this.onSliderValueChange.bind(this);
     }
 
-    onCommandLineSubmit({ preventDefault }) {
-        preventDefault();
+    onCommandLineSubmit(event) {
+        event.preventDefault();
         const { apiTokenUpdate } = this.props;
         const { value } = this.inputNode;
         if (value) {
@@ -111,59 +115,72 @@ class Settings extends React.Component {
         } = this.props;
         return (
             <Accordion className="settings" defaultActiveKey="1">
-                <Panel header="Settings" eventKey="1" defaultExpanded>
-                    <OverlayTrigger {...overlayProps} overlay={popoverAutoRequests}>
-                        <Checkbox
-                            onChange={e => autoRequestsToggled(e.target.checked)}
-                            checked={autoRequests}
-                        >
-                            Automatic requests
-                        </Checkbox>
-                    </OverlayTrigger>
-                    <Checkbox
-                        onChange={e => autoScrollToggled(e.target.checked)}
-                        checked={autoScroll}
-                    >
-                        Terminal auto scroll
-                    </Checkbox>
-                    Periodic signal quality request {signalQualityInterval > 0 ? `${signalQualityInterval}s` : 'off'}
-                    <div className="slider-container">
-                        <span>off</span>
-                        <Slider
-                            min={0}
-                            max={30}
-                            value={signalQualityInterval}
-                            // labels={{ 0: 'off', 30: '30s' }}
-                            // format={n => (n === 0 ? 'off' : `${n}s`)}
-                            onChange={this.onSliderValueChange}
-                            tooltip={false}
-                        />
-                        <span>30s</span>
-                    </div>
-                    <hr />
-                    <form onSubmit={this.onCommandLineSubmit}>
-                        <OverlayTrigger {...overlayProps} overlay={popoverToken}>
-                            <FormGroup controlId="commandPrompt">
-                                <InputGroup>
-                                    <ControlLabel>{locationApiLink} token</ControlLabel>
-                                    <FormControl
-                                        inputRef={node => { this.inputNode = node; }}
-                                        type="text"
-                                        value={apiToken}
-                                        onChange={this.onCommandLineSubmit}
+                <Card header="Settings">
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                            Settings
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="1">
+                        <Card.Body>
+                            <OverlayTrigger {...overlayProps} overlay={popoverAutoRequests}>
+                                <Form.Group controlId="autoReqCheck">
+                                    <Form.Check
+                                        type="checkbox"
+                                        onChange={e => autoRequestsToggled(e.target.checked)}
+                                        checked={autoRequests}
+                                        label="Automatic requests"
                                     />
-                                </InputGroup>
-                            </FormGroup>
-                        </OverlayTrigger>
-                    </form>
-                    <hr />
-                    <Checkbox
-                        onChange={e => autoDeviceFilterToggled(e.target.checked)}
-                        checked={autoDeviceFilter}
-                    >
-                        Auto device/port filter
-                    </Checkbox>
-                </Panel>
+                                </Form.Group>
+                            </OverlayTrigger>
+                            <Form.Group controlId="autoScrollCheck">
+                                <Form.Check
+                                    type="checkbox"
+                                    onChange={e => autoScrollToggled(e.target.checked)}
+                                    checked={autoScroll}
+                                    label="Terminal auto scroll"
+                                />
+                            </Form.Group>
+                            Periodic signal quality request {signalQualityInterval > 0 ? `${signalQualityInterval}s` : 'off'}
+                            <div className="slider-container">
+                                <span>off</span>
+                                <Slider
+                                    min={0}
+                                    max={30}
+                                    value={signalQualityInterval}
+                                    // labels={{ 0: 'off', 30: '30s' }}
+                                    // format={n => (n === 0 ? 'off' : `${n}s`)}
+                                    onChange={this.onSliderValueChange}
+                                    tooltip={false}
+                                />
+                                <span>30s</span>
+                            </div>
+                            <hr />
+                            <Form onSubmit={this.onCommandLineSubmit}>
+                                <OverlayTrigger {...overlayProps} overlay={popoverToken}>
+                                    <Form.Group controlId="commandPrompt">
+                                        <Form.Label>{locationApiLink} token</Form.Label>
+                                        <Form.Control
+                                            ref={node => { this.inputNode = node; }}
+                                            type="text"
+                                            value={apiToken}
+                                            onChange={this.onCommandLineSubmit}
+                                        />
+                                    </Form.Group>
+                                </OverlayTrigger>
+                            </Form>
+                            <hr />
+                            <Form.Group controlId="portFilterCheck">
+                                <Form.Check
+                                    type="checkbox"
+                                    onChange={e => autoDeviceFilterToggled(e.target.checked)}
+                                    checked={autoDeviceFilter}
+                                    label="Auto device/port filter"
+                                />
+                            </Form.Group>
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
             </Accordion>
         );
     }
