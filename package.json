@@ -25,8 +25,8 @@
     "build": "nrfconnect-scripts build-prod",
     "nordic-publish": "nrfconnect-scripts nordic-publish",
     "lint": "nrfconnect-scripts lint lib modemtalk index.jsx mocks test",
-    "test": "nrfconnect-scripts test",
-    "test-watch": "nrfconnect-scripts test --watch",
+    "test": "jest --testResultsProcessor jest-bamboo-formatter",
+    "test-watch": "jest --watch",
     "clean": "npm run clean-dist && npm run clean-modules",
     "clean-dist": "rimraf dist",
     "clean-modules": "rimraf \"node_modules/!(rimraf|.bin)\""
@@ -54,6 +54,13 @@
     "moduleNameMapper": {
       "nrfconnect/core": "<rootDir>/mocks/coreMock.js",
       "serialport": "<rootDir>/mocks/serialportMock.js"
-    }
+    },
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testURL": "file:/",
+    "setupFilesAfterEnv": [
+      "<rootDir>/node_modules/pc-nrfconnect-devdep/test/setupTests.js"
+    ]
   }
 }
