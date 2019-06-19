@@ -94,7 +94,7 @@ const CurrentNetwork = ({
                         <Button
                             className="core-btn"
                             variant="primary"
-                            size="small"
+                            size="sm"
                             style={{ paddingBottom: 8 }}
                             onClick={getCellLocation}
                         >

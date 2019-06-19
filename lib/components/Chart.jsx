@@ -269,7 +269,7 @@ class Chart extends React.Component {
                             className="core-btn"
                             disabled={isLive}
                             variant={isLive ? 'default' : 'primary'}
-                            size="small"
+                            size="sm"
                             onClick={chartWindowReset}
                         >
                             Live Scroll

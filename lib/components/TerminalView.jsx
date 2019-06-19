@@ -149,7 +149,7 @@ class TerminalView extends React.Component {
                             onDrop={event => this.onSaveCommand(event, index)}
                             onDragOver={cancel}
                             onDragEnter={cancel}
-                            size="small"
+                            size="sm"
                         >
                             {commands[index]}
                         </Button>

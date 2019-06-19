@@ -61,7 +61,7 @@ const MobileNetworks = (props, { networkSearch } = props) => (
                 <td colSpan={2} style={{ paddingTop: 10 }}>
                     <Button
                         className="core-btn"
-                        size="small"
+                        size="sm"
                         variant="primary"
                         onClick={networkSearch}
                     >
