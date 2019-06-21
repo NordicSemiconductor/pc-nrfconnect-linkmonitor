@@ -64,7 +64,7 @@ export const arrayParseInt = (arr, radix = 10) => {
     const a = arr;
     a.forEach((v, i) => {
         const newValue = parseInt(v, radix);
-        a[i] = isNaN(newValue) ? undefined : newValue;
+        a[i] = Number.isNaN(newValue) ? undefined : newValue;
     });
     return a;
 };

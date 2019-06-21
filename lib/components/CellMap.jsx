@@ -45,13 +45,17 @@ const Information = (
         <small>
             <p>For successful resolution MCC/MNC, Cell ID and Tracking Area Code is required.</p>
             <p>Also make sure to use your own personal token for the service.</p>
-            <p>Cell locations are cached,
-            only unresolved cells are queried by this application.</p>
+            <p>
+                Cell locations are cached,
+                only unresolved cells are queried by this application.
+            </p>
         </small>
     </div>
 );
 
-const CellMap = ({ isValid, accuracy, lat, lon, address }) => {
+const CellMap = ({
+    isValid, accuracy, lat, lon, address,
+}) => {
     const position = [lat, lon];
     const zoom = isValid ? 10 : 1;
     if (isValid) {

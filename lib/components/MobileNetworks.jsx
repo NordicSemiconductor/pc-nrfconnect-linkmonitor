@@ -35,10 +35,9 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 
-const MobileNetworks = props => (
+const MobileNetworks = (props, { networkSearch } = props) => (
     <table className="mobileNetworks">
         <thead>
             <tr><th>Network</th><th>Status</th></tr>
@@ -46,21 +45,25 @@ const MobileNetworks = props => (
         <tbody>
             {
                 Object.keys(props)
-                .filter(key => typeof props[key] !== 'function')
-                .map(key => (
-                    <tr key={key} title={`Network ID: ${key}`} className={props[key].selected ? 'selected' : ''}>
-                        <td>{ props[key].operator }</td>
-                        <td>{ props[key].stat }</td>
-                    </tr>
-                ))
+                    .filter(key => typeof props[key] !== 'function')
+                    .map(key => (
+                        <tr
+                            key={key}
+                            title={`Network ID: ${key}`}
+                            className={props[key].selected ? 'selected' : ''}
+                        >
+                            <td>{ props[key].operator }</td>
+                            <td>{ props[key].stat }</td>
+                        </tr>
+                    ))
             }
             <tr>
                 <td colSpan={2} style={{ paddingTop: 10 }}>
                     <Button
                         className="core-btn"
-                        bsSize="small"
-                        bsStyle="primary"
-                        onClick={props.networkSearch}
+                        size="sm"
+                        variant="primary"
+                        onClick={networkSearch}
                     >
                         Search networks
                     </Button>
@@ -69,9 +72,5 @@ const MobileNetworks = props => (
         </tbody>
     </table>
 );
-
-MobileNetworks.propTypes = {
-    networkSearch: PropTypes.func.isRequired,
-};
 
 export default MobileNetworks;

@@ -38,7 +38,7 @@ import React from 'react';
 import SidePanel from './lib/components/SidePanel';
 import MainView from './lib/containers/MainView';
 import NavMenu from './lib/containers/NavMenu';
-import './resources/css/index.less';
+import './resources/css/index.scss';
 
 import reducers from './lib/reducers';
 import * as ModemActions from './lib/actions/modemActions';
@@ -53,7 +53,7 @@ const platform = process.platform.slice(0, 3);
 /**
  * Pick the serialport that should belong to the modem on PCA10090
  * @param {Array<device>} serialports array of device-lister serialport objects
- * @return {object} the selected serialport object
+ * @returns {object} the selected serialport object
  */
 function pickSerialPort(serialports) {
     if (serialports.length === 1) {
@@ -80,7 +80,7 @@ function pickSerialPort(serialports) {
  *
  * @param {Array<device>} devices array of device-lister device objects
  * @param {bool} autoDeviceFilter indicates if functionality is desired or not toggled by the UI
- * @return {Array<device>} fixed array
+ * @returns {Array<device>} fixed array
  */
 function fixDevices(devices, autoDeviceFilter) {
     if (platform !== 'dar' && autoDeviceFilter) {
