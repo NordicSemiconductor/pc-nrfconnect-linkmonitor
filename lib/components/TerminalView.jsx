@@ -66,6 +66,9 @@ class TerminalView extends React.Component {
         this.onCommandLineSubmit = this.onCommandLineSubmit.bind(this);
         this.onSavedCommandClick = this.onSavedCommandClick.bind(this);
         this.throttleUpdates = false;
+        this.state = {
+            cmdLine: '',
+        };
     }
     componentDidUpdate() {
         if (this.props.autoScroll) {
@@ -81,8 +84,9 @@ class TerminalView extends React.Component {
     }
     onCommandLineSubmit(event) {
         event.preventDefault();
-        if (this.inputNode.value) {
-            this.props.write(this.inputNode.value);
+        const { cmdLine } = this.state;
+        if (cmdLine.length > 0) {
+            this.props.write(cmdLine);
         }
     }
     onSavedCommandClick(index) {
@@ -115,12 +119,20 @@ class TerminalView extends React.Component {
                                 </OverlayTrigger>
                             </InputGroup.Addon>
                             <FormControl
-                                inputRef={node => { this.inputNode = node; }}
                                 type="text"
                                 placeholder="Type AT command here..."
+                                onChange={
+                                    ({ target }) => this.setState({ cmdLine: target.value.trim() })
+                                }
                             />
                             <InputGroup.Button>
-                                <Button className="core-btn" type="submit">Send</Button>
+                                <Button
+                                    className="core-btn"
+                                    type="submit"
+                                    disabled={this.state.cmdLine.length === 0}
+                                >
+                                    Send
+                                </Button>
                             </InputGroup.Button>
                         </InputGroup>
                     </FormGroup>
@@ -135,6 +147,7 @@ class TerminalView extends React.Component {
                             onDragOver={cancel}
                             onDragEnter={cancel}
                             bsSize="small"
+                            disabled={(commands[index] || '').trim().length === 0}
                         >
                             {commands[index]}
                         </Button>
