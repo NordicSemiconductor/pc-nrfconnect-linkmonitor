@@ -1,6 +1,6 @@
 {
   "name": "pc-nrfconnect-linkmonitor",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "LTE Link Monitor",
   "displayName": "LTE Link Monitor",
   "repository": {
