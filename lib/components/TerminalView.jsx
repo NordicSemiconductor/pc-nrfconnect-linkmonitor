@@ -69,6 +69,9 @@ class TerminalView extends React.Component {
         this.onCommandLineSubmit = this.onCommandLineSubmit.bind(this);
         this.onSavedCommandClick = this.onSavedCommandClick.bind(this);
         this.throttleUpdates = false;
+        this.state = {
+            cmdLine: '',
+        };
     }
 
     componentDidUpdate() {
@@ -87,10 +90,10 @@ class TerminalView extends React.Component {
 
     onCommandLineSubmit(event) {
         event.preventDefault();
-        const { value } = this.inputNode;
         const { write } = this.props;
-        if (value) {
-            write(value);
+        const { cmdLine } = this.state;
+        if (cmdLine.length > 0) {
+            write(cmdLine);
         }
     }
 
@@ -109,6 +112,7 @@ class TerminalView extends React.Component {
 
     render() {
         const { hidden, commands } = this.props;
+        const { cmdLine } = this.state;
         return (
             <div className={`terminal-view ${hidden ? 'hidden' : ''}`}>
                 <div className="terminal mono">
@@ -129,12 +133,20 @@ class TerminalView extends React.Component {
                                 </OverlayTrigger>
                             </InputGroup.Prepend>
                             <Form.Control
-                                ref={node => { this.inputNode = node; }}
                                 type="text"
                                 placeholder="Type AT command here..."
+                                onChange={
+                                    ({ target }) => this.setState({ cmdLine: target.value.trim() })
+                                }
                             />
                             <InputGroup.Append>
-                                <Button className="core-btn" type="submit">Send</Button>
+                                <Button
+                                    className="core-btn"
+                                    type="submit"
+                                    disabled={cmdLine.length === 0}
+                                >
+                                    Send
+                                </Button>
                             </InputGroup.Append>
                         </InputGroup>
                     </Form.Group>
@@ -150,6 +162,7 @@ class TerminalView extends React.Component {
                             onDragOver={cancel}
                             onDragEnter={cancel}
                             size="sm"
+                            disabled={(commands[index] || '').trim().length === 0}
                         >
                             {commands[index]}
                         </Button>
