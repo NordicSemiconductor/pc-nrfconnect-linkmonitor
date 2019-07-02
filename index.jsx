@@ -121,6 +121,7 @@ export default {
     decorateNavMenu: () => () => <NavMenu />,
     mapDeviceSelectorState: (state, props) => ({
         autoDeviceFilter: state.app.ui.autoDeviceFilter,
+        portIndicatorStatus: (state.app.modemPort.deviceName !== null) ? 'on' : 'off',
         ...props,
     }),
     decorateDeviceSelector: DeviceSelector => (
@@ -133,10 +134,6 @@ export default {
             return <DeviceSelector {...rest} devices={fixedDevices} />;
         }
     ),
-    mapSerialPortSelectorState: (state, props) => ({
-        portIndicatorStatus: (state.app.modemPort.deviceName !== null) ? 'on' : 'off',
-        ...props,
-    }),
     decorateSidePanel: () => () => <SidePanel />,
     reduceApp: reducers,
     middleware: store => next => action => {
