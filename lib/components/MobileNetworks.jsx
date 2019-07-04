@@ -35,28 +35,34 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 
-const MobileNetworks = (props, { networkSearch } = props) => (
+const OperatorList = props => (
+    <>
+        {Object.keys(props)
+            .filter(key => typeof props[key] !== 'function')
+            .map(key => (
+                <tr
+                    key={key}
+                    title={`Network ID: ${key}`}
+                    className={props[key].selected ? 'selected' : ''}
+                >
+                    <td>{ props[key].operator }</td>
+                    <td>{ props[key].stat }</td>
+                </tr>
+            ))
+        }
+    </>
+);
+
+const MobileNetworks = ({ networkSearch, ...props }) => (
     <table className="mobileNetworks">
         <thead>
             <tr><th>Network</th><th>Status</th></tr>
         </thead>
         <tbody>
-            {
-                Object.keys(props)
-                    .filter(key => typeof props[key] !== 'function')
-                    .map(key => (
-                        <tr
-                            key={key}
-                            title={`Network ID: ${key}`}
-                            className={props[key].selected ? 'selected' : ''}
-                        >
-                            <td>{ props[key].operator }</td>
-                            <td>{ props[key].stat }</td>
-                        </tr>
-                    ))
-            }
+            <OperatorList {...props} />
             <tr>
                 <td colSpan={2} style={{ paddingTop: 10 }}>
                     <Button
@@ -72,5 +78,9 @@ const MobileNetworks = (props, { networkSearch } = props) => (
         </tbody>
     </table>
 );
+
+MobileNetworks.propTypes = {
+    networkSearch: PropTypes.func.isRequired,
+};
 
 export default MobileNetworks;
