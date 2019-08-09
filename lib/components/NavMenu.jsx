@@ -45,6 +45,8 @@ const NavMenu = ({
     setChartViewActive,
     setTerminalView,
     setTerminalViewActive,
+    setCertManagerView,
+    setCertManagerViewActive,
 }) => (
     <div className="nav-menu-wrap">
         <Button
@@ -71,6 +73,14 @@ const NavMenu = ({
         >
             Terminal
         </Button>
+        <Button
+            className="core-btn"
+            variant="primary"
+            active={setCertManagerViewActive}
+            onClick={setCertManagerView}
+        >
+            Certificate manager
+        </Button>
     </div>
 );
 
@@ -81,6 +91,8 @@ NavMenu.propTypes = {
     setChartViewActive: PropTypes.bool.isRequired,
     setTerminalView: PropTypes.func.isRequired,
     setTerminalViewActive: PropTypes.bool.isRequired,
+    setCertManagerView: PropTypes.func.isRequired,
+    setCertManagerViewActive: PropTypes.bool.isRequired,
 };
 
 export default NavMenu;

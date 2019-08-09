@@ -44,7 +44,7 @@ import PDPContext from '../containers/PDPContext';
 import Settings from '../containers/Settings';
 
 const SidePanel = () => (
-    <div className="core-side-panel">
+    <div className="core-side-panel pretty-scrollbar">
         <div>
             <ConnectionStages />
             <Functionality />
