@@ -7,6 +7,9 @@ export default class SerialPort extends EventEmitter {
         console.log('opening mocked serialport');
         callback();
     }
+    drain(callback) {
+        callback();
+    }
     get() {}
     respond(...lines) {
         lines.forEach(line => this.emit('data', `${line}\0`));
