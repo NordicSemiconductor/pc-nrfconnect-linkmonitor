@@ -78,11 +78,23 @@ function pickSerialPort(serialports) {
  * This function returns an array of devices where any device with 3 serialports are converted
  * to 3 devices with 1 serialport each, so the user will be able to select any of the ports.
  *
- * @param {Array<device>} devices array of device-lister device objects
+ * @param {Array<device>} coreDevices array of device-lister device objects
  * @param {bool} autoDeviceFilter indicates if functionality is desired or not toggled by the UI
  * @returns {Array<device>} fixed array
  */
-function fixDevices(devices, autoDeviceFilter) {
+function fixDevices(coreDevices, autoDeviceFilter) {
+    const devices = coreDevices.map(device => {
+        const { serialNumber, boardVersion } = device;
+        if (serialNumber.startsWith('PCA')) {
+            const [b, s] = serialNumber.split('_');
+            return {
+                ...device,
+                boardVersion: b,
+                serialNumber: s.toUpperCase(),
+            };
+        }
+        return { ...device, serialNumber, boardVersion };
+    });
     if (platform !== 'dar' && autoDeviceFilter) {
         return devices;
     }
