@@ -1,10 +1,15 @@
+.core-main-view {
+    padding: 0;
+}
+
 .core-main-layout > div:nth-child(1) {
     min-width: 0;
 }
-
-.terminal-view.hidden,
-.chart.hidden {
-    display: none;
+.core-main-layout > div:nth-child(2) {
+    overflow-y: overlay;
+}
+.core-main-view > .hidden {
+    display: none !important;
 }
 
 .core-side-panel {
@@ -68,7 +73,7 @@ table {
 
 .chart {
     position: absolute;
-    padding: 10px;
+    padding: 20px;
     bottom: 80px;
     top: 0;
     left: 0;
@@ -97,6 +102,7 @@ table {
 }
 
 .terminal-view {
+    padding: 15px;
     display: flex;
     flex-direction: column;
     height: 100%;
