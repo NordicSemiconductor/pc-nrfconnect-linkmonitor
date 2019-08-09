@@ -45,7 +45,7 @@ import * as ModemActions from './lib/actions/modemActions';
 import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
 
-const supportedBoards = ['PCA10090', 'PCA10064'];
+const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035'];
 const platform = process.platform.slice(0, 3);
 
 /* eslint react/prop-types: 0 */
@@ -128,7 +128,10 @@ export default {
         props => {
             const { devices, autoDeviceFilter, ...rest } = props;
             const filteredDevices = autoDeviceFilter
-                ? devices.filter(d => supportedBoards.includes(d.boardVersion))
+                ? devices.filter(d => (
+                    supportedBoards.includes(d.boardVersion)
+                    || supportedBoards.includes(d.serialNumber.split('_')[0])
+                ))
                 : devices;
             const fixedDevices = fixDevices(filteredDevices, autoDeviceFilter);
             return <DeviceSelector {...rest} devices={fixedDevices} />;
