@@ -38,17 +38,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TerminalView from '../containers/TerminalView';
 import Chart from '../containers/Chart';
+import CertificateManagerView from '../containers/CertificateManagerView';
 
-const MainView = ({ chartVisible, terminalVisible }) => (
+const MainView = ({ chartVisible, terminalVisible, certManagerVisible }) => (
     <div className="core-main-view">
         <Chart hidden={!chartVisible} />
         <TerminalView hidden={!terminalVisible} />
+        <CertificateManagerView hidden={!certManagerVisible} />
     </div>
 );
 
 MainView.propTypes = {
     chartVisible: PropTypes.bool.isRequired,
     terminalVisible: PropTypes.bool.isRequired,
+    certManagerVisible: PropTypes.bool.isRequired,
 };
 
 export default MainView;

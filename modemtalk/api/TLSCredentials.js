@@ -84,13 +84,14 @@ module.exports = target => {
     Object.assign(target.prototype, {
         CredentialType,
         writeTLSCredential(secTag, type, content, password) {
-            let cmd = `%CMNG=0,${secTag},${type},"${content}"`;
+            let cmd = `%CMNG=0,${secTag},${type},"\n${content}"`;
             if (password !== undefined) {
                 cmd = `${cmd},${password}`;
             }
             return this.writeAT(cmd, {
                 expect,
                 processor: lines => convertResponse(lines.pop()),
+                timeout: 5000,
             });
         },
         listTLSCredentials(secTag, type) {

@@ -45,7 +45,7 @@ import * as ModemActions from './lib/actions/modemActions';
 import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
 
-const supportedBoards = ['PCA10090', 'PCA10064'];
+const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035'];
 const platform = process.platform.slice(0, 3);
 
 /* eslint react/prop-types: 0 */
@@ -78,11 +78,23 @@ function pickSerialPort(serialports) {
  * This function returns an array of devices where any device with 3 serialports are converted
  * to 3 devices with 1 serialport each, so the user will be able to select any of the ports.
  *
- * @param {Array<device>} devices array of device-lister device objects
+ * @param {Array<device>} coreDevices array of device-lister device objects
  * @param {bool} autoDeviceFilter indicates if functionality is desired or not toggled by the UI
  * @returns {Array<device>} fixed array
  */
-function fixDevices(devices, autoDeviceFilter) {
+function fixDevices(coreDevices, autoDeviceFilter) {
+    const devices = coreDevices.map(device => {
+        const { serialNumber, boardVersion } = device;
+        if (serialNumber.startsWith('PCA')) {
+            const [b, s] = serialNumber.split('_');
+            return {
+                ...device,
+                boardVersion: b,
+                serialNumber: s.toUpperCase(),
+            };
+        }
+        return { ...device, serialNumber, boardVersion };
+    });
     if (platform !== 'dar' && autoDeviceFilter) {
         return devices;
     }
@@ -128,7 +140,10 @@ export default {
         props => {
             const { devices, autoDeviceFilter, ...rest } = props;
             const filteredDevices = autoDeviceFilter
-                ? devices.filter(d => supportedBoards.includes(d.boardVersion))
+                ? devices.filter(d => (
+                    supportedBoards.includes(d.boardVersion)
+                    || supportedBoards.includes(d.serialNumber.split('_')[0])
+                ))
                 : devices;
             const fixedDevices = fixDevices(filteredDevices, autoDeviceFilter);
             return <DeviceSelector {...rest} devices={fixedDevices} />;

@@ -160,7 +160,27 @@ class ModemPort extends SerialPort {
         if (this.defaults.writeCallback) {
             this.defaults.writeCallback(...args);
         }
-        super.write(...args);
+
+        const writeLine = (lines, cb) => {
+            const [line, ...rest] = lines;
+            super.write(line, err => {
+                if (err) {
+                    cb(err);
+                } else if (rest.length) {
+                    setTimeout(() => {
+                        super.drain(() => writeLine(rest, cb));
+                    }, 10);
+                } else {
+                    super.drain(cb);
+                }
+            });
+        };
+        const lines = ([]).concat(...args.map(a => (
+            (typeof a === 'string') ? a.split('\n') : a
+        ))).filter(a => a.length);
+        const callback = lines.pop();
+
+        writeLine(lines, callback);
     }
 
     writeCommand(command, options) {
