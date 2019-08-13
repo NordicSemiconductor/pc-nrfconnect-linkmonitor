@@ -141,9 +141,9 @@ export default {
                 {...rest}
                 selectedItemId={selectedItemId < 0 ? 1 : selectedItemId}
                 menuItems={[
-                    { id: 0, text: 'Chart', iconClass: '' },
-                    { id: 1, text: 'Terminal', iconClass: '' },
-                    { id: 2, text: 'Certificate manager', iconClass: '' },
+                    { id: 0, text: 'Chart', iconClass: 'mdi mdi-chart-bell-curve' },
+                    { id: 1, text: 'Terminal', iconClass: 'mdi mdi-console' },
+                    { id: 2, text: 'Certificate manager', iconClass: 'mdi mdi-certificate' },
                 ]}
             />
         </>

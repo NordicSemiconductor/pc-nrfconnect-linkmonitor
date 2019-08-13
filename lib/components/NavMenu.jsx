@@ -49,6 +49,7 @@ const NavMenu = ({
             disabled={!enableOpen}
             onClick={openLogfile}
         >
+            <span className="mdi mdi-file-document-box-outline pr-1" />
             Open logfile
         </Button>
     </div>
