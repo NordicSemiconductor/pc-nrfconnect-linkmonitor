@@ -51,7 +51,7 @@ import { homedir } from 'os';
 import { readFileSync } from 'fs';
 import { logger } from 'nrfconnect/core';
 
-const TextAreaGroup = ({
+const FormGroupWithCheckbox = ({
     controlId, controlProps, label, value, set, clearLabel, clear, setClear,
 }) => (
     <Form.Group as={Row} controlId={controlId}>
@@ -75,7 +75,7 @@ const TextAreaGroup = ({
         </Col>
     </Form.Group>
 );
-TextAreaGroup.propTypes = {
+FormGroupWithCheckbox.propTypes = {
     controlId: string.isRequired,
     controlProps: shape({}).isRequired,
     label: string.isRequired,
@@ -85,7 +85,7 @@ TextAreaGroup.propTypes = {
     clear: bool.isRequired,
     setClear: func.isRequired,
 };
-TextAreaGroup.defaultProps = {
+FormGroupWithCheckbox.defaultProps = {
     clearLabel: null,
 };
 
@@ -188,18 +188,22 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
             onDragOver={onDragOver}
             onDrop={onDrop}
         >
-            <Alert variant="info" style={{ userSelect: 'text' }}>
-                <span className="float-left mdi mdi-information mdi-36px pr-3" />
-                The modem must be in <strong>offline</strong> state
-                (<code>AT+CFUN=4</code>) for updating certificates.<br />
-                You can drag-and-drop a JSON file over this window.<br />
-                You can use <code>AT%CMNG=1</code> command in the
-                Terminal screen to list all stored certificates.
+            <Alert variant="info">
+                <span className="float-left h-100 mdi mdi-information mdi-36px pr-3" />
+                <div style={{ lineHeight: '1.5rem', userSelect: 'text' }}>
+                    The modem must be in <strong>offline</strong> state
+                    (<code>AT+CFUN=4</code>) for updating certificates.<br />
+                    You can drag-and-drop a JSON file over this window.<br />
+                    You can use <code>AT%CMNG=1</code> command in the
+                    Terminal screen to list all stored certificates.<br />
+                    Make sure your device runs a firmware with increased buffer
+                    to support long AT-commands.
+                </div>
             </Alert>
             <Form className="mt-4 mb-4">
                 <Row>
                     <Col xs={8}>
-                        {TextAreaGroup({
+                        {FormGroupWithCheckbox({
                             controlId: 'certMgr.caCert',
                             controlProps: textAreaProps,
                             label: 'CA certificate',
@@ -209,7 +213,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                             clear: clearCaCert,
                             setClear: setClearCACert,
                         })}
-                        {TextAreaGroup({
+                        {FormGroupWithCheckbox({
                             controlId: 'certMgr.clientCert',
                             controlProps: textAreaProps,
                             label: 'Client certificate',
@@ -218,7 +222,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                             clear: clearClientCert,
                             setClear: setClearClientCert,
                         })}
-                        {TextAreaGroup({
+                        {FormGroupWithCheckbox({
                             controlId: 'certMgr.privKey',
                             controlProps: textAreaProps,
                             label: 'Private key',
@@ -229,7 +233,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                         })}
                     </Col>
                     <Col xs={4}>
-                        {TextAreaGroup({
+                        {FormGroupWithCheckbox({
                             controlId: 'certMgr.preSharedKey',
                             controlProps: textProps,
                             label: 'Pre-shared key',
@@ -239,7 +243,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                             clear: clearPreSharedKey,
                             setClear: setClearPreSharedKey,
                         })}
-                        {TextAreaGroup({
+                        {FormGroupWithCheckbox({
                             controlId: 'certMgr.pskIdentity',
                             controlProps: textProps,
                             label: 'PSK identity',
