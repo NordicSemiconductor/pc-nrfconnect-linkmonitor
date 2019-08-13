@@ -114,7 +114,9 @@ module.exports = target => {
             });
         },
         deleteTLSCredential(secTag, type) {
-            return this.writeAT(`%CMNG=3,${secTag},${type}`);
+            return this.writeAT(`%CMNG=3,${secTag},${type}`, {
+                timeout: 2000,
+            });
         },
     });
 };
