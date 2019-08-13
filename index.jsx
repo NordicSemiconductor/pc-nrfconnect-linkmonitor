@@ -36,7 +36,7 @@
 
 import React from 'react';
 import SidePanel from './lib/components/SidePanel';
-import MainView from './lib/containers/MainView';
+import MainView from './lib/components/MainView';
 import NavMenu from './lib/containers/NavMenu';
 import './resources/css/index.scss';
 
@@ -129,8 +129,25 @@ export default {
         dispatch(loadCommands());
         dispatch(loadSettings());
     },
-    decorateMainView: () => () => <MainView />,
-    decorateNavMenu: () => () => <NavMenu />,
+    mapMainViewState: ({ core }, props) => ({
+        ...props,
+        viewId: core.navMenu.selectedItemId < 0 ? 1 : core.navMenu.selectedItemId,
+    }),
+    decorateMainView: () => props => <MainView {...props} />,
+    decorateNavMenu: CoreNavMenu => ({ selectedItemId, ...rest }) => (
+        <>
+            <NavMenu />
+            <CoreNavMenu
+                {...rest}
+                selectedItemId={selectedItemId < 0 ? 1 : selectedItemId}
+                menuItems={[
+                    { id: 0, text: 'Chart', iconClass: '' },
+                    { id: 1, text: 'Terminal', iconClass: '' },
+                    { id: 2, text: 'Certificate manager', iconClass: '' },
+                ]}
+            />
+        </>
+    ),
     mapDeviceSelectorState: (state, props) => ({
         autoDeviceFilter: state.app.ui.autoDeviceFilter,
         portIndicatorStatus: (state.app.modemPort.deviceName !== null) ? 'on' : 'off',
