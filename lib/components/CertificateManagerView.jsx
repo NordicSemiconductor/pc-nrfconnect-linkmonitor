@@ -35,24 +35,73 @@
  */
 
 import React, { useState } from 'react';
-import { bool, func } from 'prop-types';
+import {
+    bool, func, string, shape,
+} from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Alert from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Modal from 'react-bootstrap/Modal';
 
 import { remote } from 'electron';
 import { homedir } from 'os';
 import { readFileSync } from 'fs';
 import { logger } from 'nrfconnect/core';
 
-const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
+const TextAreaGroup = ({
+    controlId, controlProps, label, value, set, clearLabel, clear, setClear,
+}) => (
+    <Form.Group as={Row} controlId={controlId}>
+        <Col xs={11}>
+            <Form.Label>{label}</Form.Label>
+            <Form.Control
+                {...controlProps}
+                value={value}
+                onChange={({ target }) => set(target.value)}
+                disabled={clear}
+            />
+        </Col>
+        <Col xs={1} className="pl-0">
+            <Form.Label>{clearLabel}&nbsp;</Form.Label>
+            <Form.Check
+                type="checkbox"
+                aria-label="Delete"
+                checked={clear}
+                onChange={({ target }) => setClear(target.checked)}
+            />
+        </Col>
+    </Form.Group>
+);
+TextAreaGroup.propTypes = {
+    controlId: string.isRequired,
+    controlProps: shape({}).isRequired,
+    label: string.isRequired,
+    value: string.isRequired,
+    set: func.isRequired,
+    clearLabel: string,
+    clear: bool.isRequired,
+    setClear: func.isRequired,
+};
+TextAreaGroup.defaultProps = {
+    clearLabel: null,
+};
+
+const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredential }) => {
     const [caCert, setCACert] = useState('');
     const [clientCert, setClientCert] = useState('');
     const [privateKey, setPrivateKey] = useState('');
+    const [preSharedKey, setPreSharedKey] = useState('');
+    const [pskIdentity, setPskIdentity] = useState('');
+    const [clearCaCert, setClearCACert] = useState(false);
+    const [clearClientCert, setClearClientCert] = useState(false);
+    const [clearPrivateKey, setClearPrivateKey] = useState(false);
+    const [clearPreSharedKey, setClearPreSharedKey] = useState(false);
+    const [clearPskIdentity, setClearPskIdentity] = useState(false);
     const [secTag, setSecTag] = useState(16842753);
+    const [showWarning, setShowWarning] = useState(false);
 
     function loadJsonFile(filename) {
         if (!filename) {
@@ -60,9 +109,9 @@ const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
         }
         try {
             const json = JSON.parse(readFileSync(filename, 'utf8'));
-            setCACert(json.caCert);
-            setClientCert(json.clientCert);
-            setPrivateKey(json.privateKey);
+            setCACert(json.caCert || '');
+            setClientCert(json.clientCert || '');
+            setPrivateKey(json.privateKey || '');
         } catch (err) {
             logger.error(err.message);
         }
@@ -88,18 +137,41 @@ const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
         event.preventDefault();
     }
 
-    async function updateCertificate() {
-        try {
-            logger.info('Updating CA certificate...');
-            await writeTLSCredential(secTag, 0, caCert);
-            logger.info('Updating client certificate...');
-            await writeTLSCredential(secTag, 1, clientCert);
-            logger.info('Updating private key...');
-            await writeTLSCredential(secTag, 2, privateKey);
-            logger.info('Certificate update completed successfully');
-        } catch (err) {
-            logger.error(err.message);
+    async function performCertificateUpdate() {
+        setShowWarning(false);
+
+        async function oneUpdate(info, type, content, clear) {
+            if (clear) {
+                logger.info(`Clearing ${info}...`);
+                try {
+                    await deleteTLSCredential(secTag, type);
+                } catch (err) {
+                    logger.error(err.message);
+                }
+            } else if (content) {
+                logger.info(`Updating ${info}...`);
+                try {
+                    await writeTLSCredential(secTag, type, content);
+                } catch (err) {
+                    logger.error(err.message);
+                }
+            }
         }
+        await oneUpdate('CA certificate', 0, caCert, clearCaCert);
+        await oneUpdate('client certificate', 1, clientCert, clearClientCert);
+        await oneUpdate('private key', 2, privateKey, clearPrivateKey);
+        await oneUpdate('pre-shared key', 3, preSharedKey, clearPreSharedKey);
+        await oneUpdate('PSK identity', 4, pskIdentity, clearPskIdentity);
+
+        logger.info('Certificate update completed');
+    }
+
+    function updateCertificate() {
+        if (clearCaCert || clearClientCert || clearPrivateKey
+            || clearPreSharedKey || clearPskIdentity) {
+            return setShowWarning(true);
+        }
+        return performCertificateUpdate();
     }
 
     const className = 'cert-mgr-view d-flex flex-column p-5 h-100 pretty-scrollbar';
@@ -108,6 +180,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
         className: 'text-monospace',
         rows: 4,
     };
+    const textProps = { type: 'text' };
 
     return (
         <div
@@ -115,48 +188,79 @@ const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
             onDragOver={onDragOver}
             onDrop={onDrop}
         >
-            <Alert variant="info">
+            <Alert variant="info" style={{ userSelect: 'text' }}>
+                <span className="float-left mdi mdi-information mdi-36px pr-3" />
                 The modem must be in <strong>offline</strong> state
-                (<code>AT+CFUN=4</code>) for updating certificates.
-                You can drag-and-drop a JSON file over this window.
+                (<code>AT+CFUN=4</code>) for updating certificates.<br />
+                You can drag-and-drop a JSON file over this window.<br />
+                You can use <code>AT%CMNG=1</code> command in the
+                Terminal screen to list all stored certificates.
             </Alert>
             <Form className="mt-4 mb-4">
-                <Form.Group controlId="certMgr.caCert">
-                    <Form.Label>CA certificate</Form.Label>
-                    <Form.Control
-                        {...textAreaProps}
-                        value={caCert}
-                        onChange={({ target }) => setCACert(target.value)}
-                    />
-                </Form.Group>
-                <Form.Group controlId="certMgr.clientCert">
-                    <Form.Label>Client certificate</Form.Label>
-                    <Form.Control
-                        {...textAreaProps}
-                        value={clientCert}
-                        onChange={({ target }) => setClientCert(target.value)}
-                    />
-                </Form.Group>
-                <Form.Group controlId="certMgr.privKey">
-                    <Form.Label>Private key</Form.Label>
-                    <Form.Control
-                        {...textAreaProps}
-                        value={privateKey}
-                        onChange={({ target }) => setPrivateKey(target.value)}
-                    />
-                </Form.Group>
-                <Form.Group as={Row} controlId="certMgr.secTag">
-                    <Form.Label column sm="2">Security tag</Form.Label>
-                    <Col sm="4">
-                        <Form.Control
-                            type="text"
-                            value={secTag}
-                            onChange={({ target }) => setSecTag(Number(target.value))}
-                        />
+                <Row>
+                    <Col xs={8}>
+                        {TextAreaGroup({
+                            controlId: 'certMgr.caCert',
+                            controlProps: textAreaProps,
+                            label: 'CA certificate',
+                            value: caCert,
+                            set: setCACert,
+                            clearLabel: 'Delete',
+                            clear: clearCaCert,
+                            setClear: setClearCACert,
+                        })}
+                        {TextAreaGroup({
+                            controlId: 'certMgr.clientCert',
+                            controlProps: textAreaProps,
+                            label: 'Client certificate',
+                            value: clientCert,
+                            set: setClientCert,
+                            clear: clearClientCert,
+                            setClear: setClearClientCert,
+                        })}
+                        {TextAreaGroup({
+                            controlId: 'certMgr.privKey',
+                            controlProps: textAreaProps,
+                            label: 'Private key',
+                            value: privateKey,
+                            set: setPrivateKey,
+                            clear: clearPrivateKey,
+                            setClear: setClearPrivateKey,
+                        })}
                     </Col>
-                </Form.Group>
+                    <Col xs={4}>
+                        {TextAreaGroup({
+                            controlId: 'certMgr.preSharedKey',
+                            controlProps: textProps,
+                            label: 'Pre-shared key',
+                            value: preSharedKey,
+                            set: setPreSharedKey,
+                            clearLabel: 'Delete',
+                            clear: clearPreSharedKey,
+                            setClear: setClearPreSharedKey,
+                        })}
+                        {TextAreaGroup({
+                            controlId: 'certMgr.pskIdentity',
+                            controlProps: textProps,
+                            label: 'PSK identity',
+                            value: pskIdentity,
+                            set: setPskIdentity,
+                            clear: clearPskIdentity,
+                            setClear: setClearPskIdentity,
+                        })}
+                        <Form.Group as={Row} controlId="certMgr.secTag" className="mt-5">
+                            <Form.Label column>Security tag</Form.Label>
+                            <Col md="auto">
+                                <Form.Control
+                                    type="text"
+                                    value={secTag}
+                                    onChange={({ target }) => setSecTag(Number(target.value))}
+                                />
+                            </Col>
+                        </Form.Group>
+                    </Col>
+                </Row>
             </Form>
-
             <ButtonGroup className="align-self-end">
                 <Button
                     variant="outline-secondary"
@@ -172,6 +276,23 @@ const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
                     Update certificates
                 </Button>
             </ButtonGroup>
+
+            <Modal show={showWarning} onHide={() => setShowWarning(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Warning</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    You are about to delete credentials, are you sure to proceed?
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShowWarning(false)}>
+                        Cancel
+                    </Button>
+                    <Button variant="primary" onClick={performCertificateUpdate}>
+                        Proceed
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 };
@@ -179,6 +300,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential }) => {
 CertificateManagerView.propTypes = {
     hidden: bool.isRequired,
     writeTLSCredential: func.isRequired,
+    deleteTLSCredential: func.isRequired,
 };
 
 export default CertificateManagerView;
