@@ -51,6 +51,8 @@ import { homedir } from 'os';
 import { readFileSync } from 'fs';
 import { logger } from 'nrfconnect/core';
 
+const NRF_CLOUD_TAG = 16842753;
+
 const FormGroupWithCheckbox = ({
     controlId, controlProps, label, value, set, clearLabel, clear, setClear,
 }) => (
@@ -100,7 +102,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
     const [clearPrivateKey, setClearPrivateKey] = useState(false);
     const [clearPreSharedKey, setClearPreSharedKey] = useState(false);
     const [clearPskIdentity, setClearPskIdentity] = useState(false);
-    const [secTag, setSecTag] = useState(16842753);
+    const [secTag, setSecTag] = useState(NRF_CLOUD_TAG);
     const [showWarning, setShowWarning] = useState(false);
 
     function loadJsonFile(filename) {
@@ -197,7 +199,9 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                     You can use <code>AT%CMNG=1</code> command in the
                     Terminal screen to list all stored certificates.<br />
                     Make sure your device runs a firmware with increased buffer
-                    to support long AT-commands.
+                    to support long AT-commands.<br />
+                    Use security tag <code>{NRF_CLOUD_TAG}</code> to manage nRF Connect
+                    for Cloud certificate, otherwise pick a different tag.
                 </div>
             </Alert>
             <Form className="mt-4 mb-4">
