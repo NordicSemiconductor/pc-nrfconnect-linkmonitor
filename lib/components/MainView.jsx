@@ -40,18 +40,16 @@ import TerminalView from '../containers/TerminalView';
 import Chart from '../containers/Chart';
 import CertificateManagerView from '../containers/CertificateManagerView';
 
-const MainView = ({ chartVisible, terminalVisible, certManagerVisible }) => (
+const MainView = ({ viewId }) => (
     <div className="core-main-view">
-        <Chart hidden={!chartVisible} />
-        <TerminalView hidden={!terminalVisible} />
-        <CertificateManagerView hidden={!certManagerVisible} />
+        <Chart hidden={viewId !== 0} />
+        <TerminalView hidden={viewId !== 1} />
+        <CertificateManagerView hidden={viewId !== 2} />
     </div>
 );
 
 MainView.propTypes = {
-    chartVisible: PropTypes.bool.isRequired,
-    terminalVisible: PropTypes.bool.isRequired,
-    certManagerVisible: PropTypes.bool.isRequired,
+    viewId: PropTypes.number.isRequired,
 };
 
 export default MainView;

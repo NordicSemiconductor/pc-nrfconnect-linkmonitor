@@ -41,12 +41,6 @@ import Button from 'react-bootstrap/Button';
 const NavMenu = ({
     enableOpen,
     openLogfile,
-    setChartView,
-    setChartViewActive,
-    setTerminalView,
-    setTerminalViewActive,
-    setCertManagerView,
-    setCertManagerViewActive,
 }) => (
     <div className="nav-menu-wrap">
         <Button
@@ -55,31 +49,8 @@ const NavMenu = ({
             disabled={!enableOpen}
             onClick={openLogfile}
         >
+            <span className="mdi mdi-file-document-box-outline pr-1" />
             Open logfile
-        </Button>
-        <Button
-            className="core-btn"
-            variant="primary"
-            active={setChartViewActive}
-            onClick={setChartView}
-        >
-            Chart
-        </Button>
-        <Button
-            className="core-btn"
-            variant="primary"
-            active={setTerminalViewActive}
-            onClick={setTerminalView}
-        >
-            Terminal
-        </Button>
-        <Button
-            className="core-btn"
-            variant="primary"
-            active={setCertManagerViewActive}
-            onClick={setCertManagerView}
-        >
-            Certificate manager
         </Button>
     </div>
 );
@@ -87,12 +58,6 @@ const NavMenu = ({
 NavMenu.propTypes = {
     enableOpen: PropTypes.bool.isRequired,
     openLogfile: PropTypes.func.isRequired,
-    setChartView: PropTypes.func.isRequired,
-    setChartViewActive: PropTypes.bool.isRequired,
-    setTerminalView: PropTypes.func.isRequired,
-    setTerminalViewActive: PropTypes.bool.isRequired,
-    setCertManagerView: PropTypes.func.isRequired,
-    setCertManagerViewActive: PropTypes.bool.isRequired,
 };
 
 export default NavMenu;

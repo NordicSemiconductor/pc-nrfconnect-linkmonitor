@@ -84,7 +84,7 @@ module.exports = target => {
     Object.assign(target.prototype, {
         CredentialType,
         writeTLSCredential(secTag, type, content, password) {
-            let cmd = `%CMNG=0,${secTag},${type},"\n${content}"`;
+            let cmd = `%CMNG=0,${secTag},${type},"${content.trim()}"`;
             if (password !== undefined) {
                 cmd = `${cmd},${password}`;
             }
@@ -114,7 +114,9 @@ module.exports = target => {
             });
         },
         deleteTLSCredential(secTag, type) {
-            return this.writeAT(`%CMNG=3,${secTag},${type}`);
+            return this.writeAT(`%CMNG=3,${secTag},${type}`, {
+                timeout: 2000,
+            });
         },
     });
 };
