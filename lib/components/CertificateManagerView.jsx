@@ -176,7 +176,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
         return performCertificateUpdate();
     }
 
-    const className = 'cert-mgr-view d-flex flex-column p-5 h-100 pretty-scrollbar';
+    const className = 'cert-mgr-view d-flex flex-column p-4 h-100 overflow-auto pretty-scrollbar';
     const textAreaProps = {
         as: 'textarea',
         className: 'text-monospace',
@@ -204,7 +204,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                     for Cloud certificate, otherwise pick a different tag.
                 </div>
             </Alert>
-            <Form className="mt-4 mb-4">
+            <Form className="mt-4 mb-4 pr-4">
                 <Row>
                     <Col xs={8}>
                         {FormGroupWithCheckbox({

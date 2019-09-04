@@ -1,6 +1,6 @@
 {
   "name": "pc-nrfconnect-linkmonitor",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "LTE Link Monitor",
   "displayName": "LTE Link Monitor",
   "repository": {
@@ -10,7 +10,7 @@
   "author": "Nordic Semiconductor ASA",
   "license": "SEE LICENSE IN LICENSE",
   "engines": {
-    "nrfconnect": "^3.0.0"
+    "nrfconnect": "^3.2.0"
   },
   "main": "dist/bundle.js",
   "files": [
@@ -24,6 +24,7 @@
     "webpack": "nrfconnect-scripts build-dev",
     "build": "nrfconnect-scripts build-prod",
     "nordic-publish": "nrfconnect-scripts nordic-publish",
+    "lint-init": "nrfconnect-scripts lint-init",
     "lint": "nrfconnect-scripts lint lib modemtalk index.jsx mocks test",
     "test": "jest --testResultsProcessor jest-bamboo-formatter",
     "test-watch": "jest --watch",
@@ -38,14 +39,13 @@
     "leaflet": "^1.2.0",
     "mcc-mnc-list": "^1.0.82",
     "nedb": "^1.8.0",
-    "pc-nrfconnect-devdep": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-devdep.git#semver:^3.0.0",
+    "pc-nrfconnect-devdep": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-devdep.git#semver:^3.1.0",
     "react-chartjs-2": "^2.5.6",
     "react-leaflet": "^1.5.0",
     "react-rangeslider": "^2.2.0"
   },
   "dependencies": {
-    "electron-store": "^2.0.0",
-    "serialport": "^6.2.0"
+    "electron-store": "^2.0.0"
   },
   "bundledDependencies": [
     "electron-store"
