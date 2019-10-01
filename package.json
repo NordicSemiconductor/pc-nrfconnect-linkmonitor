@@ -46,7 +46,7 @@
   },
   "dependencies": {
     "electron-store": "^2.0.0",
-    "modemtalk": "^1.1.5-pre.1"
+    "modemtalk": "^1.1.5"
   },
   "bundledDependencies": [
     "electron-store"
