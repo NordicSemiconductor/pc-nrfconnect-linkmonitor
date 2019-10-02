@@ -41,7 +41,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import { timeseries } from '../actions/chartActions';
-import { EventCategory } from '../../modemtalk/utils';
+import { EventCategory } from 'modemtalk';
 
 import '../utils/chart.zoomPan';
 

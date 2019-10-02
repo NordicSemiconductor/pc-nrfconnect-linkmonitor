@@ -37,7 +37,7 @@
 import React from 'react';
 import TerminalView from '../components/TerminalView';
 import { UPDATE_TERMINAL, UPDATE_SAVED_COMMANDS } from './actionIds';
-import { ResponseConverters } from '../../modemtalk';
+import { ResponseConverters } from 'modemtalk';
 import persistentStore from './persistentStore';
 
 const { contentBuffer } = TerminalView;
