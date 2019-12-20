@@ -40,8 +40,8 @@ import { Line } from 'react-chartjs-2';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
-import { timeseries } from '../actions/chartActions';
 import { EventCategory } from 'modemtalk';
+import { timeseries } from '../actions/chartActions';
 
 import '../utils/chart.zoomPan';
 

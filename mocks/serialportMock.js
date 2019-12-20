@@ -7,10 +7,13 @@ export default class SerialPort extends EventEmitter {
         console.log('opening mocked serialport');
         callback();
     }
+
     drain(callback) {
         callback();
     }
+
     get() {}
+
     respond(...lines) {
         lines.forEach(line => this.emit('data', `${line}\0`));
     }
@@ -97,6 +100,7 @@ export default class SerialPort extends EventEmitter {
             }
         }, 10);
     }
+
     close(callback) {
         console.log('closing mocked serialport');
         if (callback) {
