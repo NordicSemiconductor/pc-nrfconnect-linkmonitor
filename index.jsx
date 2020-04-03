@@ -50,6 +50,9 @@ const platform = process.platform.slice(0, 3);
 
 /* eslint react/prop-types: 0 */
 
+// Prefer to use the serialport 8 property or fall back to the serialport 7 property
+const portPath = serialPort => serialPort.path || serialPort.comName;
+
 /**
  * Pick the serialport that should belong to the modem on PCA10090
  * @param {Array<device>} serialports array of device-lister serialport objects
@@ -67,7 +70,7 @@ function pickSerialPort(serialports) {
             return serialports.find(s => (/-if00$/.test(s.pnpId)));
         case 'dar':
             // this doesn't work, but with fixDevices() can't happen
-            return serialports.find(s => (/1$/.test(s.comName)));
+            return serialports.find(s => (/1$/.test(portPath(s))));
         default:
     }
     return undefined;
@@ -181,7 +184,7 @@ export default {
 
             const serialport = pickSerialPort(serialports);
             if (serialport) {
-                store.dispatch(ModemActions.open(serialport));
+                store.dispatch(ModemActions.open(portPath(serialport)));
             }
         }
         if (action.type === 'DEVICE_DESELECTED') {
