@@ -1,6 +1,6 @@
 {
   "name": "pc-nrfconnect-linkmonitor",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "LTE Link Monitor",
   "displayName": "LTE Link Monitor",
   "repository": {
@@ -33,20 +33,20 @@
     "clean-modules": "rimraf \"node_modules/!(rimraf|.bin)\""
   },
   "devDependencies": {
-    "chart.js": "^2.6.0",
-    "debug": "^2.6.8",
-    "electron-is-dev": "^0.3.0",
-    "leaflet": "^1.2.0",
-    "mcc-mnc-list": "^1.0.82",
+    "chart.js": "^2.9.3",
+    "debug": "^4.1.1",
+    "electron-is-dev": "^1.2.0",
+    "leaflet": "^1.6.0",
+    "mcc-mnc-list": "^1.1.2",
     "nedb": "^1.8.0",
     "pc-nrfconnect-devdep": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-devdep.git#semver:3.3.0",
-    "react-chartjs-2": "^2.5.6",
-    "react-leaflet": "^1.5.0",
+    "react-chartjs-2": "^2.9.0",
+    "react-leaflet": "^2.7.0",
     "react-rangeslider": "^2.2.0"
   },
   "dependencies": {
-    "electron-store": "^2.0.0",
-    "modemtalk": "^1.1.5"
+    "electron-store": "^5.2.0",
+    "modemtalk": "^1.1.9"
   },
   "bundledDependencies": [
     "electron-store"
