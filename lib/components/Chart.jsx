@@ -43,7 +43,7 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { EventCategory } from 'modemtalk';
 import { timeseries } from '../actions/chartActions';
 
-import '../utils/chart.zoomPan';
+import zoomPanPlugin from '../utils/chart.zoomPan';
 
 const greenColor = '#59a659';
 const blueColor = '#0060a0';
@@ -197,7 +197,7 @@ class Chart extends React.Component {
             },
             scales: {
                 xAxes: [{
-                    id: 'x-axis-0',
+                    id: 'xScale',
                     type: 'linear',
                     min: begin,
                     max: end,
@@ -262,6 +262,7 @@ class Chart extends React.Component {
                     data={chartData}
                     options={chartOptions}
                     timestamp={timestamp}
+                    plugins={[zoomPanPlugin]}
                 />
                 <div className="chart-bottom">
                     <ButtonGroup>
