@@ -37,6 +37,7 @@
     "debug": "^4.1.1",
     "electron-is-dev": "^1.2.0",
     "leaflet": "^1.6.0",
+    "localforage": "1.7.4",
     "mcc-mnc-list": "^1.1.2",
     "modemtalk": "^1.1.9",
     "nedb": "^1.8.0",
