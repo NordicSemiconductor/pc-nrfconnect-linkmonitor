@@ -1,6 +1,10 @@
+## Version 1.1.3
+### Bugfixes
+- Fixed broken build
+
 ## Version 1.1.2
 ### Updates
-- Remove control characters from logfile for readability #34
+- Removed control characters from logfile for readability #34
 
 ## Version  1.1.1
 ### Bugfixes
