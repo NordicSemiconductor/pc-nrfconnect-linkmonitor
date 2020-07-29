@@ -55,6 +55,7 @@ const NRF_CLOUD_TAG = 16842753;
 
 const FormGroupWithCheckbox = ({
     controlId, controlProps, label, value, set, clearLabel, clear, setClear,
+    subText,
 }) => (
     <Form.Group as={Row} controlId={controlId}>
         <Col xs={11}>
@@ -65,6 +66,7 @@ const FormGroupWithCheckbox = ({
                 onChange={({ target }) => set(target.value)}
                 disabled={clear}
             />
+            {subText && <Form.Text className="text-muted">{subText}</Form.Text>}
         </Col>
         <Col xs={1} className="pl-0">
             <Form.Label>{clearLabel}&nbsp;</Form.Label>
@@ -86,9 +88,11 @@ FormGroupWithCheckbox.propTypes = {
     clearLabel: string,
     clear: bool.isRequired,
     setClear: func.isRequired,
+    subText: string,
 };
 FormGroupWithCheckbox.defaultProps = {
     clearLabel: null,
+    subText: null,
 };
 
 const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredential }) => {
@@ -246,6 +250,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                             clearLabel: 'Delete',
                             clear: clearPreSharedKey,
                             setClear: setClearPreSharedKey,
+                            subText: 'ASCII text in hexadecimal string format',
                         })}
                         {FormGroupWithCheckbox({
                             controlId: 'certMgr.pskIdentity',
