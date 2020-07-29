@@ -309,3 +309,7 @@ $disabled: #888888;
 .form-control, .input-group-addon {
     border-radius: 0px;
 }
+
+.form-label {
+    white-space: nowrap;
+}
