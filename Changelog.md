@@ -1,3 +1,7 @@
+## Version 1.1.4
+### Updates
+- Added help text to pre-shared key input field #37
+
 ## Version 1.1.3
 ### Bugfixes
 - Fixed broken build
