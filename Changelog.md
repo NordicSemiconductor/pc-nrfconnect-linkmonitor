@@ -1,3 +1,7 @@
+## Version 1.1.5
+### Updates
+- Device filter updated for Thingy:91 #38
+
 ## Version 1.1.4
 ### Updates
 - Added help text to pre-shared key input field #37
