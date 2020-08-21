@@ -87,16 +87,17 @@ function pickSerialPort(serialports) {
  */
 function fixDevices(coreDevices, autoDeviceFilter) {
     const devices = coreDevices.map(device => {
-        const { serialNumber, boardVersion } = device;
-        if (serialNumber.startsWith('PCA')) {
-            const [b, s] = serialNumber.split('_');
+        const { serialNumber } = device;
+        const sn = serialNumber.toUpperCase();
+        if (sn.startsWith('PCA') || sn.startsWith('THINGY91')) {
+            const [b, s] = sn.split('_');
             return {
                 ...device,
                 boardVersion: b,
-                serialNumber: s.toUpperCase(),
+                serialNumber: s,
             };
         }
-        return { ...device, serialNumber, boardVersion };
+        return device;
     });
     if (platform !== 'dar' && autoDeviceFilter) {
         return devices;
