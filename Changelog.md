@@ -1,6 +1,6 @@
 ## Version 1.1.6
 ### Fixes
-- Fix device filter for Thingy:91
+- Fix device filter for Thingy:91 #40
 
 ## Version 1.1.5
 ### Updates
