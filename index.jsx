@@ -45,7 +45,7 @@ import * as ModemActions from './lib/actions/modemActions';
 import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
 
-const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035'];
+const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035', 'THINGY91'];
 const platform = process.platform.slice(0, 3);
 
 /* eslint react/prop-types: 0 */
