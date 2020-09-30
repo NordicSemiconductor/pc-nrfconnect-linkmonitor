@@ -108,6 +108,7 @@ class Settings extends React.Component {
     render() {
         const {
             autoScroll, autoScrollToggled,
+            flowControl, flowControlToggled,
             apiToken,
             autoRequests, autoRequestsToggled,
             signalQualityInterval,
@@ -139,6 +140,14 @@ class Settings extends React.Component {
                                     onChange={e => autoScrollToggled(e.target.checked)}
                                     checked={autoScroll}
                                     label="Terminal auto scroll"
+                                />
+                            </Form.Group>
+                            <Form.Group controlId="flowControlCheck">
+                                <Form.Check
+                                    type="checkbox"
+                                    onChange={e => flowControlToggled(e.target.checked)}
+                                    checked={flowControl}
+                                    label="Flow control"
                                 />
                             </Form.Group>
                             Periodic signal quality request {signalQualityInterval > 0 ? `${signalQualityInterval}s` : 'off'}
@@ -189,6 +198,8 @@ class Settings extends React.Component {
 Settings.propTypes = {
     autoScroll: PropTypes.bool.isRequired,
     autoScrollToggled: PropTypes.func.isRequired,
+    flowControlToggled: PropTypes.func.isRequired,
+    flowControl: PropTypes.bool.isRequired,
     apiToken: PropTypes.string.isRequired,
     apiTokenUpdate: PropTypes.func.isRequired,
     autoRequests: PropTypes.bool.isRequired,
