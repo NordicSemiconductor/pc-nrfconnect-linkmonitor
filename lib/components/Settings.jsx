@@ -49,11 +49,17 @@ import Slider from 'react-rangeslider';
 import 'react-rangeslider/lib/index.css';
 
 const popoverAutoRequests = (
-    <Popover id="tip-location-api" className="tip location-api">
+    <Popover id="tip-autoreq" className="tip autoreq">
         <p>
             The application automatically sends AT commands when connecting to the
             device to query the state of the modem and to subscribe to notifications.
         </p>
+    </Popover>
+);
+
+const popoverFlowControl = (
+    <Popover id="tip-flowcontrol" className="tip flowcontrol">
+        <p>You must reopen the device to take effect.</p>
     </Popover>
 );
 
@@ -108,6 +114,7 @@ class Settings extends React.Component {
     render() {
         const {
             autoScroll, autoScrollToggled,
+            flowControl, flowControlToggled,
             apiToken,
             autoRequests, autoRequestsToggled,
             signalQualityInterval,
@@ -141,6 +148,16 @@ class Settings extends React.Component {
                                     label="Terminal auto scroll"
                                 />
                             </Form.Group>
+                            <OverlayTrigger {...overlayProps} overlay={popoverFlowControl}>
+                                <Form.Group controlId="flowControlCheck">
+                                    <Form.Check
+                                        type="checkbox"
+                                        onChange={e => flowControlToggled(e.target.checked)}
+                                        checked={flowControl}
+                                        label="Flow control"
+                                    />
+                                </Form.Group>
+                            </OverlayTrigger>
                             Periodic signal quality request {signalQualityInterval > 0 ? `${signalQualityInterval}s` : 'off'}
                             <div className="slider-container">
                                 <span>off</span>
@@ -189,6 +206,8 @@ class Settings extends React.Component {
 Settings.propTypes = {
     autoScroll: PropTypes.bool.isRequired,
     autoScrollToggled: PropTypes.func.isRequired,
+    flowControlToggled: PropTypes.func.isRequired,
+    flowControl: PropTypes.bool.isRequired,
     apiToken: PropTypes.string.isRequired,
     apiTokenUpdate: PropTypes.func.isRequired,
     autoRequests: PropTypes.bool.isRequired,

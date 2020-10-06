@@ -45,7 +45,7 @@ import * as ModemActions from './lib/actions/modemActions';
 import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
 
-const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035'];
+const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035', 'THINGY91'];
 const platform = process.platform.slice(0, 3);
 
 /* eslint react/prop-types: 0 */
@@ -87,16 +87,17 @@ function pickSerialPort(serialports) {
  */
 function fixDevices(coreDevices, autoDeviceFilter) {
     const devices = coreDevices.map(device => {
-        const { serialNumber, boardVersion } = device;
-        if (serialNumber.startsWith('PCA')) {
-            const [b, s] = serialNumber.split('_');
+        const { serialNumber } = device;
+        const sn = serialNumber.toUpperCase();
+        if (sn.startsWith('PCA') || sn.startsWith('THINGY91')) {
+            const [b, s] = sn.split('_');
             return {
                 ...device,
                 boardVersion: b,
-                serialNumber: s.toUpperCase(),
+                serialNumber: s,
             };
         }
-        return { ...device, serialNumber, boardVersion };
+        return device;
     });
     if (platform !== 'dar' && autoDeviceFilter) {
         return devices;
