@@ -1,3 +1,7 @@
+## Version 1.1.7
+### Updates
+- Added flow control checkbox (@jaredwolff) #43
+
 ## Version 1.1.6
 ### Fixes
 - Fix device filter for Thingy:91 #40
