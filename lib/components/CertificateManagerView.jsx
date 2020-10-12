@@ -123,8 +123,8 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
         }
     }
 
-    function selectJsonFile() {
-        const [filename] = remote.dialog.showOpenDialog({
+    async function selectJsonFile() {
+        const { filePaths: [filename] } = await remote.dialog.showOpenDialog({
             defaultPath: homedir(),
             properties: ['openFile'],
         }) || [];
