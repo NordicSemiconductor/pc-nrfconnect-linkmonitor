@@ -1,3 +1,7 @@
+## Version 1.1.8
+### Updates
+- Updated according to changes of Electron dialog API
+
 ## Version 1.1.7
 ### Updates
 - Added flow control checkbox (@jaredwolff) #43
