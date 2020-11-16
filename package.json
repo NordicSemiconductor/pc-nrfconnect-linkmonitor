@@ -1,6 +1,6 @@
 {
   "name": "pc-nrfconnect-linkmonitor",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "LTE Link Monitor",
   "displayName": "LTE Link Monitor",
   "repository": {
@@ -39,7 +39,7 @@
     "leaflet": "^1.6.0",
     "localforage": "1.7.4",
     "mcc-mnc-list": "^1.1.2",
-    "modemtalk": "^1.1.9",
+    "modemtalk": "^1.2.0",
     "nedb": "^1.8.0",
     "pc-nrfconnect-devdep": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-devdep.git#semver:3.3.0",
     "react-chartjs-2": "^2.9.0",

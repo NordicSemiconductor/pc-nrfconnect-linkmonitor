@@ -1,3 +1,8 @@
+## Version 1.1.9
+### Updates
+- Update CEREG notification level to 5
+- Update auto device filter for macOS
+
 ## Version 1.1.8
 ### Updates
 - Updated according to changes of Electron dialog API
