@@ -201,7 +201,6 @@ export default {
     config: {
         selectorTraits: {
             serialport: true,
-            jlink: true,
         },
     },
 };
