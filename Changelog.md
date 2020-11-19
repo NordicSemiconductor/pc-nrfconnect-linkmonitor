@@ -1,7 +1,11 @@
+## Version 1.1.10
+### Fixes
+- Filtered out devices without serialport that caused crash #49
+
 ## Version 1.1.9
 ### Updates
-- Update CEREG notification level to 5
-- Update auto device filter for macOS
+- Updated CEREG notification level to 5 #47
+- Updated auto device filter for macOS #47
 
 ## Version 1.1.8
 ### Updates
