@@ -99,27 +99,31 @@ function fixDevices(coreDevices, autoDeviceFilter) {
         }
         return device;
     });
-    if (platform !== 'dar' && autoDeviceFilter) {
+    if (autoDeviceFilter) {
         return devices;
     }
     const fixedDevices = [];
     devices.forEach(device => {
-        const { serialNumber } = device;
-        const temp = [{ ...device }];
+        const {
+            serialNumber,
+            boardVersion,
+            traits,
+            serialport,
+        } = device;
+        const temp = [{
+            serialNumber: `${serialNumber}#0`,
+            boardVersion,
+            traits,
+            serialport,
+        }];
         let i = 1;
         while (device[`serialport.${i}`]) {
             temp[i] = {
-                ...temp[0],
-                serialport: { ...temp[0][`serialport.${i}`] },
+                boardVersion,
+                traits,
+                serialport: { ...device[`serialport.${i}`] },
                 serialNumber: `${serialNumber}#${i}`,
             };
-            temp[0].serialNumber = `${serialNumber}#0`;
-            delete temp[0][`serialport.${i}`];
-            let k = 1;
-            while (temp[i][`serialport.${k}`]) {
-                delete temp[i][`serialport.${k}`];
-                k += 1;
-            }
             i += 1;
         }
         fixedDevices.push(...temp);
@@ -197,7 +201,6 @@ export default {
     config: {
         selectorTraits: {
             serialport: true,
-            jlink: true,
         },
     },
 };
