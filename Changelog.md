@@ -17,7 +17,7 @@
 
 ## 1.1.6 - 2020-08-25
 ### Fixed
-- Fix device filter for Thingy:91.
+- Device filter for Thingy:91.
 
 ## 1.1.5 - 2020-08-21
 ### Changed
