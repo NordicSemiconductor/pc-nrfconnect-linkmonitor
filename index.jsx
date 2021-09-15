@@ -33,6 +33,7 @@
  * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+/* eslint react/prop-types: 0 */
 
 import React from 'react';
 import SidePanel from './lib/components/SidePanel';
@@ -46,42 +47,21 @@ import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
 
 const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035', 'THINGY91'];
-const platform = process.platform.slice(0, 3);
-
-/* eslint react/prop-types: 0 */
-
-// Prefer to use the serialport 8 property or fall back to the serialport 7 property
-const portPath = serialPort => serialPort.path || serialPort.comName;
 
 /**
- * Pick the serialport that should belong to the modem on PCA10090
- * @param {Array<device>} serialports array of device-lister serialport objects
+ * Pick the serialport first serial port as this list should
+ * now be ordered deterministically.
+ * @param {Array<device>} serialports array of device-lib serialport objects
  * @returns {object} the selected serialport object
  */
-function pickSerialPort(serialports) {
-    if (serialports.length === 1) {
-        // Just in case a PCA10064 is selected or macOS case when serialports are split
-        return serialports[0];
-    }
-    switch (platform) {
-        case 'win':
-            return serialports.find(s => (/MI_00/.test(s.pnpId)));
-        case 'lin':
-            return serialports.find(s => (/-if00$/.test(s.pnpId)));
-        case 'dar':
-            // this doesn't work, but with fixDevices() can't happen
-            return serialports.find(s => (/1$/.test(portPath(s))));
-        default:
-    }
-    return undefined;
-}
+const pickSerialPort = serialports => serialports[0];
 
 /**
  * Temporary workaround for macOS where serialports of PCA10090 can't be properly identified yet.
  * This function returns an array of devices where any device with 3 serialports are converted
  * to 3 devices with 1 serialport each, so the user will be able to select any of the ports.
  *
- * @param {Array<device>} coreDevices array of device-lister device objects
+ * @param {Array<device>} coreDevices array of device-lib device objects
  * @param {bool} autoDeviceFilter indicates if functionality is desired or not toggled by the UI
  * @returns {Array<device>} fixed array
  */
@@ -180,16 +160,12 @@ export default {
         if (!action) {
             return;
         }
-
         if (action.type === 'DEVICE_SELECTED') {
             const { device } = action;
-            const serialports = Object.keys(device)
-                .filter(k => k.startsWith('serialport'))
-                .map(k => device[k]);
+            const serialport = pickSerialPort(device.serialPorts);
 
-            const serialport = pickSerialPort(serialports);
             if (serialport) {
-                store.dispatch(ModemActions.open(portPath(serialport)));
+                store.dispatch(ModemActions.open(serialport.comName));
             }
         }
         if (action.type === 'DEVICE_DESELECTED') {
