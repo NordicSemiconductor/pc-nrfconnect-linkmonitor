@@ -100,7 +100,7 @@ export default {
         if (action.type === 'DEVICE_SELECTED') {
             const { device } = action;
 
-            const serialport = device.serialPorts.find(port => port.vcom === 0);
+            const serialport = device.serialPorts[0];
 
             if (serialport) {
                 store.dispatch(ModemActions.open(serialport.comName));
