@@ -48,69 +48,6 @@ import { loadSettings } from './lib/actions/uiActions';
 
 const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035', 'THINGY91'];
 
-/**
- * Pick the serialport first serial port as this list should
- * now be ordered deterministically.
- * @param {Array<device>} serialports array of device-lib serialport objects
- * @returns {object} the selected serialport object
- */
-const pickSerialPort = serialports => serialports[0];
-
-/**
- * Temporary workaround for macOS where serialports of PCA10090 can't be properly identified yet.
- * This function returns an array of devices where any device with 3 serialports are converted
- * to 3 devices with 1 serialport each, so the user will be able to select any of the ports.
- *
- * @param {Array<device>} coreDevices array of device-lib device objects
- * @param {bool} autoDeviceFilter indicates if functionality is desired or not toggled by the UI
- * @returns {Array<device>} fixed array
- */
-function fixDevices(coreDevices, autoDeviceFilter) {
-    const devices = coreDevices.map(device => {
-        const { serialNumber } = device;
-        const sn = serialNumber.toUpperCase();
-        if (sn.startsWith('PCA') || sn.startsWith('THINGY91')) {
-            const [b, s] = sn.split('_');
-            return {
-                ...device,
-                boardVersion: b,
-                serialNumber: s,
-            };
-        }
-        return device;
-    });
-    if (autoDeviceFilter) {
-        return devices;
-    }
-    const fixedDevices = [];
-    devices.forEach(device => {
-        const {
-            serialNumber,
-            boardVersion,
-            traits,
-            serialport,
-        } = device;
-        const temp = [{
-            serialNumber: `${serialNumber}#0`,
-            boardVersion,
-            traits,
-            serialport,
-        }];
-        let i = 1;
-        while (device[`serialport.${i}`]) {
-            temp[i] = {
-                boardVersion,
-                traits,
-                serialport: { ...device[`serialport.${i}`] },
-                serialNumber: `${serialNumber}#${i}`,
-            };
-            i += 1;
-        }
-        fixedDevices.push(...temp);
-    });
-    return fixedDevices;
-}
-
 export default {
     onReady: (dispatch, getState) => {
         ModemActions.initialize(dispatch, getState);
@@ -145,13 +82,12 @@ export default {
         props => {
             const { devices, autoDeviceFilter, ...rest } = props;
             const filteredDevices = autoDeviceFilter
-                ? devices.filter(d => (
-                    supportedBoards.includes(d.boardVersion)
-                    || supportedBoards.includes(d.serialNumber.split('_')[0])
+                ? devices.filter(device => (
+                    supportedBoards.includes(device.boardVersion)
+                    || supportedBoards.includes(device.serialNumber.split('_')[0])
                 ))
                 : devices;
-            const fixedDevices = fixDevices(filteredDevices, autoDeviceFilter);
-            return <DeviceSelector {...rest} devices={fixedDevices} />;
+            return <DeviceSelector {...rest} devices={filteredDevices} />;
         }
     ),
     decorateSidePanel: () => () => <SidePanel />,
@@ -160,14 +96,17 @@ export default {
         if (!action) {
             return;
         }
+
         if (action.type === 'DEVICE_SELECTED') {
             const { device } = action;
-            const serialport = pickSerialPort(device.serialPorts);
+
+            const serialport = device.serialPorts.find(port => port.vcom === 0);
 
             if (serialport) {
                 store.dispatch(ModemActions.open(serialport.comName));
             }
         }
+
         if (action.type === 'DEVICE_DESELECTED') {
             store.dispatch(ModemActions.close());
         }
