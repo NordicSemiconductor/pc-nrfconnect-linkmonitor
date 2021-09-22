@@ -1,3 +1,7 @@
+## 1.1.11 - 2020-11-19
+### Changed
+- Use new new library for device detection and selection (@nordicsemiconductor/nrf-device-lib-js).
+
 ## 1.1.10 - 2020-11-19
 ### Fixed
 - Filtered out devices without serialport that caused crash.
