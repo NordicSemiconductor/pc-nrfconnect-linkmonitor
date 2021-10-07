@@ -22,16 +22,16 @@ const RssiBars = props => {
     const bars = Array.from(new Array(maxValue), (undef, i) => (
         <rect
             key={`${i + 1}`}
-            x={(i * 10) + 0.5}
-            y={((maxValue - i) * 10) - 9.5}
+            x={i * 10 + 0.5}
+            y={(maxValue - i) * 10 - 9.5}
             width={8}
-            height={(i * 10) + 8}
+            height={i * 10 + 8}
             style={value > i ? styleOn : styleOff}
         />
     ));
     return (
         <svg className="barssi" width={size} height={size} viewBox="0 0 40 40">
-            { bars }
+            {bars}
         </svg>
     );
 };

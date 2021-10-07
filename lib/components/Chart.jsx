@@ -5,14 +5,13 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Line } from 'react-chartjs-2';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-
+import { Line } from 'react-chartjs-2';
 import { EventCategory } from 'modemtalk';
-import { timeseries } from '../actions/chartActions';
+import PropTypes from 'prop-types';
 
+import { timeseries } from '../actions/chartActions';
 import zoomPanPlugin from '../utils/chart.zoomPan';
 
 const greenColor = '#59a659';
@@ -24,7 +23,10 @@ const timestampToLabel = (microseconds, index, array) => {
     if (index > 0 && index < array.length - 1) {
         const [first, last] = [array[0], array[array.length - 1]];
         const range = last - first;
-        if (microseconds - first < range / 8 || last - microseconds < range / 8) {
+        if (
+            microseconds - first < range / 8 ||
+            last - microseconds < range / 8
+        ) {
             return undefined;
         }
     }
@@ -33,7 +35,10 @@ const timestampToLabel = (microseconds, index, array) => {
     const m = d.getMinutes();
     const s = d.getSeconds();
     const z = Math.trunc(d.getMilliseconds() / 100) % 10;
-    const time = `${`${h}`.padStart(2, '0')}:${`${m}`.padStart(2, '0')}:${`${s}`.padStart(2, '0')}.${z}`;
+    const time = `${`${h}`.padStart(2, '0')}:${`${m}`.padStart(
+        2,
+        '0'
+    )}:${`${s}`.padStart(2, '0')}.${z}`;
 
     if (array) {
         let date = '';
@@ -48,7 +53,6 @@ const timestampToLabel = (microseconds, index, array) => {
 const lineDatasetOptions = {
     rsrp: { label: 'reference signal received power', unit: 'dBm' },
 };
-
 
 class Chart extends React.Component {
     constructor(props) {
@@ -86,15 +90,15 @@ class Chart extends React.Component {
         } = this.props;
 
         const end = windowEnd || timestamp;
-        const begin = windowBegin || (end - windowDuration);
+        const begin = windowBegin || end - windowDuration;
 
         const sqChart = timeseries.signalQuality;
-        const d = sqChart.filter(e => (e.ts >= begin && e.ts <= end));
+        const d = sqChart.filter(e => e.ts >= begin && e.ts <= end);
 
         const datasets = Object.keys(lineDatasetOptions).map((key, i) => ({
             label: lineDatasetOptions[key].label,
-            backgroundColor: `hsla(${(120 + (i * 60)) % 360}, 50%, 50%, 0.6)`,
-            borderColor: `hsla(${(120 + (i * 60)) % 360}, 50%, 50%, 1)`,
+            backgroundColor: `hsla(${(120 + i * 60) % 360}, 50%, 50%, 0.6)`,
+            borderColor: `hsla(${(120 + i * 60) % 360}, 50%, 50%, 1)`,
             borderWidth: 1,
             fill: false,
             data: d.map(e => ({ x: e.ts, y: e[key] })),
@@ -107,10 +111,13 @@ class Chart extends React.Component {
             pointBorderColor: 'transparent',
             lineTension: 0.2,
             spanGaps: true,
-            labelCallback: element => `${lineDatasetOptions[key].label}: ${element.y} ${lineDatasetOptions[key].unit}`,
+            labelCallback: element =>
+                `${lineDatasetOptions[key].label}: ${element.y} ${lineDatasetOptions[key].unit}`,
         }));
 
-        const events = timeseries.events.filter(e => (e.x >= begin && e.x <= end));
+        const events = timeseries.events.filter(
+            e => e.x >= begin && e.x <= end
+        );
         datasets.push({
             label: 'events',
             type: 'scatter',
@@ -166,57 +173,62 @@ class Chart extends React.Component {
                 duration: 0,
             },
             scales: {
-                xAxes: [{
-                    id: 'xScale',
-                    type: 'linear',
-                    min: begin,
-                    max: end,
-                    ticks: {
-                        maxRotation: 0,
-                        autoSkipPadding: 25,
+                xAxes: [
+                    {
+                        id: 'xScale',
+                        type: 'linear',
                         min: begin,
                         max: end,
-                        callback: timestampToLabel,
-                        maxTicksLimit: 7,
+                        ticks: {
+                            maxRotation: 0,
+                            autoSkipPadding: 25,
+                            min: begin,
+                            max: end,
+                            callback: timestampToLabel,
+                            maxTicksLimit: 7,
+                        },
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                        },
                     },
-                    gridLines: {
-                        display: true,
-                        drawBorder: true,
-                        drawOnChartArea: false,
-                    },
-                }],
-                yAxes: [{
-                    id: 'y-dbm',
-                    type: 'linear',
-                    position: 'left',
-                    min: -150,
-                    max: -40,
-                    ticks: {
-                        fontColor: greenColor,
+                ],
+                yAxes: [
+                    {
+                        id: 'y-dbm',
+                        type: 'linear',
+                        position: 'left',
                         min: -150,
                         max: -40,
+                        ticks: {
+                            fontColor: greenColor,
+                            min: -150,
+                            max: -40,
+                        },
+                        scaleLabel: {
+                            fontColor: greenColor,
+                            display: true,
+                            labelString: 'dBm',
+                        },
                     },
-                    scaleLabel: {
-                        fontColor: greenColor,
-                        display: true,
-                        labelString: 'dBm',
-                    },
-                }, {
-                    id: 'y-events',
-                    type: 'linear',
-                    position: 'right',
-                    min: -1,
-                    max: EventCategory.MAX + 1,
-                    ticks: {
-                        fontColor: blueColor,
+                    {
+                        id: 'y-events',
+                        type: 'linear',
+                        position: 'right',
                         min: -1,
                         max: EventCategory.MAX + 1,
-                        callback: EventCategory,
-                        maxTicksLimit: 15,
-                        fontSize: 9,
+                        ticks: {
+                            fontColor: blueColor,
+                            min: -1,
+                            max: EventCategory.MAX + 1,
+                            callback: EventCategory,
+                            maxTicksLimit: 15,
+                            fontSize: 9,
+                        },
+                        gridLines: { display: false },
                     },
-                    gridLines: { display: false },
-                }],
+                ],
             },
         };
 
@@ -228,7 +240,9 @@ class Chart extends React.Component {
                     <span style={{ color: blueColor }}>MODEM EVENTS</span>
                 </div>
                 <Line
-                    ref={r => { if (r) this.chartInstance = r.chartInstance; }}
+                    ref={r => {
+                        if (r) this.chartInstance = r.chartInstance;
+                    }}
                     data={chartData}
                     options={chartOptions}
                     timestamp={timestamp}

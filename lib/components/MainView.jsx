@@ -6,9 +6,10 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import TerminalView from '../containers/TerminalView';
-import Chart from '../containers/Chart';
+
 import CertificateManagerView from '../containers/CertificateManagerView';
+import Chart from '../containers/Chart';
+import TerminalView from '../containers/TerminalView';
 
 const MainView = ({ viewId }) => (
     <div className="core-main-view">

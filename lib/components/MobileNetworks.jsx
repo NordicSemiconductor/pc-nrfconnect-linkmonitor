@@ -5,8 +5,8 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 
 const OperatorList = props => (
     <>
@@ -18,18 +18,20 @@ const OperatorList = props => (
                     title={`Network ID: ${key}`}
                     className={props[key].selected ? 'selected' : ''}
                 >
-                    <td>{ props[key].operator }</td>
-                    <td>{ props[key].stat }</td>
+                    <td>{props[key].operator}</td>
+                    <td>{props[key].stat}</td>
                 </tr>
-            ))
-        }
+            ))}
     </>
 );
 
 const MobileNetworks = ({ networkSearch, ...props }) => (
     <table className="mobileNetworks">
         <thead>
-            <tr><th>Network</th><th>Status</th></tr>
+            <tr>
+                <th>Network</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
             <OperatorList {...props} />

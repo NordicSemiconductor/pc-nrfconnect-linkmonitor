@@ -5,20 +5,26 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import PropTypes from 'prop-types';
 
 const array10 = Array.from(Array(10).keys());
 const scrollerStyle = { float: 'left', clear: 'both' };
 
-const overlayProps = { transition: false, trigger: ['hover'], placement: 'top' };
+const overlayProps = {
+    transition: false,
+    trigger: ['hover'],
+    placement: 'top',
+};
 const popoverTerminalInfo = (
     <Popover id="tip terminal-info">
-        <p>For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}</p>
+        <p>
+            For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}
+        </p>
         <p>
             You can select any text in this command line or in the terminal view
             and <b>drag and drop</b> the selection to the macro buttons below.
@@ -89,14 +95,19 @@ class TerminalView extends React.Component {
                     {TerminalView.contentBuffer.slice()}
                     <div
                         style={scrollerStyle}
-                        ref={el => { this.scroller = el; }}
+                        ref={el => {
+                            this.scroller = el;
+                        }}
                     />
                 </div>
                 <form onSubmit={this.onCommandLineSubmit}>
                     <Form.Group controlId="commandPrompt">
                         <InputGroup>
                             <InputGroup.Prepend>
-                                <OverlayTrigger {...overlayProps} overlay={popoverTerminalInfo}>
+                                <OverlayTrigger
+                                    {...overlayProps}
+                                    overlay={popoverTerminalInfo}
+                                >
                                     <Button variant="light">
                                         <span className="terminal-info mdi mdi-information-outline" />
                                     </Button>
@@ -105,8 +116,10 @@ class TerminalView extends React.Component {
                             <Form.Control
                                 type="text"
                                 placeholder="Type AT command here..."
-                                onChange={
-                                    ({ target }) => this.setState({ cmdLine: target.value.trim() })
+                                onChange={({ target }) =>
+                                    this.setState({
+                                        cmdLine: target.value.trim(),
+                                    })
                                 }
                             />
                             <InputGroup.Append>
@@ -132,7 +145,9 @@ class TerminalView extends React.Component {
                             onDragOver={cancel}
                             onDragEnter={cancel}
                             size="sm"
-                            disabled={(commands[index] || '').trim().length === 0}
+                            disabled={
+                                (commands[index] || '').trim().length === 0
+                            }
                         >
                             {commands[index]}
                         </Button>

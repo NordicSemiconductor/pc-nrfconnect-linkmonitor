@@ -6,15 +6,16 @@
 /* eslint react/prop-types: 0 */
 
 import React from 'react';
-import SidePanel from './lib/components/SidePanel';
-import MainView from './lib/components/MainView';
-import NavMenu from './lib/containers/NavMenu';
-import './resources/css/index.scss';
 
-import reducers from './lib/reducers';
 import * as ModemActions from './lib/actions/modemActions';
 import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
+import MainView from './lib/components/MainView';
+import SidePanel from './lib/components/SidePanel';
+import NavMenu from './lib/containers/NavMenu';
+import reducers from './lib/reducers';
+
+import './resources/css/index.scss';
 
 const supportedBoards = ['PCA10090', 'PCA10064', 'PCA20035', 'THINGY91'];
 
@@ -26,40 +27,58 @@ export default {
     },
     mapMainViewState: ({ core }, props) => ({
         ...props,
-        viewId: core.navMenu.selectedItemId < 0 ? 1 : core.navMenu.selectedItemId,
+        viewId:
+            core.navMenu.selectedItemId < 0 ? 1 : core.navMenu.selectedItemId,
     }),
     decorateMainView: () => props => <MainView {...props} />,
-    decorateNavMenu: CoreNavMenu => ({ selectedItemId, ...rest }) => (
-        <>
-            <NavMenu />
-            <CoreNavMenu
-                {...rest}
-                selectedItemId={selectedItemId < 0 ? 1 : selectedItemId}
-                menuItems={[
-                    { id: 0, text: 'Chart', iconClass: 'mdi mdi-chart-bell-curve' },
-                    { id: 1, text: 'Terminal', iconClass: 'mdi mdi-console' },
-                    { id: 2, text: 'Certificate manager', iconClass: 'mdi mdi-certificate' },
-                ]}
-            />
-        </>
-    ),
+    decorateNavMenu:
+        CoreNavMenu =>
+        ({ selectedItemId, ...rest }) =>
+            (
+                <>
+                    <NavMenu />
+                    <CoreNavMenu
+                        {...rest}
+                        selectedItemId={selectedItemId < 0 ? 1 : selectedItemId}
+                        menuItems={[
+                            {
+                                id: 0,
+                                text: 'Chart',
+                                iconClass: 'mdi mdi-chart-bell-curve',
+                            },
+                            {
+                                id: 1,
+                                text: 'Terminal',
+                                iconClass: 'mdi mdi-console',
+                            },
+                            {
+                                id: 2,
+                                text: 'Certificate manager',
+                                iconClass: 'mdi mdi-certificate',
+                            },
+                        ]}
+                    />
+                </>
+            ),
     mapDeviceSelectorState: (state, props) => ({
         autoDeviceFilter: state.app.ui.autoDeviceFilter,
-        portIndicatorStatus: (state.app.modemPort.deviceName !== null) ? 'on' : 'off',
+        portIndicatorStatus:
+            state.app.modemPort.deviceName !== null ? 'on' : 'off',
         ...props,
     }),
-    decorateDeviceSelector: DeviceSelector => (
-        props => {
-            const { devices, autoDeviceFilter, ...rest } = props;
-            const filteredDevices = autoDeviceFilter
-                ? devices.filter(device => (
-                    supportedBoards.includes(device.boardVersion)
-                    || supportedBoards.includes(device.serialNumber.split('_')[0])
-                ))
-                : devices;
-            return <DeviceSelector {...rest} devices={filteredDevices} />;
-        }
-    ),
+    decorateDeviceSelector: DeviceSelector => props => {
+        const { devices, autoDeviceFilter, ...rest } = props;
+        const filteredDevices = autoDeviceFilter
+            ? devices.filter(
+                  device =>
+                      supportedBoards.includes(device.boardVersion) ||
+                      supportedBoards.includes(
+                          device.serialNumber.split('_')[0]
+                      )
+              )
+            : devices;
+        return <DeviceSelector {...rest} devices={filteredDevices} />;
+    },
     decorateSidePanel: () => () => <SidePanel />,
     reduceApp: reducers,
     middleware: store => next => action => {

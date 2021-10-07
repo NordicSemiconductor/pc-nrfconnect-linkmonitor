@@ -5,15 +5,24 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
-import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import PropTypes from 'prop-types';
+
 import CellMap from '../containers/CellMap';
 
-const popoverMap = (<Popover id="cell-map" className="tip"><CellMap /></Popover>);
+const popoverMap = (
+    <Popover id="cell-map" className="tip">
+        <CellMap />
+    </Popover>
+);
 
-const overlayProps = { trigger: ['click'], placement: 'left', transition: false };
+const overlayProps = {
+    trigger: ['click'],
+    placement: 'left',
+    transition: false,
+};
 
 const locationIcon = (
     <svg
@@ -37,24 +46,50 @@ const locationIcon = (
 );
 
 const CurrentNetwork = ({
-    registration, mccmnc, operator, cid, lac, getCellLocation,
+    registration,
+    mccmnc,
+    operator,
+    cid,
+    lac,
+    getCellLocation,
 }) => (
     <table>
         <tbody>
-            <tr><th>Registration</th><td>{ registration || 'N/A' }</td></tr>
-            <tr><th>MccMnc</th><td>{ mccmnc || 'N/A' }</td></tr>
-            <tr><th>Operator</th><td>{ operator || 'N/A' }</td></tr>
-            <tr><th>CellID</th>
-                { cid && (
-                    <td title={`0x${cid.toString(16).toUpperCase().padStart(8, '0')}`}>
-                        { cid }
+            <tr>
+                <th>Registration</th>
+                <td>{registration || 'N/A'}</td>
+            </tr>
+            <tr>
+                <th>MccMnc</th>
+                <td>{mccmnc || 'N/A'}</td>
+            </tr>
+            <tr>
+                <th>Operator</th>
+                <td>{operator || 'N/A'}</td>
+            </tr>
+            <tr>
+                <th>CellID</th>
+                {cid && (
+                    <td
+                        title={`0x${cid
+                            .toString(16)
+                            .toUpperCase()
+                            .padStart(8, '0')}`}
+                    >
+                        {cid}
                     </td>
                 )}
             </tr>
-            <tr><th>TAC</th>
-                { lac && (
-                    <td title={`0x${lac.toString(16).toUpperCase().padStart(4, '0')}`}>
-                        { lac }
+            <tr>
+                <th>TAC</th>
+                {lac && (
+                    <td
+                        title={`0x${lac
+                            .toString(16)
+                            .toUpperCase()
+                            .padStart(4, '0')}`}
+                    >
+                        {lac}
                     </td>
                 )}
             </tr>

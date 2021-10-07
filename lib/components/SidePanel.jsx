@@ -7,9 +7,9 @@
 import React from 'react';
 
 import ConnectionStages from '../containers/ConnectionStages';
+import CurrentNetwork from '../containers/CurrentNetwork';
 import Functionality from '../containers/Functionality';
 import MobileNetworks from '../containers/MobileNetworks';
-import CurrentNetwork from '../containers/CurrentNetwork';
 import PDPContext from '../containers/PDPContext';
 import Settings from '../containers/Settings';
 

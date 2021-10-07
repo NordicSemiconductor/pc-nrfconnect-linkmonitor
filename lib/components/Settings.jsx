@@ -5,24 +5,24 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { shell } from 'electron';
-
 import Accordion from 'react-bootstrap/Accordion';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
-import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-
+import Popover from 'react-bootstrap/Popover';
 import Slider from 'react-rangeslider';
+import { shell } from 'electron';
+import PropTypes from 'prop-types';
+
 import 'react-rangeslider/lib/index.css';
 
 const popoverAutoRequests = (
     <Popover id="tip-autoreq" className="tip autoreq">
         <p>
-            The application automatically sends AT commands when connecting to the
-            device to query the state of the modem and to subscribe to notifications.
+            The application automatically sends AT commands when connecting to
+            the device to query the state of the modem and to subscribe to
+            notifications.
         </p>
     </Popover>
 );
@@ -41,13 +41,17 @@ const popoverToken = (
         </p>
         <p>In order to use the service an access token is required.</p>
         <p>
-            The initial token provided here belongs to a free limited
-            account, therefore you are encouraged to change it.
+            The initial token provided here belongs to a free limited account,
+            therefore you are encouraged to change it.
         </p>
     </Popover>
 );
 
-const overlayProps = { trigger: ['hover'], placement: 'left', transition: false };
+const overlayProps = {
+    trigger: ['hover'],
+    placement: 'left',
+    transition: false,
+};
 
 const locationApiLink = (
     <a // eslint-disable-line jsx-a11y/anchor-is-valid
@@ -56,7 +60,8 @@ const locationApiLink = (
         onClick={() => shell.openItem('https://locationapi.org/trial')}
         onKeyPress={() => {}}
     >
-        LocationAPI<span className="mdi mdi-link" />
+        LocationAPI
+        <span className="mdi mdi-link" />
     </a>
 );
 
@@ -83,28 +88,43 @@ class Settings extends React.Component {
 
     render() {
         const {
-            autoScroll, autoScrollToggled,
-            flowControl, flowControlToggled,
+            autoScroll,
+            autoScrollToggled,
+            flowControl,
+            flowControlToggled,
             apiToken,
-            autoRequests, autoRequestsToggled,
+            autoRequests,
+            autoRequestsToggled,
             signalQualityInterval,
-            autoDeviceFilter, autoDeviceFilterToggled,
+            autoDeviceFilter,
+            autoDeviceFilterToggled,
         } = this.props;
         return (
             <Accordion className="settings" defaultActiveKey="1">
                 <Card header="Settings">
                     <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                        <Accordion.Toggle
+                            as={Button}
+                            variant="link"
+                            eventKey="1"
+                        >
                             Settings
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey="1">
                         <Card.Body>
-                            <OverlayTrigger {...overlayProps} overlay={popoverAutoRequests}>
+                            <OverlayTrigger
+                                {...overlayProps}
+                                overlay={popoverAutoRequests}
+                            >
                                 <Form.Group controlId="autoReqCheck">
                                     <Form.Check
                                         type="checkbox"
-                                        onChange={e => autoRequestsToggled(e.target.checked)}
+                                        onChange={e =>
+                                            autoRequestsToggled(
+                                                e.target.checked
+                                            )
+                                        }
                                         checked={autoRequests}
                                         label="Automatic requests"
                                     />
@@ -113,22 +133,32 @@ class Settings extends React.Component {
                             <Form.Group controlId="autoScrollCheck">
                                 <Form.Check
                                     type="checkbox"
-                                    onChange={e => autoScrollToggled(e.target.checked)}
+                                    onChange={e =>
+                                        autoScrollToggled(e.target.checked)
+                                    }
                                     checked={autoScroll}
                                     label="Terminal auto scroll"
                                 />
                             </Form.Group>
-                            <OverlayTrigger {...overlayProps} overlay={popoverFlowControl}>
+                            <OverlayTrigger
+                                {...overlayProps}
+                                overlay={popoverFlowControl}
+                            >
                                 <Form.Group controlId="flowControlCheck">
                                     <Form.Check
                                         type="checkbox"
-                                        onChange={e => flowControlToggled(e.target.checked)}
+                                        onChange={e =>
+                                            flowControlToggled(e.target.checked)
+                                        }
                                         checked={flowControl}
                                         label="Flow control"
                                     />
                                 </Form.Group>
                             </OverlayTrigger>
-                            Periodic signal quality request {signalQualityInterval > 0 ? `${signalQualityInterval}s` : 'off'}
+                            Periodic signal quality request{' '}
+                            {signalQualityInterval > 0
+                                ? `${signalQualityInterval}s`
+                                : 'off'}
                             <div className="slider-container">
                                 <span>off</span>
                                 <Slider
@@ -144,11 +174,18 @@ class Settings extends React.Component {
                             </div>
                             <hr />
                             <Form onSubmit={this.onCommandLineSubmit}>
-                                <OverlayTrigger {...overlayProps} overlay={popoverToken}>
+                                <OverlayTrigger
+                                    {...overlayProps}
+                                    overlay={popoverToken}
+                                >
                                     <Form.Group controlId="commandPrompt">
-                                        <Form.Label>{locationApiLink} token</Form.Label>
+                                        <Form.Label>
+                                            {locationApiLink} token
+                                        </Form.Label>
                                         <Form.Control
-                                            ref={node => { this.inputNode = node; }}
+                                            ref={node => {
+                                                this.inputNode = node;
+                                            }}
                                             type="text"
                                             value={apiToken}
                                             onChange={this.onCommandLineSubmit}
@@ -160,7 +197,11 @@ class Settings extends React.Component {
                             <Form.Group controlId="portFilterCheck">
                                 <Form.Check
                                     type="checkbox"
-                                    onChange={e => autoDeviceFilterToggled(e.target.checked)}
+                                    onChange={e =>
+                                        autoDeviceFilterToggled(
+                                            e.target.checked
+                                        )
+                                    }
                                     checked={autoDeviceFilter}
                                     label="Auto device/port filter"
                                 />

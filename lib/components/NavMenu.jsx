@@ -5,13 +5,10 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
+import PropTypes from 'prop-types';
 
-const NavMenu = ({
-    enableOpen,
-    openLogfile,
-}) => (
+const NavMenu = ({ enableOpen, openLogfile }) => (
     <div className="nav-menu-wrap">
         <Button
             className="core-btn"

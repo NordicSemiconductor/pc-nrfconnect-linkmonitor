@@ -6,6 +6,7 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import RssiBars from '../containers/RssiBars';
 
 /**
@@ -13,31 +14,64 @@ import RssiBars from '../containers/RssiBars';
  * @returns {String} stringified numbers e.g. '1-4,7-9'
  */
 function conciseArray(arr) {
-    return arr.reduce((acc, cur, idx) => (
-        idx === 0
-            ? `${cur}`
-            : `${acc}${(cur === arr[idx - 1] + 1) ? '-' : ','}${cur}`
-    ), '').replace(/-[0-9-]+-/g, '-');
+    return arr
+        .reduce(
+            (acc, cur, idx) =>
+                idx === 0
+                    ? `${cur}`
+                    : `${acc}${cur === arr[idx - 1] + 1 ? '-' : ','}${cur}`,
+            ''
+        )
+        .replace(/-[0-9-]+-/g, '-');
 }
 
 const Functionality = ({
-    functionality, uicc, pinCode, modeOfOperation, supportedBands, currentBand,
+    functionality,
+    uicc,
+    pinCode,
+    modeOfOperation,
+    supportedBands,
+    currentBand,
 }) => (
     <table>
         <tbody>
-            <tr><th>Signal strength</th><td><RssiBars size={24} /></td></tr>
-            <tr><th>Functionality</th><td>{ functionality || 'N/A' }</td></tr>
-            <tr><th>UICC</th><td>{ uicc || 'N/A' }</td></tr>
-            <tr><th>Pin</th><td>{ pinCode.pinState || 'N/A' }</td></tr>
-            <tr><th>Pin retries</th><td>{ pinCode.retries === null ? 'N/A' : pinCode.retries }</td></tr>
-            <tr><th>Mode</th><td>{ modeOfOperation || 'N/A' }</td></tr>
+            <tr>
+                <th>Signal strength</th>
+                <td>
+                    <RssiBars size={24} />
+                </td>
+            </tr>
+            <tr>
+                <th>Functionality</th>
+                <td>{functionality || 'N/A'}</td>
+            </tr>
+            <tr>
+                <th>UICC</th>
+                <td>{uicc || 'N/A'}</td>
+            </tr>
+            <tr>
+                <th>Pin</th>
+                <td>{pinCode.pinState || 'N/A'}</td>
+            </tr>
+            <tr>
+                <th>Pin retries</th>
+                <td>{pinCode.retries === null ? 'N/A' : pinCode.retries}</td>
+            </tr>
+            <tr>
+                <th>Mode</th>
+                <td>{modeOfOperation || 'N/A'}</td>
+            </tr>
             <tr>
                 <th>Bands</th>
-                <td>{ supportedBands === null ? 'N/A' : conciseArray(supportedBands) }</td>
+                <td>
+                    {supportedBands === null
+                        ? 'N/A'
+                        : conciseArray(supportedBands)}
+                </td>
             </tr>
             <tr>
                 <th>Current Band</th>
-                <td>{ currentBand === null ? 'N/A' : currentBand }</td>
+                <td>{currentBand === null ? 'N/A' : currentBand}</td>
             </tr>
         </tbody>
     </table>

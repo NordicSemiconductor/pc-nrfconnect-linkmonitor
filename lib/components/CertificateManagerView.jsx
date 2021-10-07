@@ -5,26 +5,30 @@
  */
 
 import React, { useState } from 'react';
-import {
-    bool, func, string, shape,
-} from 'prop-types';
-import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Alert from 'react-bootstrap/Alert';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-
+import Row from 'react-bootstrap/Row';
 import { remote } from 'electron';
-import { homedir } from 'os';
 import { readFileSync } from 'fs';
 import { logger } from 'nrfconnect/core';
+import { homedir } from 'os';
+import { bool, func, shape, string } from 'prop-types';
 
 const NRF_CLOUD_TAG = 16842753;
 
 const FormGroupWithCheckbox = ({
-    controlId, controlProps, label, value, set, clearLabel, clear, setClear,
+    controlId,
+    controlProps,
+    label,
+    value,
+    set,
+    clearLabel,
+    clear,
+    setClear,
     subText,
 }) => (
     <Form.Group as={Row} controlId={controlId}>
@@ -65,7 +69,11 @@ FormGroupWithCheckbox.defaultProps = {
     subText: null,
 };
 
-const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredential }) => {
+const CertificateManagerView = ({
+    hidden,
+    writeTLSCredential,
+    deleteTLSCredential,
+}) => {
     const [caCert, setCACert] = useState('');
     const [clientCert, setClientCert] = useState('');
     const [privateKey, setPrivateKey] = useState('');
@@ -94,10 +102,13 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
     }
 
     async function selectJsonFile() {
-        const { filePaths: [filename] } = await remote.dialog.showOpenDialog({
-            defaultPath: homedir(),
-            properties: ['openFile'],
-        }) || [];
+        const {
+            filePaths: [filename],
+        } =
+            (await remote.dialog.showOpenDialog({
+                defaultPath: homedir(),
+                properties: ['openFile'],
+            })) || [];
         loadJsonFile(filename);
     }
 
@@ -143,14 +154,20 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
     }
 
     function updateCertificate() {
-        if (clearCaCert || clearClientCert || clearPrivateKey
-            || clearPreSharedKey || clearPskIdentity) {
+        if (
+            clearCaCert ||
+            clearClientCert ||
+            clearPrivateKey ||
+            clearPreSharedKey ||
+            clearPskIdentity
+        ) {
             return setShowWarning(true);
         }
         return performCertificateUpdate();
     }
 
-    const className = 'cert-mgr-view d-flex flex-column p-4 h-100 overflow-auto pretty-scrollbar';
+    const className =
+        'cert-mgr-view d-flex flex-column p-4 h-100 overflow-auto pretty-scrollbar';
     const textAreaProps = {
         as: 'textarea',
         className: 'text-monospace',
@@ -167,15 +184,20 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
             <Alert variant="info">
                 <span className="float-left h-100 mdi mdi-information mdi-36px pr-3" />
                 <div style={{ lineHeight: '1.5rem', userSelect: 'text' }}>
-                    The modem must be in <strong>offline</strong> state
-                    (<code>AT+CFUN=4</code>) for updating certificates.<br />
-                    You can drag-and-drop a JSON file over this window.<br />
-                    You can use <code>AT%CMNG=1</code> command in the
-                    Terminal screen to list all stored certificates.<br />
+                    The modem must be in <strong>offline</strong> state (
+                    <code>AT+CFUN=4</code>) for updating certificates.
+                    <br />
+                    You can drag-and-drop a JSON file over this window.
+                    <br />
+                    You can use <code>AT%CMNG=1</code> command in the Terminal
+                    screen to list all stored certificates.
+                    <br />
                     Make sure your device runs a firmware with increased buffer
-                    to support long AT-commands.<br />
-                    Use security tag <code>{NRF_CLOUD_TAG}</code> to manage nRF Connect
-                    for Cloud certificate, otherwise pick a different tag.
+                    to support long AT-commands.
+                    <br />
+                    Use security tag <code>{NRF_CLOUD_TAG}</code> to manage nRF
+                    Connect for Cloud certificate, otherwise pick a different
+                    tag.
                 </div>
             </Alert>
             <Form className="mt-4 mb-4 pr-4">
@@ -231,13 +253,19 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                             clear: clearPskIdentity,
                             setClear: setClearPskIdentity,
                         })}
-                        <Form.Group as={Row} controlId="certMgr.secTag" className="mt-5">
+                        <Form.Group
+                            as={Row}
+                            controlId="certMgr.secTag"
+                            className="mt-5"
+                        >
                             <Form.Label column>Security tag</Form.Label>
                             <Col md="auto">
                                 <Form.Control
                                     type="text"
                                     value={secTag}
-                                    onChange={({ target }) => setSecTag(Number(target.value))}
+                                    onChange={({ target }) =>
+                                        setSecTag(Number(target.value))
+                                    }
                                 />
                             </Col>
                         </Form.Group>
@@ -252,10 +280,7 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                 >
                     Load from JSON
                 </Button>
-                <Button
-                    variant="primary"
-                    onClick={updateCertificate}
-                >
+                <Button variant="primary" onClick={updateCertificate}>
                     Update certificates
                 </Button>
             </ButtonGroup>
@@ -265,13 +290,20 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                     <Modal.Title>Warning</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    You are about to delete credentials, are you sure to proceed?
+                    You are about to delete credentials, are you sure to
+                    proceed?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowWarning(false)}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setShowWarning(false)}
+                    >
                         Cancel
                     </Button>
-                    <Button variant="primary" onClick={performCertificateUpdate}>
+                    <Button
+                        variant="primary"
+                        onClick={performCertificateUpdate}
+                    >
                         Proceed
                     </Button>
                 </Modal.Footer>

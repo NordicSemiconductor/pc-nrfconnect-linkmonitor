@@ -6,19 +6,48 @@
 
 import React from 'react';
 import { ResponseConverters } from 'modemtalk';
+
 import TerminalView from '../components/TerminalView';
-import { UPDATE_TERMINAL, UPDATE_SAVED_COMMANDS } from './actionIds';
+import { UPDATE_SAVED_COMMANDS, UPDATE_TERMINAL } from './actionIds';
 import persistentStore from './persistentStore';
 
 const { contentBuffer } = TerminalView;
 
 const C0controls = [
-    'NUL', 'SOH', 'STX', 'ETX', 'EOT', 'ENQ', 'ACK', 'BEL',
-    'BS', 'TAB', 'LF', 'VT', 'FF', 'CR', 'SO', 'SI',
-    'DLE', 'DC1', 'DC2', 'DC3', 'DC4', 'NAK', 'SYN', 'ETB',
-    'CAN', 'EM', 'SUB', 'ESC', 'FS', 'GS', 'RS', 'US',
+    'NUL',
+    'SOH',
+    'STX',
+    'ETX',
+    'EOT',
+    'ENQ',
+    'ACK',
+    'BEL',
+    'BS',
+    'TAB',
+    'LF',
+    'VT',
+    'FF',
+    'CR',
+    'SO',
+    'SI',
+    'DLE',
+    'DC1',
+    'DC2',
+    'DC3',
+    'DC4',
+    'NAK',
+    'SYN',
+    'ETB',
+    'CAN',
+    'EM',
+    'SUB',
+    'ESC',
+    'FS',
+    'GS',
+    'RS',
+    'US',
 ];
-C0controls[0x7F] = 'DEL';
+C0controls[0x7f] = 'DEL';
 
 // eslint-disable-next-line no-control-regex
 const ctrlChars = /(.*?)([\u0000-\u001F\u007F]+)/;
@@ -60,7 +89,16 @@ export function print(arg, direction, update = true) {
                     out.push(<pre key={`.${out.length}`}>{pre}</pre>);
                 }
                 Array.from(ch).forEach(c => {
-                    out.push(<pre key={`.${out.length}`} className={`ctrl-char ${C0controls[c.charCodeAt()]}`}>{c}</pre>);
+                    out.push(
+                        <pre
+                            key={`.${out.length}`}
+                            className={`ctrl-char ${
+                                C0controls[c.charCodeAt()]
+                            }`}
+                        >
+                            {c}
+                        </pre>
+                    );
                 });
                 str = str.substring(pre.length + ch.length);
             } else {
@@ -70,10 +108,15 @@ export function print(arg, direction, update = true) {
         }
         const timestamp = new Date().getTime();
         contentBuffer.push(
-            <span key={timestamp} className={direction} title={event.message}>{out}</span>,
+            <span key={timestamp} className={direction} title={event.message}>
+                {out}
+            </span>
         );
         if (contentBuffer.length > TERMINAL_CONTENT_MAX_LINES) {
-            contentBuffer.splice(0, contentBuffer.length - TERMINAL_CONTENT_MAX_LINES);
+            contentBuffer.splice(
+                0,
+                contentBuffer.length - TERMINAL_CONTENT_MAX_LINES
+            );
         }
         if (update) {
             dispatch(updateTerminalAction(timestamp));
@@ -90,7 +133,10 @@ export function printTX(arg) {
 export function loadCommands() {
     return dispatch => {
         if (!persistentStore.has('commands')) {
-            persistentStore.set('commands', 'AT|AT+CFUN?|AT+CFUN=1|||||||'.split('|'));
+            persistentStore.set(
+                'commands',
+                'AT|AT+CFUN?|AT+CFUN=1|||||||'.split('|')
+            );
         }
         const commands = persistentStore.get('commands');
         dispatch(updateSavedCommandsAction(...commands));

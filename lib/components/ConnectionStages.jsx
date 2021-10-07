@@ -5,9 +5,9 @@
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import PropTypes from 'prop-types';
 
 const popoverUart = (
     <Popover id="tip-uart" className="tip uart">
@@ -33,7 +33,9 @@ const popoverModem = (
             <li className="disabled">Device closed</li>
             <li className="off">Modem: Power off</li>
             <li className="level-1">Modem: Offline mode</li>
-            <li className="level-2">Modem: Offline mode without shutting down UICC</li>
+            <li className="level-2">
+                Modem: Offline mode without shutting down UICC
+            </li>
             <li className="on">Modem: Normal</li>
         </ul>
     </Popover>
@@ -67,7 +69,9 @@ const popoverLTE = (
         <div>
             <ul>
                 <li className="disabled">Device closed or unknown</li>
-                <li className="off">LTE: not registered, denied or UICC failure</li>
+                <li className="off">
+                    LTE: not registered, denied or UICC failure
+                </li>
                 <li className="on">LTE: registered, home or roaming</li>
                 <li className="level-1">LTE: searching</li>
                 <li className="level-2">LTE: emergency only</li>
@@ -88,11 +92,13 @@ const popoverPDN = (
     </Popover>
 );
 
-const overlayProps = { trigger: ['hover'], placement: 'left', transition: false };
+const overlayProps = {
+    trigger: ['hover'],
+    placement: 'left',
+    transition: false,
+};
 
-const ConnectionStages = ({
-    uart, modem, uicc, lte, pdn,
-}) => (
+const ConnectionStages = ({ uart, modem, uicc, lte, pdn }) => (
     <div className="connection-stages">
         <OverlayTrigger {...overlayProps} overlay={popoverUart}>
             <span className={`indicator ${uart}`}>UART</span>
