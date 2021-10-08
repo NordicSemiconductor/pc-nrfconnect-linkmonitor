@@ -10,7 +10,7 @@
   "author": "Nordic Semiconductor ASA",
   "license": "SEE LICENSE IN LICENSE",
   "engines": {
-    "nrfconnect": "^3.6.0"
+    "nrfconnect": "^3.8.0"
   },
   "main": "dist/bundle.js",
   "files": [
@@ -25,7 +25,7 @@
     "build": "nrfconnect-scripts build-prod",
     "nordic-publish": "nrfconnect-scripts nordic-publish",
     "lint-init": "nrfconnect-scripts lint-init",
-    "lint": "nrfconnect-scripts lint lib index.jsx mocks test",
+    "lint": "nrfconnect-scripts lint lib index.jsx test",
     "test": "jest --testResultsProcessor jest-bamboo-formatter",
     "test-watch": "jest --watch",
     "clean": "npm run clean-dist && npm run clean-modules",
@@ -41,10 +41,13 @@
     "mcc-mnc-list": "^1.1.2",
     "modemtalk": "^1.2.0",
     "nedb": "^1.8.0",
-    "pc-nrfconnect-devdep": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-devdep.git#semver:3.3.0",
+    "pc-nrfconnect-shared": "github:NordicSemiconductor/pc-nrfconnect-shared#v5.4.0",
+    "react": "17.0.2",
     "react-chartjs-2": "^2.9.0",
+    "react-dom": "17.0.2",
     "react-leaflet": "^2.7.0",
-    "react-rangeslider": "^2.2.0"
+    "react-rangeslider": "^2.2.0",
+    "react-redux": "7.2.5"
   },
   "dependencies": {
     "electron-store": "^5.2.0"
@@ -52,17 +55,8 @@
   "bundledDependencies": [
     "electron-store"
   ],
-  "jest": {
-    "moduleNameMapper": {
-      "nrfconnect/core": "<rootDir>/mocks/coreMock.js",
-      "serialport": "<rootDir>/mocks/serialportMock.js"
-    },
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "testURL": "file:/",
-    "setupFilesAfterEnv": [
-      "<rootDir>/node_modules/pc-nrfconnect-devdep/test/setupTests.js"
-    ]
-  }
+  "eslintConfig": {
+    "extends": "./node_modules/pc-nrfconnect-shared/config/eslintrc.json"
+  },
+  "prettier": "./node_modules/pc-nrfconnect-shared/config/prettier.config.js"
 }
