@@ -6,7 +6,6 @@
 
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import { Line } from 'react-chartjs-2';
 import { EventCategory } from 'modemtalk';
 import PropTypes from 'prop-types';
@@ -87,6 +86,8 @@ class Chart extends React.Component {
             isLive,
             chartWindowReset,
             hidden,
+            isConnected,
+            openLogfile,
         } = this.props;
 
         const end = windowEnd || timestamp;
@@ -249,17 +250,24 @@ class Chart extends React.Component {
                     plugins={[zoomPanPlugin]}
                 />
                 <div className="chart-bottom">
-                    <ButtonGroup>
-                        <Button
-                            className="core-btn"
-                            disabled={isLive}
-                            variant={isLive ? 'default' : 'primary'}
-                            size="sm"
-                            onClick={chartWindowReset}
-                        >
-                            Live Scroll
-                        </Button>
-                    </ButtonGroup>
+                    <Button
+                        className="core-btn"
+                        disabled={isConnected}
+                        variant="primary"
+                        size="sm"
+                        onClick={openLogfile}
+                    >
+                        Open logfile
+                    </Button>
+                    <Button
+                        className="core-btn"
+                        disabled={isLive}
+                        variant={isLive ? 'default' : 'primary'}
+                        size="sm"
+                        onClick={chartWindowReset}
+                    >
+                        Live Scroll
+                    </Button>
                 </div>
             </div>
         );
@@ -276,6 +284,8 @@ Chart.propTypes = {
     timestamp: PropTypes.number.isRequired,
     isLive: PropTypes.bool.isRequired,
     hidden: PropTypes.bool.isRequired,
+    isConnected: PropTypes.bool.isRequired,
+    openLogfile: PropTypes.bool.isRequired,
 };
 
 export default Chart;

@@ -1,3 +1,7 @@
+## Unreleased
+### Changed
+- Use new look & feel of nRF Connect for Desktop.
+
 ## 1.1.11 - 2020-11-19
 ### Changed
 - Use new new library for device detection and selection (@nordicsemiconductor/nrf-device-lib-js).

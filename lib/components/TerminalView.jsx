@@ -17,18 +17,18 @@ const scrollerStyle = { float: 'left', clear: 'both' };
 
 const overlayProps = {
     transition: false,
-    trigger: ['hover'],
     placement: 'top',
 };
 const popoverTerminalInfo = (
     <Popover id="tip terminal-info">
-        <p>
-            For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}
-        </p>
-        <p>
+        <Popover.Content>
+            <p>
+                For control characters use HEX escape: \x?? e.g. \x00 for{' '}
+                {'<NUL>'}
+            </p>
             You can select any text in this command line or in the terminal view
             and <b>drag and drop</b> the selection to the macro buttons below.
-        </p>
+        </Popover.Content>
     </Popover>
 );
 
@@ -137,7 +137,7 @@ class TerminalView extends React.Component {
                 <div className="saved-commands">
                     {array10.map(index => (
                         <Button
-                            variant="light"
+                            variant="secondary"
                             className="core-btn"
                             key={index}
                             onClick={() => this.onSavedCommandClick(index)}

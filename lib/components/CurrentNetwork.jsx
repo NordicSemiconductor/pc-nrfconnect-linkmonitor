@@ -14,13 +14,15 @@ import CellMap from '../containers/CellMap';
 
 const popoverMap = (
     <Popover id="cell-map" className="tip">
-        <CellMap />
+        <Popover.Content>
+            <CellMap />
+        </Popover.Content>
     </Popover>
 );
 
 const overlayProps = {
     trigger: ['click'],
-    placement: 'left',
+    placement: 'right',
     transition: false,
 };
 

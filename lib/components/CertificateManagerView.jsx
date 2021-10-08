@@ -18,6 +18,11 @@ import { logger } from 'nrfconnect/core';
 import { homedir } from 'os';
 import { bool, func, shape, string } from 'prop-types';
 
+import {
+    deleteTLSCredential,
+    writeTLSCredential,
+} from '../actions/modemActions';
+
 const NRF_CLOUD_TAG = 16842753;
 
 const FormGroupWithCheckbox = ({
@@ -69,11 +74,7 @@ FormGroupWithCheckbox.defaultProps = {
     subText: null,
 };
 
-const CertificateManagerView = ({
-    hidden,
-    writeTLSCredential,
-    deleteTLSCredential,
-}) => {
+const CertificateManagerView = ({ hidden }) => {
     const [caCert, setCACert] = useState('');
     const [clientCert, setClientCert] = useState('');
     const [privateKey, setPrivateKey] = useState('');
@@ -274,7 +275,7 @@ const CertificateManagerView = ({
             </Form>
             <ButtonGroup className="align-self-end">
                 <Button
-                    variant="outline-secondary"
+                    variant="secondary"
                     className="mr-2"
                     onClick={selectJsonFile}
                 >
@@ -314,8 +315,6 @@ const CertificateManagerView = ({
 
 CertificateManagerView.propTypes = {
     hidden: bool.isRequired,
-    writeTLSCredential: func.isRequired,
-    deleteTLSCredential: func.isRequired,
 };
 
 export default CertificateManagerView;

@@ -5,6 +5,7 @@
  */
 
 import React from 'react';
+import { SidePanel } from 'pc-nrfconnect-shared';
 
 import ConnectionStages from '../containers/ConnectionStages';
 import CurrentNetwork from '../containers/CurrentNetwork';
@@ -12,18 +13,16 @@ import Functionality from '../containers/Functionality';
 import MobileNetworks from '../containers/MobileNetworks';
 import PDPContext from '../containers/PDPContext';
 import Settings from '../containers/Settings';
+import Serialports from './Serialports';
 
-const SidePanel = () => (
-    <div className="core-side-panel pretty-scrollbar">
-        <div>
-            <ConnectionStages />
-            <Functionality />
-            <MobileNetworks />
-            <PDPContext />
-            <CurrentNetwork />
-        </div>
+export default () => (
+    <SidePanel className="linkmonitor-side-panel">
+        <Serialports />
+        <ConnectionStages />
+        <Functionality />
+        <MobileNetworks />
+        <PDPContext />
+        <CurrentNetwork />
         <Settings />
-    </div>
+    </SidePanel>
 );
-
-export default SidePanel;
