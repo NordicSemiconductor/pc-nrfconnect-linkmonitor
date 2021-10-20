@@ -1,37 +1,24 @@
-.core-main-view {
-    padding: 0;
-}
+/*
+ * Copyright (c) 2021 Nordic Semiconductor ASA
+ *
+ * SPDX-License-Identifier: LicenseRef-Nordic-4-Clause
+ */
 
-.core-main-layout > div:nth-child(1) {
-    min-width: 0;
-}
-.core-main-layout > div:nth-child(2) {
-    overflow-y: overlay;
-}
-.core-main-view > .hidden {
-    display: none !important;
-}
-
-.core-side-panel {
-    height: 100%;
-    flex: 0 0 300px;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
-    position: relative;
+.linkmonitor-side-panel {
     table {
         width: 100%;
-        margin: 16px 0;
     }
-    .radio, .checkbox {
-        margin-top: 5px;
-        margin-bottom: 5px;
+
+    .form-check-input {
+        margin-top: 0.05rem;
     }
-}
-.core-side-panel > div:nth-child(1) {
-    flex: 1;
+
 }
 
+.linkmonitor-side-panel {
+    width: 100%;
+    margin-bottom: 32px;
+}
 
 table {
     th {
@@ -56,21 +43,6 @@ table {
     padding: 8px;
 }
 
-.nav-menu-wrap {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    color: white;
-    font-size: large;
-    button {
-        margin-right: 10px;
-    }
-}
-
-.core-main-view {
-    position: relative;
-}
-
 .chart {
     position: absolute;
     padding: 20px;
@@ -87,7 +59,8 @@ table {
     }
     .chart-bottom {
         display: flex;
-        flex-direction: row-reverse;
+        flex-direction: row;
+        justify-content: space-between;
     }
 }
 
@@ -208,6 +181,9 @@ table {
 .connection-stages {
     display: flex;
     justify-content: center;
+
+    margin-left: -23px;
+    margin-right: -23px;
 }
 
 $level-0: #BB0000;
@@ -252,10 +228,6 @@ $disabled: #888888;
 
 .popover {
     max-width: 450px;
-}
-
-.tip.popover {
-    margin-left: -500px;
 }
 
 .bs-popover-left > .arrow::before {

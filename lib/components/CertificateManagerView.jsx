@@ -1,60 +1,39 @@
-/* Copyright (c) 2015 - 2019, Nordic Semiconductor ASA
+/*
+ * Copyright (c) 2015 Nordic Semiconductor ASA
  *
- * All rights reserved.
- *
- * Use in source and binary forms, redistribution in binary form only, with
- * or without modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 2. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 3. This software, with or without modification, must only be used with a Nordic
- *    Semiconductor ASA integrated circuit.
- *
- * 4. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: LicenseRef-Nordic-4-Clause
  */
 
 import React, { useState } from 'react';
-import {
-    bool, func, string, shape,
-} from 'prop-types';
-import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
-import Alert from 'react-bootstrap/Alert';
-import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
-
+import Row from 'react-bootstrap/Row';
 import { remote } from 'electron';
-import { homedir } from 'os';
 import { readFileSync } from 'fs';
 import { logger } from 'nrfconnect/core';
+import { homedir } from 'os';
+import { bool, func, shape, string } from 'prop-types';
+
+import {
+    deleteTLSCredential,
+    writeTLSCredential,
+} from '../actions/modemActions';
 
 const NRF_CLOUD_TAG = 16842753;
 
 const FormGroupWithCheckbox = ({
-    controlId, controlProps, label, value, set, clearLabel, clear, setClear,
+    controlId,
+    controlProps,
+    label,
+    value,
+    set,
+    clearLabel,
+    clear,
+    setClear,
     subText,
 }) => (
     <Form.Group as={Row} controlId={controlId}>
@@ -95,7 +74,7 @@ FormGroupWithCheckbox.defaultProps = {
     subText: null,
 };
 
-const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredential }) => {
+const CertificateManagerView = ({ hidden }) => {
     const [caCert, setCACert] = useState('');
     const [clientCert, setClientCert] = useState('');
     const [privateKey, setPrivateKey] = useState('');
@@ -124,10 +103,13 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
     }
 
     async function selectJsonFile() {
-        const { filePaths: [filename] } = await remote.dialog.showOpenDialog({
-            defaultPath: homedir(),
-            properties: ['openFile'],
-        }) || [];
+        const {
+            filePaths: [filename],
+        } =
+            (await remote.dialog.showOpenDialog({
+                defaultPath: homedir(),
+                properties: ['openFile'],
+            })) || [];
         loadJsonFile(filename);
     }
 
@@ -173,14 +155,20 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
     }
 
     function updateCertificate() {
-        if (clearCaCert || clearClientCert || clearPrivateKey
-            || clearPreSharedKey || clearPskIdentity) {
+        if (
+            clearCaCert ||
+            clearClientCert ||
+            clearPrivateKey ||
+            clearPreSharedKey ||
+            clearPskIdentity
+        ) {
             return setShowWarning(true);
         }
         return performCertificateUpdate();
     }
 
-    const className = 'cert-mgr-view d-flex flex-column p-4 h-100 overflow-auto pretty-scrollbar';
+    const className =
+        'cert-mgr-view d-flex flex-column p-4 h-100 overflow-auto pretty-scrollbar';
     const textAreaProps = {
         as: 'textarea',
         className: 'text-monospace',
@@ -197,15 +185,20 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
             <Alert variant="info">
                 <span className="float-left h-100 mdi mdi-information mdi-36px pr-3" />
                 <div style={{ lineHeight: '1.5rem', userSelect: 'text' }}>
-                    The modem must be in <strong>offline</strong> state
-                    (<code>AT+CFUN=4</code>) for updating certificates.<br />
-                    You can drag-and-drop a JSON file over this window.<br />
-                    You can use <code>AT%CMNG=1</code> command in the
-                    Terminal screen to list all stored certificates.<br />
+                    The modem must be in <strong>offline</strong> state (
+                    <code>AT+CFUN=4</code>) for updating certificates.
+                    <br />
+                    You can drag-and-drop a JSON file over this window.
+                    <br />
+                    You can use <code>AT%CMNG=1</code> command in the Terminal
+                    screen to list all stored certificates.
+                    <br />
                     Make sure your device runs a firmware with increased buffer
-                    to support long AT-commands.<br />
-                    Use security tag <code>{NRF_CLOUD_TAG}</code> to manage nRF Connect
-                    for Cloud certificate, otherwise pick a different tag.
+                    to support long AT-commands.
+                    <br />
+                    Use security tag <code>{NRF_CLOUD_TAG}</code> to manage nRF
+                    Connect for Cloud certificate, otherwise pick a different
+                    tag.
                 </div>
             </Alert>
             <Form className="mt-4 mb-4 pr-4">
@@ -261,13 +254,19 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                             clear: clearPskIdentity,
                             setClear: setClearPskIdentity,
                         })}
-                        <Form.Group as={Row} controlId="certMgr.secTag" className="mt-5">
+                        <Form.Group
+                            as={Row}
+                            controlId="certMgr.secTag"
+                            className="mt-5"
+                        >
                             <Form.Label column>Security tag</Form.Label>
                             <Col md="auto">
                                 <Form.Control
                                     type="text"
                                     value={secTag}
-                                    onChange={({ target }) => setSecTag(Number(target.value))}
+                                    onChange={({ target }) =>
+                                        setSecTag(Number(target.value))
+                                    }
                                 />
                             </Col>
                         </Form.Group>
@@ -276,16 +275,13 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
             </Form>
             <ButtonGroup className="align-self-end">
                 <Button
-                    variant="outline-secondary"
+                    variant="secondary"
                     className="mr-2"
                     onClick={selectJsonFile}
                 >
                     Load from JSON
                 </Button>
-                <Button
-                    variant="primary"
-                    onClick={updateCertificate}
-                >
+                <Button variant="primary" onClick={updateCertificate}>
                     Update certificates
                 </Button>
             </ButtonGroup>
@@ -295,13 +291,20 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
                     <Modal.Title>Warning</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    You are about to delete credentials, are you sure to proceed?
+                    You are about to delete credentials, are you sure to
+                    proceed?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowWarning(false)}>
+                    <Button
+                        variant="secondary"
+                        onClick={() => setShowWarning(false)}
+                    >
                         Cancel
                     </Button>
-                    <Button variant="primary" onClick={performCertificateUpdate}>
+                    <Button
+                        variant="primary"
+                        onClick={performCertificateUpdate}
+                    >
                         Proceed
                     </Button>
                 </Modal.Footer>
@@ -312,8 +315,6 @@ const CertificateManagerView = ({ hidden, writeTLSCredential, deleteTLSCredentia
 
 CertificateManagerView.propTypes = {
     hidden: bool.isRequired,
-    writeTLSCredential: func.isRequired,
-    deleteTLSCredential: func.isRequired,
 };
 
 export default CertificateManagerView;

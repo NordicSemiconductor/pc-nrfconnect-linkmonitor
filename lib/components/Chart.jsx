@@ -1,48 +1,16 @@
-/* Copyright (c) 2015 - 2018, Nordic Semiconductor ASA
+/*
+ * Copyright (c) 2015 Nordic Semiconductor ASA
  *
- * All rights reserved.
- *
- * Use in source and binary forms, redistribution in binary form only, with
- * or without modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 2. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 3. This software, with or without modification, must only be used with a Nordic
- *    Semiconductor ASA integrated circuit.
- *
- * 4. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: LicenseRef-Nordic-4-Clause
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Line } from 'react-chartjs-2';
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
-
+import { Line } from 'react-chartjs-2';
 import { EventCategory } from 'modemtalk';
-import { timeseries } from '../actions/chartActions';
+import PropTypes from 'prop-types';
 
+import { timeseries } from '../actions/chartActions';
 import zoomPanPlugin from '../utils/chart.zoomPan';
 
 const greenColor = '#59a659';
@@ -54,7 +22,10 @@ const timestampToLabel = (microseconds, index, array) => {
     if (index > 0 && index < array.length - 1) {
         const [first, last] = [array[0], array[array.length - 1]];
         const range = last - first;
-        if (microseconds - first < range / 8 || last - microseconds < range / 8) {
+        if (
+            microseconds - first < range / 8 ||
+            last - microseconds < range / 8
+        ) {
             return undefined;
         }
     }
@@ -63,7 +34,10 @@ const timestampToLabel = (microseconds, index, array) => {
     const m = d.getMinutes();
     const s = d.getSeconds();
     const z = Math.trunc(d.getMilliseconds() / 100) % 10;
-    const time = `${`${h}`.padStart(2, '0')}:${`${m}`.padStart(2, '0')}:${`${s}`.padStart(2, '0')}.${z}`;
+    const time = `${`${h}`.padStart(2, '0')}:${`${m}`.padStart(
+        2,
+        '0'
+    )}:${`${s}`.padStart(2, '0')}.${z}`;
 
     if (array) {
         let date = '';
@@ -78,7 +52,6 @@ const timestampToLabel = (microseconds, index, array) => {
 const lineDatasetOptions = {
     rsrp: { label: 'reference signal received power', unit: 'dBm' },
 };
-
 
 class Chart extends React.Component {
     constructor(props) {
@@ -113,18 +86,20 @@ class Chart extends React.Component {
             isLive,
             chartWindowReset,
             hidden,
+            isConnected,
+            openLogfile,
         } = this.props;
 
         const end = windowEnd || timestamp;
-        const begin = windowBegin || (end - windowDuration);
+        const begin = windowBegin || end - windowDuration;
 
         const sqChart = timeseries.signalQuality;
-        const d = sqChart.filter(e => (e.ts >= begin && e.ts <= end));
+        const d = sqChart.filter(e => e.ts >= begin && e.ts <= end);
 
         const datasets = Object.keys(lineDatasetOptions).map((key, i) => ({
             label: lineDatasetOptions[key].label,
-            backgroundColor: `hsla(${(120 + (i * 60)) % 360}, 50%, 50%, 0.6)`,
-            borderColor: `hsla(${(120 + (i * 60)) % 360}, 50%, 50%, 1)`,
+            backgroundColor: `hsla(${(120 + i * 60) % 360}, 50%, 50%, 0.6)`,
+            borderColor: `hsla(${(120 + i * 60) % 360}, 50%, 50%, 1)`,
             borderWidth: 1,
             fill: false,
             data: d.map(e => ({ x: e.ts, y: e[key] })),
@@ -137,10 +112,13 @@ class Chart extends React.Component {
             pointBorderColor: 'transparent',
             lineTension: 0.2,
             spanGaps: true,
-            labelCallback: element => `${lineDatasetOptions[key].label}: ${element.y} ${lineDatasetOptions[key].unit}`,
+            labelCallback: element =>
+                `${lineDatasetOptions[key].label}: ${element.y} ${lineDatasetOptions[key].unit}`,
         }));
 
-        const events = timeseries.events.filter(e => (e.x >= begin && e.x <= end));
+        const events = timeseries.events.filter(
+            e => e.x >= begin && e.x <= end
+        );
         datasets.push({
             label: 'events',
             type: 'scatter',
@@ -196,57 +174,62 @@ class Chart extends React.Component {
                 duration: 0,
             },
             scales: {
-                xAxes: [{
-                    id: 'xScale',
-                    type: 'linear',
-                    min: begin,
-                    max: end,
-                    ticks: {
-                        maxRotation: 0,
-                        autoSkipPadding: 25,
+                xAxes: [
+                    {
+                        id: 'xScale',
+                        type: 'linear',
                         min: begin,
                         max: end,
-                        callback: timestampToLabel,
-                        maxTicksLimit: 7,
+                        ticks: {
+                            maxRotation: 0,
+                            autoSkipPadding: 25,
+                            min: begin,
+                            max: end,
+                            callback: timestampToLabel,
+                            maxTicksLimit: 7,
+                        },
+                        gridLines: {
+                            display: true,
+                            drawBorder: true,
+                            drawOnChartArea: false,
+                        },
                     },
-                    gridLines: {
-                        display: true,
-                        drawBorder: true,
-                        drawOnChartArea: false,
-                    },
-                }],
-                yAxes: [{
-                    id: 'y-dbm',
-                    type: 'linear',
-                    position: 'left',
-                    min: -150,
-                    max: -40,
-                    ticks: {
-                        fontColor: greenColor,
+                ],
+                yAxes: [
+                    {
+                        id: 'y-dbm',
+                        type: 'linear',
+                        position: 'left',
                         min: -150,
                         max: -40,
+                        ticks: {
+                            fontColor: greenColor,
+                            min: -150,
+                            max: -40,
+                        },
+                        scaleLabel: {
+                            fontColor: greenColor,
+                            display: true,
+                            labelString: 'dBm',
+                        },
                     },
-                    scaleLabel: {
-                        fontColor: greenColor,
-                        display: true,
-                        labelString: 'dBm',
-                    },
-                }, {
-                    id: 'y-events',
-                    type: 'linear',
-                    position: 'right',
-                    min: -1,
-                    max: EventCategory.MAX + 1,
-                    ticks: {
-                        fontColor: blueColor,
+                    {
+                        id: 'y-events',
+                        type: 'linear',
+                        position: 'right',
                         min: -1,
                         max: EventCategory.MAX + 1,
-                        callback: EventCategory,
-                        maxTicksLimit: 15,
-                        fontSize: 9,
+                        ticks: {
+                            fontColor: blueColor,
+                            min: -1,
+                            max: EventCategory.MAX + 1,
+                            callback: EventCategory,
+                            maxTicksLimit: 15,
+                            fontSize: 9,
+                        },
+                        gridLines: { display: false },
                     },
-                    gridLines: { display: false },
-                }],
+                ],
             },
         };
 
@@ -258,24 +241,33 @@ class Chart extends React.Component {
                     <span style={{ color: blueColor }}>MODEM EVENTS</span>
                 </div>
                 <Line
-                    ref={r => { if (r) this.chartInstance = r.chartInstance; }}
+                    ref={r => {
+                        if (r) this.chartInstance = r.chartInstance;
+                    }}
                     data={chartData}
                     options={chartOptions}
                     timestamp={timestamp}
                     plugins={[zoomPanPlugin]}
                 />
                 <div className="chart-bottom">
-                    <ButtonGroup>
-                        <Button
-                            className="core-btn"
-                            disabled={isLive}
-                            variant={isLive ? 'default' : 'primary'}
-                            size="sm"
-                            onClick={chartWindowReset}
-                        >
-                            Live Scroll
-                        </Button>
-                    </ButtonGroup>
+                    <Button
+                        className="core-btn"
+                        disabled={isConnected}
+                        variant="primary"
+                        size="sm"
+                        onClick={openLogfile}
+                    >
+                        Open logfile
+                    </Button>
+                    <Button
+                        className="core-btn"
+                        disabled={isLive}
+                        variant={isLive ? 'default' : 'primary'}
+                        size="sm"
+                        onClick={chartWindowReset}
+                    >
+                        Live Scroll
+                    </Button>
                 </div>
             </div>
         );
@@ -292,6 +284,8 @@ Chart.propTypes = {
     timestamp: PropTypes.number.isRequired,
     isLive: PropTypes.bool.isRequired,
     hidden: PropTypes.bool.isRequired,
+    isConnected: PropTypes.bool.isRequired,
+    openLogfile: PropTypes.bool.isRequired,
 };
 
 export default Chart;

@@ -1,58 +1,34 @@
-/* Copyright (c) 2015 - 2018, Nordic Semiconductor ASA
+/*
+ * Copyright (c) 2015 Nordic Semiconductor ASA
  *
- * All rights reserved.
- *
- * Use in source and binary forms, redistribution in binary form only, with
- * or without modification, are permitted provided that the following conditions
- * are met:
- *
- * 1. Redistributions in binary form, except as embedded into a Nordic
- *    Semiconductor ASA integrated circuit in a product or a software update for
- *    such product, must reproduce the above copyright notice, this list of
- *    conditions and the following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 2. Neither the name of Nordic Semiconductor ASA nor the names of its
- *    contributors may be used to endorse or promote products derived from this
- *    software without specific prior written permission.
- *
- * 3. This software, with or without modification, must only be used with a Nordic
- *    Semiconductor ASA integrated circuit.
- *
- * 4. Any software provided in binary form under this license must not be reverse
- *    engineered, decompiled, modified and/or disassembled.
- *
- * THIS SOFTWARE IS PROVIDED BY NORDIC SEMICONDUCTOR ASA "AS IS" AND ANY EXPRESS OR
- * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL NORDIC SEMICONDUCTOR ASA OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * SPDX-License-Identifier: LicenseRef-Nordic-4-Clause
  */
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Popover from 'react-bootstrap/Popover';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
+import PropTypes from 'prop-types';
 
 const array10 = Array.from(Array(10).keys());
 const scrollerStyle = { float: 'left', clear: 'both' };
 
-const overlayProps = { transition: false, trigger: ['hover'], placement: 'top' };
+const overlayProps = {
+    transition: false,
+    placement: 'top',
+};
 const popoverTerminalInfo = (
     <Popover id="tip terminal-info">
-        <p>For control characters use HEX escape: \x?? e.g. \x00 for {'<NUL>'}</p>
-        <p>
+        <Popover.Content>
+            <p>
+                For control characters use HEX escape: \x?? e.g. \x00 for{' '}
+                {'<NUL>'}
+            </p>
             You can select any text in this command line or in the terminal view
             and <b>drag and drop</b> the selection to the macro buttons below.
-        </p>
+        </Popover.Content>
     </Popover>
 );
 
@@ -119,14 +95,19 @@ class TerminalView extends React.Component {
                     {TerminalView.contentBuffer.slice()}
                     <div
                         style={scrollerStyle}
-                        ref={el => { this.scroller = el; }}
+                        ref={el => {
+                            this.scroller = el;
+                        }}
                     />
                 </div>
                 <form onSubmit={this.onCommandLineSubmit}>
                     <Form.Group controlId="commandPrompt">
                         <InputGroup>
                             <InputGroup.Prepend>
-                                <OverlayTrigger {...overlayProps} overlay={popoverTerminalInfo}>
+                                <OverlayTrigger
+                                    {...overlayProps}
+                                    overlay={popoverTerminalInfo}
+                                >
                                     <Button variant="light">
                                         <span className="terminal-info mdi mdi-information-outline" />
                                     </Button>
@@ -135,8 +116,10 @@ class TerminalView extends React.Component {
                             <Form.Control
                                 type="text"
                                 placeholder="Type AT command here..."
-                                onChange={
-                                    ({ target }) => this.setState({ cmdLine: target.value.trim() })
+                                onChange={({ target }) =>
+                                    this.setState({
+                                        cmdLine: target.value.trim(),
+                                    })
                                 }
                             />
                             <InputGroup.Append>
@@ -154,7 +137,7 @@ class TerminalView extends React.Component {
                 <div className="saved-commands">
                     {array10.map(index => (
                         <Button
-                            variant="light"
+                            variant="secondary"
                             className="core-btn"
                             key={index}
                             onClick={() => this.onSavedCommandClick(index)}
@@ -162,7 +145,9 @@ class TerminalView extends React.Component {
                             onDragOver={cancel}
                             onDragEnter={cancel}
                             size="sm"
-                            disabled={(commands[index] || '').trim().length === 0}
+                            disabled={
+                                (commands[index] || '').trim().length === 0
+                            }
                         >
                             {commands[index]}
                         </Button>
