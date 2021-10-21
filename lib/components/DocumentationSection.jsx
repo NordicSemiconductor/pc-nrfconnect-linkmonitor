@@ -6,8 +6,8 @@
 
 /* eslint-disable react/jsx-key */
 
-import React from "react";
-import { DocumentationSection } from "pc-nrfconnect-shared";
+import React from 'react';
+import { DocumentationSection } from 'pc-nrfconnect-shared';
 
 const DocumentationSections = [
     <DocumentationSection
