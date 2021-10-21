@@ -19,6 +19,7 @@ import TerminalView from './lib/containers/TerminalView';
 import appReducer from './lib/reducers';
 
 import './resources/css/index.scss';
+import DocumentationSections from './lib/components/DocumentationSection';
 
 const AppInitialiser = () => {
     const { store } = useContext(ReactReduxContext);
@@ -42,6 +43,7 @@ export default () => (
             { name: 'Terminal', Main: TerminalView },
             { name: 'Certificate manager', Main: CertificateManagerView },
         ]}
+        documentation={DocumentationSections}
     >
         <AppInitialiser />
     </App>
