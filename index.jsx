@@ -12,6 +12,7 @@ import * as ModemActions from './lib/actions/modemActions';
 import { loadCommands } from './lib/actions/terminalActions';
 import { loadSettings } from './lib/actions/uiActions';
 import CertificateManagerView from './lib/components/CertificateManagerView';
+import DocumentationSections from './lib/components/DocumentationSection';
 import SidePanel from './lib/components/SidePanel';
 import Chart from './lib/containers/Chart';
 import DeviceSelector from './lib/containers/DeviceSelector';
@@ -42,6 +43,7 @@ export default () => (
             { name: 'Terminal', Main: TerminalView },
             { name: 'Certificate manager', Main: CertificateManagerView },
         ]}
+        documentation={DocumentationSections}
     >
         <AppInitialiser />
     </App>
