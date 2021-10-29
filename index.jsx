@@ -39,8 +39,8 @@ export default () => (
         sidePanel={<SidePanel />}
         deviceSelect={<DeviceSelector />}
         panes={[
-            { name: 'Chart', Main: Chart },
             { name: 'Terminal', Main: TerminalView },
+            { name: 'Chart', Main: Chart },
             { name: 'Certificate manager', Main: CertificateManagerView },
         ]}
         documentation={DocumentationSections}
