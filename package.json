@@ -33,7 +33,7 @@
     "clean-modules": "rimraf \"node_modules/!(rimraf|.bin)\""
   },
   "devDependencies": {
-    "chart.js": "^2.9.3",
+    "chart.js": "^2.9.4",
     "debug": "^4.1.1",
     "electron-is-dev": "^1.2.0",
     "leaflet": "^1.6.0",
