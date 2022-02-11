@@ -102,7 +102,7 @@ const CertificateManagerView = ({ hidden }) => {
         }
     }
 
-    async function selectJsonFile() {
+    const selectJsonFile = async () => {
         const {
             filePaths: [filename],
         } =
@@ -111,7 +111,7 @@ const CertificateManagerView = ({ hidden }) => {
                 properties: ['openFile'],
             })) || [];
         loadJsonFile(filename);
-    }
+    };
 
     function onDragOver(event) {
         const ev = event;
@@ -125,7 +125,7 @@ const CertificateManagerView = ({ hidden }) => {
         event.preventDefault();
     }
 
-    async function performCertificateUpdate() {
+    const performCertificateUpdate = async () => {
         setShowWarning(false);
 
         async function oneUpdate(info, type, content, clear) {
@@ -152,9 +152,9 @@ const CertificateManagerView = ({ hidden }) => {
         await oneUpdate('PSK identity', 4, pskIdentity, clearPskIdentity);
 
         logger.info('Certificate update completed');
-    }
+    };
 
-    function updateCertificate() {
+    const updateCertificate = () => {
         if (
             clearCaCert ||
             clearClientCert ||
@@ -165,7 +165,7 @@ const CertificateManagerView = ({ hidden }) => {
             return setShowWarning(true);
         }
         return performCertificateUpdate();
-    }
+    };
 
     const className =
         'cert-mgr-view d-flex flex-column p-4 h-100 overflow-auto pretty-scrollbar';
