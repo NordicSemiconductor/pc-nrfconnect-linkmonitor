@@ -12,7 +12,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
-import { remote } from 'electron';
+import { dialog } from '@electron/remote';
 import { readFileSync } from 'fs';
 import { homedir } from 'os';
 import { logger } from 'pc-nrfconnect-shared';
@@ -106,7 +106,7 @@ const CertificateManagerView = ({ hidden }) => {
         const {
             filePaths: [filename],
         } =
-            (await remote.dialog.showOpenDialog({
+            (await dialog.showOpenDialog({
                 defaultPath: homedir(),
                 properties: ['openFile'],
             })) || [];
