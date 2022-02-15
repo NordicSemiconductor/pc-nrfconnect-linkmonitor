@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: LicenseRef-Nordic-4-Clause
  */
 
+/* eslint-disable react/destructuring-assignment */
+
 import React from 'react';
 
 const PDPContext = props => (
