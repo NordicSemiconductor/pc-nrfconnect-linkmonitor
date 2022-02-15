@@ -40,7 +40,7 @@
     "mcc-mnc-list": "^1.1.2",
     "modemtalk": "^1.2.0",
     "nedb": "^1.8.0",
-    "pc-nrfconnect-shared": "github:NordicSemiconductor/pc-nrfconnect-shared#v5.4.0",
+    "pc-nrfconnect-shared": "github:NordicSemiconductor/pc-nrfconnect-shared#v5.17.0",
     "react": "17.0.2",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "17.0.2",
