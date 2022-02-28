@@ -14,8 +14,8 @@ import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import { remote } from 'electron';
 import { readFileSync } from 'fs';
-import { logger } from 'nrfconnect/core';
 import { homedir } from 'os';
+import { logger } from 'pc-nrfconnect-shared';
 import { bool, func, shape, string } from 'prop-types';
 
 import {
