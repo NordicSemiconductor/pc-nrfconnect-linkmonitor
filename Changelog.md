@@ -1,3 +1,7 @@
+## 2.0.1 - 2022-02-28
+### Changed
+- Stop using legacy api for internal functionality.
+
 ## 2.0.0 - 2021-11-01
 ### Added
 - Documentation section in `About pane`
