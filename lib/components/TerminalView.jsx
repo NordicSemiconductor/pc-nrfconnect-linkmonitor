@@ -162,7 +162,7 @@ TerminalView.contentBuffer = [];
 
 TerminalView.propTypes = {
     hidden: PropTypes.bool.isRequired,
-    update: PropTypes.number.isRequired, // eslint-disable-line
+    update: PropTypes.number.isRequired,
     write: PropTypes.func.isRequired,
     commands: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateCommands: PropTypes.func.isRequired,
