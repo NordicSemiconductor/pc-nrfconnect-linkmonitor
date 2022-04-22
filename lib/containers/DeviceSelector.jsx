@@ -11,7 +11,7 @@ import { DeviceSelector, logger } from 'pc-nrfconnect-shared';
 import * as ModemActions from '../actions/modemActions';
 
 const deviceListing = {
-    serialport: true,
+    serialPort: true,
 };
 
 export default () => {
