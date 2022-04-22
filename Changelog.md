@@ -1,3 +1,8 @@
+## Unreleased
+
+### Fixed
+- Did not display all serialport devices.
+
 ## 2.0.1 - 2022-02-28
 ### Changed
 - Made compatible with next version of nRF Connect for Desktop.
