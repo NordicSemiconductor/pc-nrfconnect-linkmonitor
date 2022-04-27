@@ -1,6 +1,6 @@
 # nRF Connect LTE Link Monitor
 
-[![Build Status](https://dev.azure.com/NordicSemiconductor/Wayland/_apis/build/status/NordicSemiconductor.pc-nrfconnect-linkmonitor?branchName=master)](https://dev.azure.com/NordicSemiconductor/Wayland/_build/latest?definitionId=6&branchName=master)
+[![Build Status](https://dev.azure.com/NordicSemiconductor/Wayland/_apis/build/status/NordicSemiconductor.pc-nrfconnect-linkmonitor?branchName=main)](https://dev.azure.com/NordicSemiconductor/Wayland/_build/latest?definitionId=6&branchName=main)
 [![License](https://img.shields.io/badge/license-Modified%20BSD%20License-blue.svg)](LICENSE)
 
 *nRF Connect LTE Link Monitor* is a modem client application that monitors the modem/link status and activity via AT commands.
