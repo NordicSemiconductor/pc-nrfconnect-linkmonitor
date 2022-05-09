@@ -85,7 +85,7 @@ class Chart extends React.Component {
             windowDuration,
             isLive,
             chartWindowReset,
-            hidden,
+            active,
             isConnected,
             openLogfile,
         } = this.props;
@@ -233,7 +233,7 @@ class Chart extends React.Component {
             },
         };
 
-        const className = `chart signal-quality ${hidden ? 'hidden' : ''}`;
+        const className = `chart signal-quality ${active ? 'hidden' : ''}`;
         return (
             <div className={className}>
                 <div className="chart-top">
@@ -283,9 +283,9 @@ Chart.propTypes = {
     windowDuration: PropTypes.number.isRequired,
     timestamp: PropTypes.number.isRequired,
     isLive: PropTypes.bool.isRequired,
-    hidden: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired,
     isConnected: PropTypes.bool.isRequired,
-    openLogfile: PropTypes.bool.isRequired,
+    openLogfile: PropTypes.func.isRequired,
 };
 
 export default Chart;

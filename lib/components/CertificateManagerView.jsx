@@ -74,7 +74,7 @@ FormGroupWithCheckbox.defaultProps = {
     subText: null,
 };
 
-const CertificateManagerView = ({ hidden }) => {
+const CertificateManagerView = ({ active }) => {
     const [caCert, setCACert] = useState('');
     const [clientCert, setClientCert] = useState('');
     const [privateKey, setPrivateKey] = useState('');
@@ -178,7 +178,7 @@ const CertificateManagerView = ({ hidden }) => {
 
     return (
         <div
-            className={`${className} ${hidden ? 'hidden' : ''}`}
+            className={`${className} ${active ? 'hidden' : ''}`}
             onDragOver={onDragOver}
             onDrop={onDrop}
         >
@@ -314,7 +314,7 @@ const CertificateManagerView = ({ hidden }) => {
 };
 
 CertificateManagerView.propTypes = {
-    hidden: bool.isRequired,
+    active: bool.isRequired,
 };
 
 export default CertificateManagerView;

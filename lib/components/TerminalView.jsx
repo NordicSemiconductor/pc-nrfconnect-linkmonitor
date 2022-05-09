@@ -87,10 +87,10 @@ class TerminalView extends React.Component {
     }
 
     render() {
-        const { hidden, commands } = this.props;
+        const { active, commands } = this.props;
         const { cmdLine } = this.state;
         return (
-            <div className={`terminal-view ${hidden ? 'hidden' : ''}`}>
+            <div className={`terminal-view ${active ? 'hidden' : ''}`}>
                 <div className="terminal mono">
                     {TerminalView.contentBuffer.slice()}
                     <div
@@ -161,7 +161,7 @@ class TerminalView extends React.Component {
 TerminalView.contentBuffer = [];
 
 TerminalView.propTypes = {
-    hidden: PropTypes.bool.isRequired,
+    active: PropTypes.bool.isRequired,
     update: PropTypes.number.isRequired,
     write: PropTypes.func.isRequired,
     commands: PropTypes.arrayOf(PropTypes.string).isRequired,
