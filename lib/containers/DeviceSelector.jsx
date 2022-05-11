@@ -11,7 +11,7 @@ import { DeviceSelector, logger } from 'pc-nrfconnect-shared';
 import * as ModemActions from '../actions/modemActions';
 
 const deviceListing = {
-    serialPort: true,
+    serialPorts: true,
 };
 
 export default () => {
@@ -47,6 +47,7 @@ export default () => {
 
     const deviceFilter = useCallback(
         device => {
+            console.log(device);
             if (!autoDeviceFilter) {
                 return true;
             }
