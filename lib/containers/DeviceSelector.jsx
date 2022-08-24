@@ -60,7 +60,7 @@ export default () => {
                 'THINGY91',
             ];
             return (
-                supportedBoards.includes(device.boardVersion) ||
+                supportedBoards.includes(device.jlink.boardVersion) ||
                 supportedBoards.includes(device.serialNumber.split('_')[0])
             );
         },
