@@ -11,6 +11,7 @@ import { DeviceSelector, logger } from 'pc-nrfconnect-shared';
 import * as ModemActions from '../actions/modemActions';
 
 const deviceListing = {
+    jlink: true,
     serialPorts: true,
 };
 
@@ -59,7 +60,7 @@ export default () => {
                 'THINGY91',
             ];
             return (
-                supportedBoards.includes(device.boardVersion) ||
+                supportedBoards.includes(device.jlink?.boardVersion) ||
                 supportedBoards.includes(device.serialNumber.split('_')[0])
             );
         },

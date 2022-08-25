@@ -1,6 +1,6 @@
 {
     "name": "pc-nrfconnect-linkmonitor",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "LTE Link Monitor",
     "displayName": "LTE Link Monitor",
     "repository": {
@@ -20,6 +20,7 @@
         "LICENSE"
     ],
     "scripts": {
+        "prepare": "husky install",
         "dev": "webpack watch --mode development",
         "webpack": "webpack build --mode development",
         "build": "webpack build",
@@ -32,21 +33,14 @@
     },
     "devDependencies": {
         "chart.js": "^2.9.4",
-        "debug": "^4.1.1",
-        "electron-is-dev": "^1.2.0",
-        "electron-store": "^8.0.1",
+        "electron-store": "^8.1.0",
         "leaflet": "^1.6.0",
-        "localforage": "1.7.4",
-        "mcc-mnc-list": "^1.1.2",
         "modemtalk": "^1.2.0",
         "nedb": "^1.8.0",
-        "pc-nrfconnect-shared": "https://github.com/NordicSemiconductor/pc-nrfconnect-shared#v6.2.2",
-        "react": "17.0.2",
+        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.6.0",
         "react-chartjs-2": "^2.9.0",
-        "react-dom": "17.0.2",
         "react-leaflet": "^2.7.0",
-        "react-rangeslider": "^2.2.0",
-        "react-redux": "7.2.5"
+        "react-rangeslider": "^2.2.0"
     },
     "dependencies": {},
     "bundledDependencies": [
