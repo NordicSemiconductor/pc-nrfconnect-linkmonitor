@@ -33,10 +33,8 @@
     },
     "devDependencies": {
         "chart.js": "^2.9.4",
-        "debug": "^4.1.1",
+        "electron-store": "^8.1.0",
         "leaflet": "^1.6.0",
-        "localforage": "1.7.4",
-        "mcc-mnc-list": "^1.1.2",
         "modemtalk": "^1.2.0",
         "nedb": "^1.8.0",
         "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.6.0",
