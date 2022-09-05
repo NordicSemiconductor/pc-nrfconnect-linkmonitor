@@ -37,7 +37,7 @@
         "leaflet": "^1.6.0",
         "modemtalk": "^1.2.0",
         "nedb": "^1.8.0",
-        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.6.0",
+        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.6.1",
         "react-chartjs-2": "^2.9.0",
         "react-leaflet": "^2.7.0",
         "react-rangeslider": "^2.2.0"
