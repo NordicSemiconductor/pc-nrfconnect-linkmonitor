@@ -1,3 +1,10 @@
+## 2.0.3 - 2022-12-07
+
+### Changed
+
+-   Did not include Security tag when loading JSON, now you can load security
+    tag to the Certificate Manager by adding a `"secTag"` in your JSON file.
+
 ## 2.0.2 - 2022-09-05
 
 ### Fixed
