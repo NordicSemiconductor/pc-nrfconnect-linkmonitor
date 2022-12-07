@@ -88,6 +88,18 @@ const CertificateManagerView = ({ active }) => {
     const [secTag, setSecTag] = useState(NRF_CLOUD_TAG);
     const [showWarning, setShowWarning] = useState(false);
 
+    function parseSecTag(secTagAsString) {
+        if (secTagAsString === '') {
+            return;
+        }
+        const newSecTag = Number(secTagAsString);
+        if (Number.isNaN(newSecTag)) {
+            logger.error(`Parsed an invalid Security tag: ${secTagAsString}`);
+            return;
+        }
+        setSecTag(newSecTag);
+    }
+
     function loadJsonFile(filename) {
         if (!filename) {
             return;
@@ -97,6 +109,7 @@ const CertificateManagerView = ({ active }) => {
             setCACert(json.caCert || '');
             setClientCert(json.clientCert || '');
             setPrivateKey(json.privateKey || '');
+            parseSecTag(json.secTag || '');
         } catch (err) {
             logger.error(err.message);
         }
