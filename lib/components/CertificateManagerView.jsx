@@ -94,6 +94,7 @@ const CertificateManagerView = ({ active }) => {
         }
         const newSecTag = Number(secTagAsString);
         if (Number.isNaN(newSecTag)) {
+            logger.error(`Parsed an invalid Security tag: ${secTagAsString}`);
             return;
         }
         setSecTag(newSecTag);
