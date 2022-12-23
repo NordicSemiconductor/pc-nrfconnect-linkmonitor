@@ -1,3 +1,9 @@
+## 2.0.4 - Unreleased
+
+## Changed
+
+-   Support for launcher v3.13.
+
 ## 2.0.3 - 2022-12-07
 
 ### Changed

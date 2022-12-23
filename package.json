@@ -1,6 +1,6 @@
 {
     "name": "pc-nrfconnect-linkmonitor",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "displayName": "LTE Link Monitor",
     "description": "Link monitor and AT command terminal",
     "homepage": "https://github.com/NordicSemiconductor/pc-nrfconnect-linkmonitor",
@@ -11,7 +11,7 @@
     "author": "Nordic Semiconductor ASA",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
-        "nrfconnect": "^3.12.0"
+        "nrfconnect": "^3.13.0"
     },
     "main": "dist/bundle.js",
     "files": [
@@ -29,10 +29,11 @@
         "build:prod": "run-esbuild --prod",
         "test": "jest",
         "check": "run-p --silent --continue-on-error --print-label check:*",
+        "check:app": "check-app-properties",
         "check:lint": "eslint --color .",
         "check:types": "check-for-typescript tsc --noEmit --pretty",
         "check:license": "nrfconnect-license check",
-        "nordic-publish": "nordic-publish"
+        "nordic-publish": "node ./dist/nordic-publish.js"
     },
     "devDependencies": {
         "chart.js": "^2.9.4",
