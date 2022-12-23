@@ -1,6 +1,6 @@
 {
     "name": "pc-nrfconnect-linkmonitor",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "displayName": "LTE Link Monitor",
     "description": "Link monitor and AT command terminal",
     "homepage": "https://github.com/NordicSemiconductor/pc-nrfconnect-linkmonitor",
@@ -11,7 +11,7 @@
     "author": "Nordic Semiconductor ASA",
     "license": "SEE LICENSE IN LICENSE",
     "engines": {
-        "nrfconnect": "^3.12.0"
+        "nrfconnect": "^3.13.0"
     },
     "main": "dist/bundle.js",
     "files": [
@@ -22,23 +22,26 @@
     ],
     "scripts": {
         "prepare": "husky install",
-        "dev": "webpack watch --mode development",
-        "webpack": "webpack build --mode development",
-        "build": "webpack build",
+        "watch": "run-p --silent --continue-on-error watch:*",
+        "watch:build": "run-esbuild --watch",
+        "watch:types": "tsc --noEmit --pretty --watch --preserveWatchOutput",
+        "build:dev": "run-esbuild",
+        "build:prod": "run-esbuild --prod",
         "test": "jest",
         "check": "run-p --silent --continue-on-error --print-label check:*",
+        "check:app": "check-app-properties",
         "check:lint": "eslint --color .",
         "check:types": "check-for-typescript tsc --noEmit --pretty",
         "check:license": "nrfconnect-license check",
-        "nordic-publish": "nordic-publish"
+        "nordic-publish": "node ./dist/nordic-publish.js"
     },
     "devDependencies": {
         "chart.js": "^2.9.4",
         "electron-store": "^8.1.0",
         "leaflet": "^1.6.0",
-        "modemtalk": "^1.2.0",
+        "modemtalk": "^2.0.2",
         "nedb": "^1.8.0",
-        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.6.1",
+        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.13.2",
         "react-chartjs-2": "^2.9.0",
         "react-leaflet": "^2.7.0",
         "react-rangeslider": "^2.2.0"
