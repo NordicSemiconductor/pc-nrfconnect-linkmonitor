@@ -1,13 +1,8 @@
-## 2.0.4 - Unreleased
-
-## Changed
-
--   Support for nRF Connect for Desktop v4.0.0.
-
-## 2.0.3 - 2022-12-07
+## 2.0.3 - Unreleased
 
 ### Changed
 
+-   Support for nRF Connect for Desktop v4.0.0.
 -   Did not include Security tag when loading JSON, now you can load security
     tag to the Certificate Manager by adding a `"secTag"` in your JSON file.
 
