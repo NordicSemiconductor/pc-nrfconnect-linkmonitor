@@ -18,7 +18,8 @@
         "dist/",
         "resources/icon.*",
         "icon.png",
-        "LICENSE"
+        "LICENSE",
+        "Changelog.md"
     ],
     "scripts": {
         "prepare": "husky install",
@@ -36,22 +37,27 @@
         "nordic-publish": "node ./dist/nordic-publish.js"
     },
     "devDependencies": {
+        "@levshitsvv/react-rangeslider": "2.2.3",
         "chart.js": "^2.9.4",
         "electron-store": "^8.1.0",
         "leaflet": "^1.6.0",
         "modemtalk": "^2.0.2",
         "nedb": "^1.8.0",
-        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v6.14.3",
+        "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v7",
         "react-chartjs-2": "^2.9.0",
-        "react-leaflet": "^2.7.0",
-        "react-rangeslider": "^2.2.0"
+        "react-leaflet": "^2.7.0"
     },
-    "dependencies": {},
     "bundledDependencies": [
         "electron-store"
     ],
     "eslintConfig": {
         "extends": "./node_modules/pc-nrfconnect-shared/config/eslintrc"
     },
-    "prettier": "./node_modules/pc-nrfconnect-shared/config/prettier.config.js"
+    "prettier": "./node_modules/pc-nrfconnect-shared/config/prettier.config.js",
+    "dependencies": {
+        "react-bootstrap": "1.6.5"
+    },
+    "bundleDependencies": [
+        "electron-store"
+    ]
 }

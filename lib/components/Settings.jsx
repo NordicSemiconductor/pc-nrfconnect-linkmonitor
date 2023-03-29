@@ -8,12 +8,12 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
-import Slider from 'react-rangeslider';
+import Slider from '@levshitsvv/react-rangeslider';
 import { shell } from 'electron';
 import { CollapsibleGroup } from 'pc-nrfconnect-shared';
 import PropTypes from 'prop-types';
 
-import 'react-rangeslider/lib/index.css';
+import '@levshitsvv/react-rangeslider/lib/index.css';
 
 const popoverAutoRequests = (
     <Popover id="tip-autoreq" className="tip autoreq">
