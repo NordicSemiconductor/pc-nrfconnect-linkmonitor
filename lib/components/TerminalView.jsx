@@ -10,6 +10,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
+import { Alert } from 'pc-nrfconnect-shared';
 import PropTypes from 'prop-types';
 
 const array10 = Array.from(Array(10).keys());
@@ -91,6 +92,9 @@ class TerminalView extends React.Component {
         const { cmdLine } = this.state;
         return (
             <div className={`terminal-view ${active ? 'hidden' : ''}`}>
+                <Alert variant="warning">
+                    Deprecated: Use Cellular Monitor instead.
+                </Alert>
                 <div className="terminal mono">
                     {TerminalView.contentBuffer.slice()}
                     <div
