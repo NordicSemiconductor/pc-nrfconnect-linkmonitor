@@ -93,7 +93,9 @@ class TerminalView extends React.Component {
         return (
             <div className={`terminal-view ${active ? 'hidden' : ''}`}>
                 <Alert variant="warning">
-                    Deprecated: Use Cellular Monitor instead.
+                    Deprecated: Please use Cellular Monitor instead. This
+                    application will not be receiving updates, and might not
+                    work with future versions of nRF Connect for Desktop.
                 </Alert>
                 <div className="terminal mono">
                     {TerminalView.contentBuffer.slice()}
