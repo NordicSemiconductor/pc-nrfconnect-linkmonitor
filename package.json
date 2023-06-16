@@ -44,12 +44,15 @@
         "modemtalk": "^2.0.2",
         "nedb": "^1.8.0",
         "pc-nrfconnect-shared": "git+https://github.com/NordicSemiconductor/pc-nrfconnect-shared.git#v7",
-        "react-bootstrap": "1.6.5",
         "react-chartjs-2": "^2.9.0",
         "react-leaflet": "^2.7.0"
     },
+    "dependencies": {
+        "react-bootstrap": "1.6.5"
+    },
     "bundledDependencies": [
-        "electron-store"
+        "electron-store",
+        "react-bootstrap"
     ],
     "eslintConfig": {
         "extends": "./node_modules/pc-nrfconnect-shared/config/eslintrc"
