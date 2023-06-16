@@ -54,9 +54,6 @@
         "electron-store",
         "react-bootstrap"
     ],
-    "dependencies": {
-        "react-bootstrap": "1.6.5"
-    },
     "eslintConfig": {
         "extends": "./node_modules/pc-nrfconnect-shared/config/eslintrc"
     },
