@@ -1,8 +1,8 @@
 {
     "name": "pc-nrfconnect-linkmonitor",
-    "version": "2.0.3",
+    "version": "2.0.4",
     "displayName": "LTE Link Monitor",
-    "description": "Link monitor and AT command terminal",
+    "description": "Deprecated: Link monitor and AT command terminal",
     "homepage": "https://github.com/NordicSemiconductor/pc-nrfconnect-linkmonitor",
     "repository": {
         "type": "git",
@@ -56,8 +56,5 @@
     "prettier": "./node_modules/pc-nrfconnect-shared/config/prettier.config.js",
     "dependencies": {
         "react-bootstrap": "1.6.5"
-    },
-    "bundleDependencies": [
-        "electron-store"
-    ]
+    }
 }

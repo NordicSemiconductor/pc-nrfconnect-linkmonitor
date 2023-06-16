@@ -1,5 +1,12 @@
 ## 2.0.3 - 2023-02-13
 
+### Added
+
+-   Deprecation warning. Use Cellular Monitor from nRF Connect for Desktop
+    instead.
+
+## 2.0.3 - 2023-02-13
+
 ### Changed
 
 -   Support for nRF Connect for Desktop v4.0.0.
