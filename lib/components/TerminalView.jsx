@@ -48,6 +48,7 @@ class TerminalView extends React.Component {
         this.throttleUpdates = false;
         this.state = {
             cmdLine: '',
+            showDeprecationWarning: true,
         };
     }
 
@@ -89,14 +90,36 @@ class TerminalView extends React.Component {
 
     render() {
         const { active, commands } = this.props;
-        const { cmdLine } = this.state;
+        const { showDeprecationWarning, cmdLine } = this.state;
         return (
             <div className={`terminal-view ${active ? 'hidden' : ''}`}>
-                <Alert variant="warning">
-                    Deprecated: Please use Cellular Monitor instead. This
-                    application will not be receiving updates, and might not
-                    work with future versions of nRF Connect for Desktop.
-                </Alert>
+                {showDeprecationWarning && (
+                    <Alert
+                        variant="warning"
+                        dismissable
+                        onClose={() => {
+                            this.setState({ showDeprecationWarning: false });
+                        }}
+                    >
+                        <p>
+                            <em>Deprecation notice</em>
+                        </p>
+                        <p>
+                            nRF Connect for Desktop{' '}
+                            <strong>Cellular Monitor</strong> app has been
+                            released. This provides the same functionality as
+                            Trace Collector and Link Monitor, and supports many
+                            new features, including PCAP format trace for use in
+                            third-party applications such as Wireshark. We
+                            recommend you try it out.
+                        </p>
+
+                        <p>
+                            <strong>Cellular Monitor</strong> is installed from{' '}
+                            <strong>nRF Connect for Desktop</strong>.
+                        </p>
+                    </Alert>
+                )}
                 <div className="terminal mono">
                     {TerminalView.contentBuffer.slice()}
                     <div

@@ -2,7 +2,7 @@
     "name": "pc-nrfconnect-linkmonitor",
     "version": "2.0.4",
     "displayName": "LTE Link Monitor",
-    "description": "Link monitor and AT command terminal",
+    "description": "Deprecated: Link monitor and AT command terminal",
     "homepage": "https://github.com/NordicSemiconductor/pc-nrfconnect-linkmonitor",
     "repository": {
         "type": "git",
