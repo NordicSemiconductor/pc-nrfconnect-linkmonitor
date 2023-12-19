@@ -13,4 +13,4 @@ To view the information in the chart:
 - Zoom in or out using the mouse wheel or the right mouse button.
 
     !!! note "Note"
-         When you zoom or drag, the chart stops displaying the latest incoming events. Click **Live Scroll** under the chart to make sure incoming events are displayed again.*
+         When you zoom or drag, the chart stops displaying the latest incoming events. Click **Live Scroll** under the chart to make sure incoming events are displayed again.

@@ -4,7 +4,7 @@ nRF Connect LTE Link Monitor is a modem client application that monitors the mod
 
 See the [nRF91 AT Commands Reference Guide](https://docs.nordicsemi.com/bundle/ref_at_commands/page/REF/at_commands/general/general.html) for the AT commands that are supported by the modem in nRF91 Series devices.
 
-LTE Link Monitor is implemented as an app for the nRF Connect for Desktop application.
+LTE Link Monitor is implemented as an app for the [nRF Connect for Desktop](https://www.nordicsemi.com/Software-and-Tools/Development-Tools/nRF-Connect-for-desktop) application.
 
 ## Supported devices
 
