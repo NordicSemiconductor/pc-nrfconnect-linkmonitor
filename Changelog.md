@@ -1,3 +1,9 @@
+## 2.0.5 - UNRELEASED
+
+### Changed
+
+-   Updated documentation links to point to the TechDocs platform.
+
 ## 2.0.4 - 2023-06-16
 
 ### Added
