@@ -10,9 +10,3 @@
 | May 2019   | Updated Installing the LTE Link Monitor app                                                                                                                           |
 | Dec 2018   | Updated LTE Link Monitor functionality to reflect the Periodic signal quality requests option                                                                         |
 | Oct 2018   | First release                                                                                                                                                         |
-
-## Previous Versions
-
-PDF files for previous versions are available here:
-
-- [nRF Connect LTE_Link_Monitor_User_Guide_v2.0.0](https://infocenter.nordicsemi.com/pdf/LTE_Link_Monitor_User_Guide_v2.0.0.pdf) (corresponds to nRF Connect LTE Link Monitor v2.0.0)
